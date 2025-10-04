@@ -1,11 +1,17 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
+import { SidebarContentComponent } from '../sidebar-content/sidebar-content';
 
 @Component({
   selector: 'app-layout',
-  imports: [],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    SidebarContentComponent
+  ],
   templateUrl: './layout.html',
-  styleUrl: './layout.css'
+  styleUrls: ['./layout.css']
 })
 export class Layout {
-
 }

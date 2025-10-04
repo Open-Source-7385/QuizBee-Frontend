@@ -1,0 +1,22 @@
+<aside class="sidebar">
+  <div class="logo">
+    <img src="assets/logo.png" alt="Quizbee Logo">
+    <span>Quizbee</span>
+  </div>
+
+  <nav>
+    <ul>
+      <li *ngFor="let item of menuItems">
+        <a [routerLink]="item.route" routerLinkActive="active">
+          <span class="icon">{{ item.icon }}</span>
+          <span class="label">{{ item.label }}</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="subscription-box">
+    <p>Plan Gratuito</p>
+    <button class="btn-manage">Gestionar plan</button>
+  </div>
+</aside>
