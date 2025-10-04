@@ -1,0 +1,68 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Ethan Aliaga",
+      "role": "creator"
+    },
+    {
+      "id": 2,
+      "name": "Pedro Castillo",
+      "role": "creator"
+    }
+  ],
+  "quizzes": [
+    {
+      "id": 1,
+      "title": "Present Simple Basics",
+      "category": "Grammar",
+      "levelStars": 2,
+      "score": 100,
+      "timeLimit": 300,
+      "type": "question",
+      "createdBy": 1,
+      "questions": [
+        {
+          "id": 1,
+          "text": "She ___ to school every day.",
+          "options": [
+            { "id": "a", "text": "go", "correct": false },
+            { "id": "b", "text": "goes", "correct": true },
+            { "id": "c", "text": "going", "correct": false },
+            { "id": "d", "text": "gone", "correct": false }
+          ]
+        },
+        {
+          "id": 2,
+          "text": "I ___ coffee every morning.",
+          "options": [
+            { "id": "a", "text": "drink", "correct": true },
+            { "id": "b", "text": "drinks", "correct": false },
+            { "id": "c", "text": "drinking", "correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Vocabulary - Food",
+      "category": "Vocabulary",
+      "levelStars": 3,
+      "score": 120,
+      "timeLimit": 200,
+      "type": "question",
+      "createdBy": 2,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Which one is a fruit?",
+          "options": [
+            { "id": "a", "text": "Apple", "correct": true },
+            { "id": "b", "text": "Carrot", "correct": false },
+            { "id": "c", "text": "Potato", "correct": false }
+          ]
+        }
+      ]
+    }
+  ]
+}
