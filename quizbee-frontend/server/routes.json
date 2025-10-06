@@ -1,0 +1,8 @@
+{
+  "/api/v1/*": "/$1",
+  "/api/v1/profiles/:id": "/profiles/:id",
+  "/api/v1/profiles": "/profiles",
+  "/api/v1/profiles/email/:email": "/profiles?email=:email",
+  "/api/v1/quizzes": "/quizzes",
+  "/api/v1/rankings": "/rankings"
+}

@@ -6,6 +6,11 @@ const baseTitle = 'Quizbee';
 export const routes: Routes = [
   { path: 'home', component: Home, title: `${baseTitle} - Home`  },
   { path: 'about', loadComponent: about, title: `${baseTitle} - About`  },
+  { 
+    path: 'profile', 
+    loadChildren: () => import('./profile/profile.routes').then(m => m.PROFILE_ROUTES),
+    title: `${baseTitle} - Profile`
+  },
   { path: '', redirectTo: '/home', pathMatch: 'full'  },
   { path: '**', loadComponent:  pageNotFound, title: `${baseTitle} - Page Not Found`  },
   ];

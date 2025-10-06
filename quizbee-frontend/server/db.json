@@ -1,0 +1,61 @@
+{
+  "profiles": [
+    {
+      "id": 1,
+      "name": "Juan Pérez",
+      "email": "juan.perez@email.com",
+      "password": "password123",
+      "language": "Español",
+      "level": "Novato",
+      "createdAt": "2024-01-15T10:30:00.000Z",
+      "updatedAt": "2024-01-15T10:30:00.000Z"
+    },
+    {
+      "id": 2,
+      "name": "María García",
+      "email": "maria.garcia@email.com",
+      "password": "password456",
+      "language": "English",
+      "level": "Intermedio",
+      "createdAt": "2024-02-20T14:45:00.000Z",
+      "updatedAt": "2024-02-20T14:45:00.000Z"
+    },
+    {
+      "id": 3,
+      "name": "Carlos López",
+      "email": "carlos.lopez@email.com",
+      "password": "password789",
+      "language": "Español",
+      "level": "Avanzado",
+      "createdAt": "2024-03-10T09:15:00.000Z",
+      "updatedAt": "2024-03-10T09:15:00.000Z"
+    }
+  ],
+  "quizzes": [
+    {
+      "id": 1,
+      "title": "Quiz de Matemáticas Básicas",
+      "description": "Un quiz sencillo de matemáticas",
+      "createdBy": 1,
+      "difficulty": "Novato",
+      "category": "Matemáticas",
+      "questions": [
+        {
+          "id": 1,
+          "question": "¿Cuánto es 2 + 2?",
+          "options": ["3", "4", "5", "6"],
+          "correctAnswer": 1
+        }
+      ]
+    }
+  ],
+  "rankings": [
+    {
+      "id": 1,
+      "userId": 1,
+      "quizId": 1,
+      "score": 85,
+      "completedAt": "2024-03-15T16:30:00.000Z"
+    }
+  ]
+}

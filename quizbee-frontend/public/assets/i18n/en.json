@@ -1,0 +1,57 @@
+{
+  "profile": {
+    "title": "Profile",
+    "loading": "Loading profile...",
+    "edit": "Edit Profile",
+    "save": "Save Changes",
+    "cancel": "Cancel",
+    "fields": {
+      "name": "Name:",
+      "email": "E-mail:",
+      "password": "Password:",
+      "language": "Language:",
+      "level": "Level:"
+    },
+    "placeholders": {
+      "name": "Enter your name",
+      "email": "Enter your email",
+      "password": "Enter new password (leave empty to keep current)"
+    },
+    "buttons": {
+      "closeSession": "Close Session",
+      "deleteAccount": "Delete Account"
+    },
+    "messages": {
+      "profileUpdated": "Profile updated successfully!",
+      "sessionClosed": "Session closed",
+      "accountDeleted": "Account deleted successfully",
+      "errorLoading": "Error loading profile",
+      "errorUpdating": "Error updating profile",
+      "errorDeleting": "Error deleting account",
+      "confirmDelete": "Are you sure you want to delete your account? This action cannot be undone.",
+      "confirmSession": "Are you sure you want to close your session?"
+    },
+    "validation": {
+      "nameRequired": "Name must be at least 2 characters long",
+      "emailRequired": "Valid email is required",
+      "passwordRequired": "Password must be at least 6 characters long",
+      "emailExists": "Email is already in use"
+    }
+  },
+  "navigation": {
+    "profile": "Profile",
+    "create": "Create",
+    "myCreations": "My Creations",
+    "play": "Play",
+    "ranking": "Ranking",
+    "history": "History"
+  },
+  "common": {
+    "close": "Close",
+    "yes": "Yes",
+    "no": "No",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  }
+}

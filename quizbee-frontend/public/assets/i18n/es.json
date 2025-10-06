@@ -1,0 +1,57 @@
+{
+  "profile": {
+    "title": "Perfil",
+    "loading": "Cargando perfil...",
+    "edit": "Editar Perfil",
+    "save": "Guardar Cambios",
+    "cancel": "Cancelar",
+    "fields": {
+      "name": "Nombre:",
+      "email": "E-mail:",
+      "password": "Contraseña:",
+      "language": "Idioma:",
+      "level": "Nivel:"
+    },
+    "placeholders": {
+      "name": "Ingresa tu nombre",
+      "email": "Ingresa tu email",
+      "password": "Ingresa nueva contraseña (dejar vacío para mantener actual)"
+    },
+    "buttons": {
+      "closeSession": "Cerrar sesión",
+      "deleteAccount": "Eliminar cuenta"
+    },
+    "messages": {
+      "profileUpdated": "¡Perfil actualizado exitosamente!",
+      "sessionClosed": "Sesión cerrada",
+      "accountDeleted": "Cuenta eliminada exitosamente",
+      "errorLoading": "Error cargando perfil",
+      "errorUpdating": "Error actualizando perfil",
+      "errorDeleting": "Error eliminando cuenta",
+      "confirmDelete": "¿Estás seguro que quieres eliminar tu cuenta? Esta acción no se puede deshacer.",
+      "confirmSession": "¿Estás seguro que quieres cerrar tu sesión?"
+    },
+    "validation": {
+      "nameRequired": "El nombre debe tener al menos 2 caracteres",
+      "emailRequired": "Se requiere un email válido",
+      "passwordRequired": "La contraseña debe tener al menos 6 caracteres",
+      "emailExists": "El email ya está en uso"
+    }
+  },
+  "navigation": {
+    "profile": "Perfil",
+    "create": "Crear",
+    "myCreations": "Mis creaciones",
+    "play": "Jugar",
+    "ranking": "Ranking",
+    "history": "Historial"
+  },
+  "common": {
+    "close": "Cerrar",
+    "yes": "Sí",
+    "no": "No",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito"
+  }
+}
