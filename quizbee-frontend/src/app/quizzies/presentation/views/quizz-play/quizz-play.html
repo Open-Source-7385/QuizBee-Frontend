@@ -1,0 +1,134 @@
+<div class="quiz-play-container">
+  <!-- Start Screen -->
+  @if (showStartScreen() && quiz()) {
+    <div class="start-screen">
+      <h1 class="quiz-title">{{ quiz()!.title }}</h1>
+
+      <div class="quiz-rules">
+        <h2>Antes de Iniciar el Quiz</h2>
+        <div class="lives-display">
+          <span>Empiezas con 5 vidas</span>
+          <div class="hearts">
+            @for (heart of getLivesArray(); track $index) {
+              <span class="heart">❤️</span>
+            }
+          </div>
+        </div>
+        <p class="rule">Cada respuesta incorrecta te quita 1 vida.</p>
+        <p class="rule">El objetivo es llegar al final con la mayor cantidad de vidas posibles.</p>
+        <p class="rule">Al terminar verás tu puntaje</p>
+
+        <div class="reminder-section">
+          <p class="reminder-text">¿Deseas ver este mensaje otra vez?</p>
+          <div class="reminder-options">
+            <button class="btn-option" (click)="startQuiz(false)">Sí</button>
+            <button class="btn-option" (click)="startQuiz(false)">No</button>
+          </div>
+        </div>
+      </div>
+
+      @if (!showReminder()) {
+        <button class="btn-start" (click)="closeReminder()">
+          Comenzar
+        </button>
+      }
+    </div>
+  }
+
+  <!-- Quiz Playing -->
+  @if (!showStartScreen() && !quizCompleted() && quiz()) {
+    <div class="quiz-header">
+      <button class="btn-back" (click)="exitQuiz()">← Volver a ver los Quizzies</button>
+
+      <h1 class="quiz-title-small">{{ quiz()!.title }}</h1>
+
+      <div class="lives-counter">
+        @for (heart of getLivesArray(); track $index) {
+          @if ($index < lives()) {
+            <span class="heart">❤️</span>
+          } @else {
+            <span class="heart dead">🖤</span>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" [style.width.%]="progress()"></div>
+    </div>
+
+    @if (currentQuestion()) {
+      <div class="question-container">
+        <div class="question-header">
+          <h2>Pregunta {{ currentQuestionIndex() + 1 }}/{{ totalQuestions() }}</h2>
+          <span class="question-category">{{ quiz()!.category }}</span>
+        </div>
+
+        <div class="question-text">
+          {{ currentQuestion()!.textquestion }}
+        </div>
+
+        <div class="alternatives-grid">
+          @for (alternative of currentQuestion()!.alternatives; track alternative.id) {
+            <button
+              class="alternative-btn"
+              [class.selected]="isAnswerSelected(alternative.id!)"
+              (click)="selectAnswer(alternative.id!)">
+              <span class="alternative-letter">{{ String.fromCharCode(65 + $index) }}</span>
+              <span class="alternative-text">{{ alternative.text }}</span>
+            </button>
+          }
+        </div>
+
+        <div class="question-info">
+          <span class="info-item">
+            💎 Puntos: {{ currentQuestion()!.points }}
+          </span>
+        </div>
+      </div>
+    }
+  }
+
+  <!-- Quiz Completed -->
+  @if (quizCompleted() && quiz()) {
+    <div class="completion-screen">
+      @if (lives() === 0) {
+        <h1 class="game-over-title">😢 Game Over</h1>
+        <p class="game-over-text">Te quedaste sin vidas</p>
+      } @else {
+        <h1 class="completion-title">🎉 ¡Quiz Completado!</h1>
+      }
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">{{ score() }}</div>
+          <div class="stat-label">Puntos Obtenidos</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-value">{{ currentQuestionIndex() + 1 }}/{{ totalQuestions() }}</div>
+          <div class="stat-label">Preguntas Respondidas</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-value">{{ lives() }}</div>
+          <div class="stat-label">Vidas Restantes</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-value">{{ ((score() / quiz()!.points) * 100).toFixed(0) }}%</div>
+          <div class="stat-label">Precisión</div>
+        </div>
+      </div>
+
+      <div class="completion-actions">
+        <button class="btn-secondary" (click)="exitQuiz()">
+          Ver Todos los Quizzes
+        </button>
+        <button class="btn-primary" (click)="restartQuiz()">
+          🔄 Reintentar Quiz
+        </button>
+      </div>
+    </div>
+  }
+</div>

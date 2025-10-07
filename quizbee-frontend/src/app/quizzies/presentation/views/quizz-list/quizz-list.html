@@ -1,0 +1,103 @@
+<div class="quiz-list-container">
+  <!-- Header -->
+  <div class="header">
+    <h1 class="title">Quizzes y preguntas más populares</h1>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-section">
+    <div class="search-input-wrapper">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Buscar quizzes..."
+        [value]="searchText()"
+        (input)="onSearchChange($event)"
+      />
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-section">
+    <span class="filters-label">Filtros:</span>
+
+    <select
+      class="filter-select"
+      [value]="selectedCategory()"
+      (change)="onCategoryChange($event)">
+      <option value="all">Todas las categorías</option>
+      @for (category of categories(); track category) {
+        <option [value]="category">{{ category }}</option>
+      }
+    </select>
+
+    <select
+      class="filter-select"
+      [value]="selectedLevel()"
+      (change)="onLevelChange($event)">
+      <option value="0">Todos los niveles</option>
+      <option value="1">⭐ Nivel 1</option>
+      <option value="2">⭐⭐ Nivel 2</option>
+      <option value="3">⭐⭐⭐ Nivel 3</option>
+      <option value="4">⭐⭐⭐⭐ Nivel 4</option>
+      <option value="5">⭐⭐⭐⭐⭐ Nivel 5</option>
+      <option value="6">⭐⭐⭐⭐⭐⭐ Nivel 6</option>
+    </select>
+
+    <select
+      class="filter-select"
+      [value]="selectedType()"
+      (change)="onTypeChange($event)">
+      <option value="all">Todos los tipos</option>
+      <option value="questions">Preguntas</option>
+      <option value="voices">Voces</option>
+      <option value="sounds">Sonidos</option>
+    </select>
+
+    <button class="clear-button" (click)="clearFilters()">
+      Limpiar filtros
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Cargando quizzes...</p>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error()) {
+    <div class="error">
+      <p>❌ {{ error() }}</p>
+      <button class="retry-button" (click)="loadQuizzes()">Reintentar</button>
+    </div>
+  }
+
+  <!-- Quiz Grid -->
+  @if (!loading() && !error()) {
+    @if (filteredQuizzes().length > 0) {
+      <div class="quiz-grid">
+        @for (quiz of filteredQuizzes(); track quiz.id) {
+          <app-quiz-card
+            [quiz]="quiz"
+            (quizSelected)="onQuizSelected($event)">
+          </app-quiz-card>
+        }
+      </div>
+    }
+   @else {
+      <div class="empty-state">
+        <p class="empty-icon">📭</p>
+        <h3>No se encontraron quizzes</h3>
+        <p>Intenta con otros filtros o crea uno nuevo</p>
+        <button class="create-button" (click)="goToCreateQuiz()">
+          Crear Quiz
+        </button>
+      </div>
+    }
+
+  }
+</div>

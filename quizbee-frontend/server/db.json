@@ -1,65 +1,418 @@
 {
-  "users": [
-    {
-      "id": 1,
-      "name": "Ethan Aliaga",
-      "role": "creator"
-    },
-    {
-      "id": 2,
-      "name": "Pedro Castillo",
-      "role": "creator"
-    }
-  ],
   "quizzes": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Present Simple Basics",
-      "category": "Grammar",
-      "levelStars": 2,
-      "score": 100,
-      "timeLimit": 300,
-      "type": "question",
-      "createdBy": 1,
+      "description": "Test your knowledge of present simple tense",
+      "category": "Present Simple",
+      "type": "questions",
+      "difficultyLevel": 2,
+      "points": 100,
+      "timeLimit": 600,
+      "creator": {
+        "id": "user-1",
+        "name": "Dina Boularte",
+        "avatar": "👩‍🏫"
+      },
+      "createdAt": "2025-10-01T10:00:00Z",
+      "plays": 1250,
       "questions": [
         {
-          "id": 1,
-          "text": "She ___ to school every day.",
-          "options": [
-            { "id": "a", "text": "go", "correct": false },
-            { "id": "b", "text": "goes", "correct": true },
-            { "id": "c", "text": "going", "correct": false },
-            { "id": "d", "text": "gone", "correct": false }
+          "id": "q1",
+          "textquestion": "She ___ to school every day.",
+          "order": 1,
+          "points": 10,
+          "alternatives": [
+            { "id": "a1", "text": "go", "isCorrect": false },
+            { "id": "a2", "text": "goes", "isCorrect": true },
+            { "id": "a3", "text": "going", "isCorrect": false },
+            { "id": "a4", "text": "went", "isCorrect": false }
           ]
         },
         {
-          "id": 2,
-          "text": "I ___ coffee every morning.",
-          "options": [
-            { "id": "a", "text": "drink", "correct": true },
-            { "id": "b", "text": "drinks", "correct": false },
-            { "id": "c", "text": "drinking", "correct": false }
+          "id": "q2",
+          "textquestion": "They ___ English very well.",
+          "order": 2,
+          "points": 10,
+          "alternatives": [
+            { "id": "a1", "text": "speaks", "isCorrect": false },
+            { "id": "a2", "text": "speak", "isCorrect": true },
+            { "id": "a3", "text": "speaking", "isCorrect": false },
+            { "id": "a4", "text": "spoke", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q3",
+          "textquestion": "He ___ coffee in the morning.",
+          "order": 3,
+          "points": 10,
+          "alternatives": [
+            { "id": "a1", "text": "drink", "isCorrect": false },
+            { "id": "a2", "text": "drinks", "isCorrect": true },
+            { "id": "a3", "text": "drinking", "isCorrect": false },
+            { "id": "a4", "text": "drank", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q4",
+          "textquestion": "We ___ to the gym on Mondays.",
+          "order": 4,
+          "points": 10,
+          "alternatives": [
+            { "id": "a1", "text": "goes", "isCorrect": false },
+            { "id": "a2", "text": "go", "isCorrect": true },
+            { "id": "a3", "text": "going", "isCorrect": false },
+            { "id": "a4", "text": "went", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q5",
+          "textquestion": "The sun ___ in the east.",
+          "order": 5,
+          "points": 10,
+          "alternatives": [
+            { "id": "a1", "text": "rise", "isCorrect": false },
+            { "id": "a2", "text": "rises", "isCorrect": true },
+            { "id": "a3", "text": "rising", "isCorrect": false },
+            { "id": "a4", "text": "rose", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q6",
+          "textquestion": "My parents ___ in Lima.",
+          "order": 6,
+          "points": 10,
+          "alternatives": [
+            { "id": "a1", "text": "lives", "isCorrect": false },
+            { "id": "a2", "text": "live", "isCorrect": true },
+            { "id": "a3", "text": "living", "isCorrect": false },
+            { "id": "a4", "text": "lived", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q7",
+          "textquestion": "She ___ her homework after dinner.",
+          "order": 7,
+          "points": 10,
+          "alternatives": [
+            { "id": "a1", "text": "do", "isCorrect": false },
+            { "id": "a2", "text": "does", "isCorrect": true },
+            { "id": "a3", "text": "doing", "isCorrect": false },
+            { "id": "a4", "text": "did", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q8",
+          "textquestion": "I ___ pizza every Friday.",
+          "order": 8,
+          "points": 10,
+          "alternatives": [
+            { "id": "a1", "text": "eats", "isCorrect": false },
+            { "id": "a2", "text": "eat", "isCorrect": true },
+            { "id": "a3", "text": "eating", "isCorrect": false },
+            { "id": "a4", "text": "ate", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q9",
+          "textquestion": "Dogs ___ very fast.",
+          "order": 9,
+          "points": 10,
+          "alternatives": [
+            { "id": "a1", "text": "runs", "isCorrect": false },
+            { "id": "a2", "text": "run", "isCorrect": true },
+            { "id": "a3", "text": "running", "isCorrect": false },
+            { "id": "a4", "text": "ran", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q10",
+          "textquestion": "Water ___ at 100 degrees Celsius.",
+          "order": 10,
+          "points": 10,
+          "alternatives": [
+            { "id": "a1", "text": "boil", "isCorrect": false },
+            { "id": "a2", "text": "boils", "isCorrect": true },
+            { "id": "a3", "text": "boiling", "isCorrect": false },
+            { "id": "a4", "text": "boiled", "isCorrect": false }
           ]
         }
       ]
     },
     {
-      "id": 2,
-      "title": "Vocabulary - Food",
-      "category": "Vocabulary",
-      "levelStars": 3,
-      "score": 120,
-      "timeLimit": 200,
-      "type": "question",
-      "createdBy": 2,
+      "id": "2",
+      "title": "Phrasal Verbs Challenge",
+      "description": "Master common phrasal verbs",
+      "category": "Phrasal Verbs",
+      "type": "questions",
+      "difficultyLevel": 4,
+      "points": 200,
+      "timeLimit": 900,
+      "creator": {
+        "id": "user-2",
+        "name": "Piero Tenorio",
+        "avatar": "👨‍🎓"
+      },
+      "createdAt": "2025-10-02T14:30:00Z",
+      "plays": 850,
       "questions": [
         {
-          "id": 1,
-          "text": "Which one is a fruit?",
-          "options": [
-            { "id": "a", "text": "Apple", "correct": true },
-            { "id": "b", "text": "Carrot", "correct": false },
-            { "id": "c", "text": "Potato", "correct": false }
+          "id": "q1",
+          "text": "Can you ___ the music? It's too loud.",
+          "order": 1,
+          "points": 20,
+          "alternatives": [
+            { "id": "a1", "text": "turn up", "isCorrect": false },
+            { "id": "a2", "text": "turn down", "isCorrect": true },
+            { "id": "a3", "text": "turn on", "isCorrect": false },
+            { "id": "a4", "text": "turn off", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q2",
+          "text": "I need to ___ this form before submitting it.",
+          "order": 2,
+          "points": 20,
+          "alternatives": [
+            { "id": "a1", "text": "fill in", "isCorrect": true },
+            { "id": "a2", "text": "fill up", "isCorrect": false },
+            { "id": "a3", "text": "fill out", "isCorrect": false },
+            { "id": "a4", "text": "fill down", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q3",
+          "text": "She ___ her grandmother every weekend.",
+          "order": 3,
+          "points": 20,
+          "alternatives": [
+            { "id": "a1", "text": "looks after", "isCorrect": true },
+            { "id": "a2", "text": "looks for", "isCorrect": false },
+            { "id": "a3", "text": "looks up", "isCorrect": false },
+            { "id": "a4", "text": "looks into", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q4",
+          "text": "The meeting was ___ until next week.",
+          "order": 4,
+          "points": 20,
+          "alternatives": [
+            { "id": "a1", "text": "put off", "isCorrect": true },
+            { "id": "a2", "text": "put on", "isCorrect": false },
+            { "id": "a3", "text": "put up", "isCorrect": false },
+            { "id": "a4", "text": "put down", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q5",
+          "text": "He ___ smoking last year.",
+          "order": 5,
+          "points": 20,
+          "alternatives": [
+            { "id": "a1", "text": "gave up", "isCorrect": true },
+            { "id": "a2", "text": "gave in", "isCorrect": false },
+            { "id": "a3", "text": "gave away", "isCorrect": false },
+            { "id": "a4", "text": "gave out", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q6",
+          "text": "I'll ___ you at the airport.",
+          "order": 6,
+          "points": 20,
+          "alternatives": [
+            { "id": "a1", "text": "pick up", "isCorrect": true },
+            { "id": "a2", "text": "pick out", "isCorrect": false },
+            { "id": "a3", "text": "pick on", "isCorrect": false },
+            { "id": "a4", "text": "pick at", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q7",
+          "text": "They ___ with their neighbors very well.",
+          "order": 7,
+          "points": 20,
+          "alternatives": [
+            { "id": "a1", "text": "get along", "isCorrect": true },
+            { "id": "a2", "text": "get away", "isCorrect": false },
+            { "id": "a3", "text": "get over", "isCorrect": false },
+            { "id": "a4", "text": "get through", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q8",
+          "text": "Please ___ your shoes before entering.",
+          "order": 8,
+          "points": 20,
+          "alternatives": [
+            { "id": "a1", "text": "take off", "isCorrect": true },
+            { "id": "a2", "text": "take on", "isCorrect": false },
+            { "id": "a3", "text": "take up", "isCorrect": false },
+            { "id": "a4", "text": "take in", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q9",
+          "text": "The plane will ___ at 6 PM.",
+          "order": 9,
+          "points": 20,
+          "alternatives": [
+            { "id": "a1", "text": "take off", "isCorrect": true },
+            { "id": "a2", "text": "take in", "isCorrect": false },
+            { "id": "a3", "text": "take up", "isCorrect": false },
+            { "id": "a4", "text": "take on", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q10",
+          "text": "Can you ___ this word in the dictionary?",
+          "order": 10,
+          "points": 20,
+          "alternatives": [
+            { "id": "a1", "text": "look up", "isCorrect": true },
+            { "id": "a2", "text": "look for", "isCorrect": false },
+            { "id": "a3", "text": "look after", "isCorrect": false },
+            { "id": "a4", "text": "look into", "isCorrect": false }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Vocabulary Builder",
+      "description": "Expand your English vocabulary",
+      "category": "Vocabulario",
+      "type": "questions",
+      "difficultyLevel": 3,
+      "points": 150,
+      "timeLimit": 720,
+      "creator": {
+        "id": "user-3",
+        "name": "Ethan Aliaga",
+        "avatar": "👨‍💼"
+      },
+      "createdAt": "2025-10-03T09:15:00Z",
+      "plays": 2100,
+      "questions": [
+        {
+          "id": "q1",
+          "textquestion": "What does 'abundant' mean?",
+          "order": 1,
+          "points": 15,
+          "alternatives": [
+            { "id": "a1", "text": "Scarce", "isCorrect": false },
+            { "id": "a2", "text": "Plentiful", "isCorrect": true },
+            { "id": "a3", "text": "Empty", "isCorrect": false },
+            { "id": "a4", "text": "Difficult", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q2",
+          "textquestion": "Choose the synonym of 'happy':",
+          "order": 2,
+          "points": 15,
+          "alternatives": [
+            { "id": "a1", "text": "Sad", "isCorrect": false },
+            { "id": "a2", "text": "Joyful", "isCorrect": true },
+            { "id": "a3", "text": "Angry", "isCorrect": false },
+            { "id": "a4", "text": "Tired", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q3",
+          "textquestion": "What is the opposite of 'victory'?",
+          "order": 3,
+          "points": 15,
+          "alternatives": [
+            { "id": "a1", "text": "Success", "isCorrect": false },
+            { "id": "a2", "text": "Defeat", "isCorrect": true },
+            { "id": "a3", "text": "Win", "isCorrect": false },
+            { "id": "a4", "text": "Achievement", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q4",
+          "textquestion": "'Ancient' means:",
+          "order": 4,
+          "points": 15,
+          "alternatives": [
+            { "id": "a1", "text": "Modern", "isCorrect": false },
+            { "id": "a2", "text": "Very old", "isCorrect": true },
+            { "id": "a3", "text": "New", "isCorrect": false },
+            { "id": "a4", "text": "Recent", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q5",
+          "text": "Choose the correct meaning of 'generous':",
+          "order": 5,
+          "points": 15,
+          "alternatives": [
+            { "id": "a1", "text": "Selfish", "isCorrect": false },
+            { "id": "a2", "text": "Kind and giving", "isCorrect": true },
+            { "id": "a3", "text": "Mean", "isCorrect": false },
+            { "id": "a4", "text": "Greedy", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q6",
+          "text": "What does 'cautious' mean?",
+          "order": 6,
+          "points": 15,
+          "alternatives": [
+            { "id": "a1", "text": "Reckless", "isCorrect": false },
+            { "id": "a2", "text": "Careful", "isCorrect": true },
+            { "id": "a3", "text": "Careless", "isCorrect": false },
+            { "id": "a4", "text": "Bold", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q7",
+          "text": "A synonym for 'difficult' is:",
+          "order": 7,
+          "points": 15,
+          "alternatives": [
+            { "id": "a1", "text": "Easy", "isCorrect": false },
+            { "id": "a2", "text": "Challenging", "isCorrect": true },
+            { "id": "a3", "text": "Simple", "isCorrect": false },
+            { "id": "a4", "text": "Effortless", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q8",
+          "text": "'Sincere' means:",
+          "order": 8,
+          "points": 15,
+          "alternatives": [
+            { "id": "a1", "text": "Fake", "isCorrect": false },
+            { "id": "a2", "text": "Genuine", "isCorrect": true },
+            { "id": "a3", "text": "Dishonest", "isCorrect": false },
+            { "id": "a4", "text": "False", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q9",
+          "text": "What is the opposite of 'expand'?",
+          "order": 9,
+          "points": 15,
+          "alternatives": [
+            { "id": "a1", "text": "Grow", "isCorrect": false },
+            { "id": "a2", "text": "Shrink", "isCorrect": true },
+            { "id": "a3", "text": "Increase", "isCorrect": false },
+            { "id": "a4", "text": "Enlarge", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q10",
+          "text": "'Brief' means:",
+          "order": 10,
+          "points": 15,
+          "alternatives": [
+            { "id": "a1", "text": "Long", "isCorrect": false },
+            { "id": "a2", "text": "Short", "isCorrect": true },
+            { "id": "a3", "text": "Extended", "isCorrect": false },
+            { "id": "a4", "text": "Lengthy", "isCorrect": false }
           ]
         }
       ]
