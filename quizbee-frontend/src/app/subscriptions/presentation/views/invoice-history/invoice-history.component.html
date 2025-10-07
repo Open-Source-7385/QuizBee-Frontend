@@ -1,0 +1,68 @@
+<div class="invoice-container">
+  <div class="sidebar">
+    <div class="logo">
+      <span class="logo-icon">🎯</span>
+      <span class="logo-text">Quizbee</span>
+    </div>
+    <nav class="nav-menu">
+      <a class="nav-item">Perfil</a>
+      <a class="nav-item">Inicio</a>
+      <a class="nav-item">Quizz</a>
+      <a class="nav-item">Ranking</a>
+      <a class="nav-item">Historial</a>
+      <a class="nav-item">Speaking Room</a>
+      <a class="nav-item active">Facturas</a>
+    </nav>
+  </div>
+
+  <div class="main-content">
+    <div class="header">
+      <button class="back-btn" (click)="backToAdmin()">← Volver</button>
+      <h1>Historial de Facturas</h1>
+      <p>Todas tus facturas y pagos en un solo lugar</p>
+    </div>
+
+    <div class="search-bar">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder="Buscar por número de factura o plan...">
+      <span class="search-icon">🔍</span>
+    </div>
+
+    <div class="invoices-table" *ngIf="!loading">
+      <div class="table-header">
+        <div class="col">Factura</div>
+        <div class="col">Fecha</div>
+        <div class="col">Plan</div>
+        <div class="col">Monto</div>
+        <div class="col">Estado</div>
+        <div class="col">Acciones</div>
+      </div>
+
+      <div class="table-row" *ngFor="let invoice of invoices">
+        <div class="col invoice-id">{{ invoice.id }}</div>
+        <div class="col">{{ invoice.issueDate }}</div>
+        <div class="col">{{ invoice.planName }}</div>
+        <div class="col amount">${{ invoice.amount }}</div>
+        <div class="col">
+          <span class="status-badge" [class.paid]="invoice.status === 'Pagado'">
+            {{ invoice.status }}
+          </span>
+        </div>
+        <div class="col actions">
+          <button class="action-icon" (click)="viewInvoice(invoice)" title="Ver">👁️</button>
+          <button class="action-icon" (click)="downloadPDF(invoice)" title="Descargar">📥</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="loading-state" *ngIf="loading">
+      <p>Cargando facturas...</p>
+    </div>
+
+    <div class="empty-state" *ngIf="!loading && invoices.length === 0">
+      <p>No tienes facturas disponibles</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+<div class="admin-container">
+  <div class="sidebar">
+    <div class="logo">
+      <span class="logo-icon">🎯</span>
+      <span class="logo-text">Quizbee</span>
+    </div>
+    <nav class="nav-menu">
+      <a class="nav-item">Perfil</a>
+      <a class="nav-item">Inicio</a>
+      <a class="nav-item">Quizz</a>
+      <a class="nav-item">Ranking</a>
+      <a class="nav-item">Historial</a>
+      <a class="nav-item">Speaking Room</a>
+      <a class="nav-item active">Premios</a>
+    </nav>
+  </div>
+
+  <div class="main-content">
+    <div class="header">
+      <h1>Administra tu suscripción</h1>
+    </div>
+
+    <div class="subscription-card" *ngIf="subscription && !loading">
+      <div class="card-header">
+        <h2>{{ subscription.planName }}</h2>
+        <span class="status-badge" [class.active]="subscription.status === 'active'">
+          {{ subscription.status === 'active' ? 'Activa' : 'Inactiva' }}
+        </span>
+      </div>
+
+      <div class="benefits-list">
+        <div class="benefit-item" *ngFor="let benefit of subscription.benefits">
+          <span class="check-icon">✓</span>
+          <span>{{ benefit }}</span>
+        </div>
+      </div>
+
+      <button class="change-plan-btn" (click)="changePlan()">
+        Cambiar de Plan
+      </button>
+    </div>
+
+    <div class="info-section" *ngIf="subscription">
+      <div class="info-card">
+        <h3>Cancelar suscripción</h3>
+        <p>Tu próxima factura será de ${{ subscription.price }} y vencerá el {{ subscription.nextBillingDate }}.</p>
+        <button class="cancel-btn" (click)="cancelSubscription()">
+          Cancelar suscripción
+        </button>
+      </div>
+
+      <div class="info-card">
+        <h3>Pago</h3>
+        <div class="payment-info">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg"
+               alt="Visa" class="card-icon">
+          <span>Visa •••• 1467 | 04/31</span>
+        </div>
+        <div class="action-buttons">
+          <button class="action-btn">Actualizar</button>
+          <button class="action-btn" (click)="viewInvoices()">
+            Historial de Facturas
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="loading-state" *ngIf="loading">
+      <p>Cargando suscripción...</p>
+    </div>
+  </div>
+</div>

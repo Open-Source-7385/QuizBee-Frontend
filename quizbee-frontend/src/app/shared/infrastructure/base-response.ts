@@ -1,11 +1,11 @@
-export interface BaseResponse {}
+export class BaseResponse {
+  success: boolean;
+  data: any;
+  error?: string;
 
-/**
- * Defines a standard structure for API resources/DTOs with a unique identifier.
- */
-export interface BaseResource {
-  /**
-   * The unique identifier for the resource.
-   */
-  id: number;
+  constructor(data: any) {
+    this.success = data.success || true;
+    this.data = data.data || data;
+    this.error = data.error;
+  }
 }

@@ -1,0 +1,95 @@
+<div class="payment-container">
+  <div class="payment-header">
+    <h1>Proceder con el pago</h1>
+    <p>Completa tu suscripción de forma segura</p>
+  </div>
+
+  <div class="payment-content" *ngIf="plan">
+    <div class="plan-summary">
+      <div class="summary-header">
+        <h2>{{ plan.name }}</h2>
+        <span class="price">${{ plan.price }}</span>
+      </div>
+
+      <div class="payment-methods">
+        <h3>Método de pago</h3>
+        <div class="method-buttons">
+          <button
+            class="method-btn"
+            [class.active]="paymentMethod === 'tarjeta'"
+            (click)="selectPaymentMethod('tarjeta')">
+            💳 Tarjeta
+          </button>
+          <button
+            class="method-btn"
+            [class.active]="paymentMethod === 'paypal'"
+            (click)="selectPaymentMethod('paypal')">
+            <span style="color: #0070ba;">Pay</span><span style="color: #003087;">Pal</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="card-form" *ngIf="paymentMethod === 'tarjeta'">
+        <div class="form-group">
+          <label>Número de la tarjeta</label>
+          <input
+            type="text"
+            [(ngModel)]="cardNumber"
+            placeholder="1234 5678 9012 3456"
+            maxlength="19">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Fecha de vencimiento</label>
+            <input
+              type="text"
+              [(ngModel)]="expiryDate"
+              placeholder="MM/AA"
+              maxlength="5">
+          </div>
+          <div class="form-group">
+            <label>CVV</label>
+            <input
+              type="text"
+              [(ngModel)]="cvv"
+              placeholder="123"
+              maxlength="3">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Nombre del Propietario</label>
+          <input
+            type="text"
+            [(ngModel)]="cardHolder"
+            placeholder="JUAN PÉREZ">
+        </div>
+      </div>
+
+      <div class="paypal-info" *ngIf="paymentMethod === 'paypal'">
+        <p>Serás redirigido a PayPal para completar el pago de forma segura.</p>
+      </div>
+
+      <div class="price-breakdown">
+        <div class="price-row">
+          <span>Subtotal</span>
+          <span>${{ subtotal.toFixed(2) }}</span>
+        </div>
+        <div class="price-row">
+          <span>Impuestos</span>
+          <span>${{ taxes.toFixed(2) }}</span>
+        </div>
+        <div class="price-row total">
+          <span>Total</span>
+          <span>${{ total.toFixed(2) }}</span>
+        </div>
+      </div>
+
+      <button class="confirm-btn" (click)="confirmPayment()">
+        Confirmar
+      </button>
+      <p class="secure-text">Pago 100% seguro y encriptado</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<div class="store-container">
+  <div class="sidebar">
+    <div class="logo">
+      <span class="logo-icon">🎯</span>
+      <span class="logo-text">Quizbee</span>
+    </div>
+    <nav class="nav-menu">
+      <a class="nav-item">Perfil</a>
+      <a class="nav-item">Inicio</a>
+      <a class="nav-item">Quizz</a>
+      <a class="nav-item">Ranking</a>
+      <a class="nav-item">Historial</a>
+      <a class="nav-item">Speaking Room</a>
+      <a class="nav-item active">Tienda</a>
+    </nav>
+  </div>
+
+  <div class="main-content">
+    <div class="header">
+      <h1>Tienda de Vidas</h1>
+      <p>Compra vidas para continuar jugando</p>
+    </div>
+
+    <div class="packages-grid" *ngIf="!loading">
+      <div class="package-card" *ngFor="let pkg of packages">
+        <div class="package-icon">{{ pkg.icon }}</div>
+        <h3>{{ pkg.name }}</h3>
+        <div class="package-price">${{ pkg.price }}</div>
+        <button class="buy-btn" (click)="buyPackage(pkg)">
+          Comprar ahora
+        </button>
+      </div>
+    </div>
+
+    <div class="loading-state" *ngIf="loading">
+      <p>Cargando paquetes...</p>
+    </div>
+  </div>
+</div>

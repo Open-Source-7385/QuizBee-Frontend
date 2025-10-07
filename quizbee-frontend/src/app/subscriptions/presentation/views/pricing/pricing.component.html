@@ -1,0 +1,37 @@
+<div class="pricing-container">
+  <div class="header">
+    <h1>Elige el plan perfecto para ti</h1>
+    <p>Desbloquea todo tu potencial con una suscripción Premium</p>
+  </div>
+
+  <div class="plans-grid" *ngIf="!loading">
+    <div class="plan-card" *ngFor="let plan of plans"
+         [class.popular]="plan.popular">
+      <div class="plan-badge" *ngIf="plan.popular">MÁS POPULAR</div>
+
+      <div class="plan-header">
+        <h2>{{ plan.name }}</h2>
+        <div class="price">
+          <span class="currency">$</span>
+          <span class="amount">{{ plan.price }}</span>
+          <span class="period">/mes</span>
+        </div>
+      </div>
+
+      <div class="features-list">
+        <div class="feature" *ngFor="let feature of plan.features">
+          <span class="check-icon">✓</span>
+          <span>{{ feature }}</span>
+        </div>
+      </div>
+
+      <button class="subscribe-btn" (click)="selectPlan(plan)">
+        Suscribirse
+      </button>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <p>Cargando planes...</p>
+  </div>
+</div>

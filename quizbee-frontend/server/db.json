@@ -1,0 +1,136 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "perfil",
+      "email": "usuario@example.com",
+      "role": "user",
+      "subscription": {
+        "planId": "2",
+        "planName": "Super Familia",
+        "status": "active",
+        "startDate": "2025-10-01",
+        "nextBillingDate": "2025-11-01",
+        "price": 10.69,
+        "benefits": [
+          "1 cuenta Premium verificada",
+          "Múltiples beneficios",
+          "Cancela cuando quieras"
+        ]
+      }
+    }
+  ],
+  "plans": [
+    {
+      "id": "1",
+      "name": "Básico Premium",
+      "price": 19.99,
+      "currency": "USD",
+      "billingPeriod": "monthly",
+      "features": [
+        "Acceso ilimitado",
+        "Soporte 24/7",
+        "Prueba de habilidades",
+        "Sin anuncios",
+        "Preguntas de oponente"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Super Familia",
+      "price": 10.69,
+      "currency": "USD",
+      "billingPeriod": "monthly",
+      "popular": true,
+      "features": [
+        "Todas las funciones del plan básico",
+        "Historial de habilidades",
+        "Estadísticas detalladas",
+        "Desafíos ilimitados",
+        "Sin anuncios"
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Ultra Mega Premium",
+      "price": 49.99,
+      "currency": "USD",
+      "billingPeriod": "monthly",
+      "features": [
+        "Todo Premium Plus incluido",
+        "Desafíos personalizados por profesor",
+        "Certificados oficiales",
+        "Soporte prioritario",
+        "Acceso anticipado a nuevas funciones"
+      ]
+    }
+  ],
+  "invoices": [
+    {
+      "id": "INV-2025-010",
+      "userId": "1",
+      "planName": "Super Familia",
+      "amount": 10.69,
+      "status": "Pagado",
+      "issueDate": "2025-10-03",
+      "dueDate": "2025-10-03",
+      "paymentMethod": "Visa •••• 1467",
+      "items": [
+        {
+          "description": "Suscripción Super Familia - Octubre 2025",
+          "amount": 10.00
+        },
+        {
+          "description": "Método de pago",
+          "amount": 0.00
+        }
+      ],
+      "subtotal": 10.00,
+      "taxes": 0.69,
+      "total": 10.69
+    },
+    {
+      "id": "INV-2025-009",
+      "userId": "1",
+      "planName": "Super Familia",
+      "amount": 10.69,
+      "status": "Pagado",
+      "issueDate": "2025-09-03",
+      "dueDate": "2025-09-03",
+      "paymentMethod": "Visa •••• 1467"
+    }
+  ],
+  "paymentMethods": [
+    {
+      "id": "1",
+      "userId": "1",
+      "type": "visa",
+      "lastFour": "1467",
+      "expiryDate": "04/31",
+      "isDefault": true
+    }
+  ],
+  "lifePackages": [
+    {
+      "id": "life-1",
+      "name": "Vida",
+      "price": 2.99,
+      "quantity": 1,
+      "icon": "❤️"
+    },
+    {
+      "id": "life-pack",
+      "name": "Paquete de Vidas",
+      "price": 9.99,
+      "quantity": 5,
+      "icon": "❤️"
+    },
+    {
+      "id": "life-unlimited",
+      "name": "Vidas ilimitadas",
+      "price": 19.99,
+      "quantity": -1,
+      "icon": "❤️"
+    }
+  ]
+}

@@ -1,6 +1,7 @@
-export interface BaseEntity {
-  /**
-   * The unique identifier for the entity.
-   */
-  id: number;
+export class BaseEntity {
+  id: string;
+
+  constructor(data: any) {
+    this.id = data.id || '';
+  }
 }
