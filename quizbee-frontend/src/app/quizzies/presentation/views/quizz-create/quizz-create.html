@@ -4,21 +4,11 @@
     <h1 class="title">Modo Creativo</h1>
   </div>
 
-  <!-- Success Message -->
-  @if (successMessage()) {
-    <div class="success-banner">
-      ✅ {{ successMessage() }}
-    </div>
-  }
+  <!-- Success / Error -->
+  <div *ngIf="successMessage()" class="success-banner">✅ {{ successMessage() }}</div>
+  <div *ngIf="errorMessage()" class="error-banner">❌ {{ errorMessage() }}</div>
 
-  <!-- Error Message -->
-  @if (error()) {
-    <div class="error-banner">
-      ❌ {{ error() }}
-    </div>
-  }
-
-  <!-- Quiz Basic Info -->
+  <!-- Basic Info -->
   <div class="form-section">
     <div class="form-group">
       <label class="form-label">Nombre del Quizz:</label>
@@ -38,12 +28,7 @@
           class="form-select"
           [value]="quizDifficulty()"
           (change)="quizDifficulty.set(+$any($event.target).value)">
-          <option value="1">⭐ Nivel 1</option>
-          <option value="2">⭐⭐ Nivel 2</option>
-          <option value="3">⭐⭐⭐ Nivel 3</option>
-          <option value="4">⭐⭐⭐⭐ Nivel 4</option>
-          <option value="5">⭐⭐⭐⭐⭐ Nivel 5</option>
-          <option value="6">⭐⭐⭐⭐⭐⭐ Nivel 6</option>
+          <option *ngFor="let d of difficulties" [value]="d.value">{{ d.label }}</option>
         </select>
       </div>
 
@@ -53,9 +38,7 @@
           class="form-select"
           [value]="quizCategory()"
           (change)="quizCategory.set($any($event.target).value)">
-          @for (category of categories; track category) {
-            <option [value]="category">{{ category }}</option>
-          }
+          <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
         </select>
       </div>
 
@@ -65,145 +48,97 @@
           class="form-select"
           [value]="quizType()"
           (change)="quizType.set($any($event.target).value)">
-          <option value="questions">Preguntas</option>
-          <option value="voices">Voces</option>
-          <option value="sounds">Sonidos</option>
+          <option *ngFor="let t of types" [value]="t.value">{{ t.label }}</option>
         </select>
       </div>
     </div>
   </div>
 
-  <!-- Question List Sidebar -->
+  <!-- Main content -->
   <div class="content-wrapper">
+    <!-- sidebar -->
     <div class="questions-sidebar">
       <div class="sidebar-header">
         <h3>Preguntas ({{ questions().length }})</h3>
-        <button
-          class="add-question-btn"
-          (click)="addQuestion()"
-          [disabled]="!canAddQuestion()">
-          ➕ Agregar
-        </button>
+        <button class="add-question-btn" (click)="addQuestion()" [disabled]="!canAddQuestion()">➕ Agregar</button>
       </div>
 
       <div class="questions-list">
-        @for (question of questions(); track question.id; let i = $index) {
-          <div
-            class="question-item"
-            [class.active]="currentQuestionIndex() === i"
-            (click)="selectQuestion(i)">
-            <div class="question-item-content">
-              <span class="question-number">Pregunta {{ i + 1 }}</span>
-              <button
-                class="remove-btn"
-                (click)="removeQuestion(i); $event.stopPropagation()">
-                🗑️
-              </button>
-            </div>
-            @if (question.text) {
-              <p class="question-preview">{{ question.text }}</p>
-            } @else {
-              <p class="question-preview empty">Sin texto...</p>
-            }
+        <div *ngFor="let question of questions(); let i = index; trackBy: trackByQuestion"
+             class="question-item"
+             [class.active]="currentQuestionIndex() === i"
+             (click)="selectQuestion(i)">
+          <div class="question-item-content">
+            <span class="question-number">Pregunta {{ i + 1 }}</span>
+            <button class="remove-btn" (click)="removeQuestion(i); $event.stopPropagation()">🗑️</button>
           </div>
-        }
+          <p class="question-preview" *ngIf="question.textquestion && question.textquestion.trim().length>0; else noText">
+            {{ question.textquestion }}
+          </p>
+          <ng-template #noText><p class="question-preview empty">Sin texto...</p></ng-template>
+        </div>
       </div>
     </div>
 
-    <!-- Question Editor -->
-    <div class="question-editor">
-      @if (currentQuestion()) {
-        <div class="editor-header">
-          <h2>Pregunta {{ currentQuestionIndex() + 1 }}:</h2>
-          <div class="points-input">
-            <label>Puntos:</label>
-            <input
-              type="number"
-              min="1"
-              max="100"
-              [value]="currentQuestion()!.points"
-              (input)="updateQuestionPoints(+$any($event.target).value)"
-            />
-          </div>
+    <!-- editor -->
+    <div class="question-editor" *ngIf="currentQuestion()">
+      <div class="editor-header">
+        <h2>Pregunta {{ currentQuestionIndex() + 1 }}:</h2>
+        <div class="points-input">
+          <label>Puntos:</label>
+          <input type="number" min="1" max="100" [value]="currentQuestion()!.points" (input)="updateQuestionPoints(+$any($event.target).value)" />
         </div>
+      </div>
 
-        <div class="form-group">
+      <div class="form-group">
+        <input
+          type="text"
+          class="form-input large question-input"
+          placeholder="Escribe tu pregunta aquí..."
+          [value]="currentQuestion()!.textquestion"
+          (input)="updateQuestionText($any($event.target).value)"
+        />
+      </div>
+
+      <div class="alternatives-section">
+        <h3 class="alternatives-title">Alternativas:</h3>
+        <div *ngFor="let alternative of currentQuestion()!.alternatives; let ai = index; trackBy: trackByAlternative" class="alternative-item">
+          <input
+            type="radio"
+            [name]="'correct-' + currentQuestionIndex()"
+            [checked]="alternative.isCorrect"
+            (change)="toggleCorrectAlternative(ai)"
+            class="radio-input"
+          />
           <input
             type="text"
-            class="form-input large question-input"
-            placeholder="Escribe tu pregunta aquí..."
-            [value]="currentQuestion()!.text"
-            (input)="updateQuestionText($any($event.target).value)"
+            class="form-input alternative-input"
+            [placeholder]="'Alternativa ' + (ai + 1)"
+            [value]="alternative.text"
+            (input)="updateAlternativeText(ai, $any($event.target).value)"
+            [class.correct]="alternative.isCorrect"
           />
+          <span *ngIf="alternative.isCorrect" class="correct-badge">✓ Correcta</span>
         </div>
+      </div>
 
-        <div class="alternatives-section">
-          <h3 class="alternatives-title">Alternativas:</h3>
-
-          @for (alternative of currentQuestion()!.alternatives; track alternative.id; let i = $index) {
-            <div class="alternative-item">
-              <input
-                type="radio"
-                [name]="'correct-' + currentQuestionIndex()"
-                [checked]="alternative.isCorrect"
-                (change)="toggleCorrectAlternative(i)"
-                class="radio-input"
-              />
-              <input
-                type="text"
-                class="form-input alternative-input"
-                [placeholder]="'Alternativa ' + (i + 1)"
-                [value]="alternative.text"
-                (input)="updateAlternativeText(i, $any($event.target).value)"
-                [class.correct]="alternative.isCorrect"
-              />
-              @if (alternative.isCorrect) {
-                <span class="correct-badge">✓ Correcta</span>
-              }
-            </div>
-          }
-        </div>
-
-        <div class="helper-text">
-          💡 Selecciona el radio button para marcar la respuesta correcta
-        </div>
-      }
+      <div class="helper-text">💡 Selecciona el radio button para marcar la respuesta correcta</div>
     </div>
   </div>
 
   <!-- Summary -->
   <div class="summary-section">
-    <div class="summary-item">
-      <span class="summary-label">Total de preguntas:</span>
-      <span class="summary-value">{{ questions().length }}</span>
-    </div>
-    <div class="summary-item">
-      <span class="summary-label">Puntos totales:</span>
-      <span class="summary-value">{{ totalPoints() }}</span>
-    </div>
-    <div class="summary-item">
-      <span class="summary-label">Tiempo límite:</span>
-      <span class="summary-value">{{ quizTimeLimit() / 60 }} minutos</span>
-    </div>
+    <div class="summary-item"><span class="summary-label">Total de preguntas:</span><span class="summary-value">{{ questions().length }}</span></div>
+    <div class="summary-item"><span class="summary-label">Puntos totales:</span><span class="summary-value">{{ totalPoints() }}</span></div>
+    <div class="summary-item"><span class="summary-label">Tiempo límite:</span><span class="summary-value">{{ quizTimeLimit() / 60 }} minutos</span></div>
   </div>
 
   <!-- Actions -->
   <div class="actions-section">
-    <button class="btn btn-secondary" (click)="cancel()">
-      Cancelar
-    </button>
-    <button class="btn btn-secondary" (click)="saveDraft()">
-      💾 Guardar Borrador
-    </button>
-    <button
-      class="btn btn-primary"
-      [disabled]="!canSaveQuiz() || saving()"
-      (click)="saveQuiz()">
-      @if (saving()) {
-        Guardando...
-      } @else {
-        📤 Publicar
-      }
+    <button class="btn btn-secondary" (click)="cancel()">Cancelar</button>
+    <button class="btn btn-secondary" (click)="saveDraft()">💾 Guardar Borrador</button>
+    <button class="btn btn-primary" [disabled]="!canSaveQuiz() || saving()" (click)="saveQuiz()">
+      {{ saving() ? 'Guardando...' : '📤 Publicar' }}
     </button>
   </div>
 </div>

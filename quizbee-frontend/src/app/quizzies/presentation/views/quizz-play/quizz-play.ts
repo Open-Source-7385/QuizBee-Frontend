@@ -7,8 +7,11 @@ import { QuizApp } from '../../../application/quizz-app';
 
 interface Answer {
   questionId: string;
-  selectedAlternativeId: number;
+  selectedAlternativeId: string;
+  isCorrect: boolean;
+  timeSpent: number;
 }
+
 @Component({
   selector: 'app-quizz-play',
   standalone: true,
@@ -17,29 +20,56 @@ interface Answer {
   styleUrls: ['./quizz-play.css']
 })
 export class QuizzPlay implements OnInit {
+  // Signals principales
   quiz = signal<Quiz | null>(null);
   currentQuestionIndex = signal<number>(0);
   answers = signal<Answer[]>([]);
-  lives = signal<number>(5);
-  showStartScreen = signal<boolean>(true);
-  showReminder = signal<boolean>(true);
-  quizCompleted = signal<boolean>(false);
-  score = signal<number>(0);
+  startTime = signal<number>(0);
+  showResults = signal<boolean>(false);
+  showReview = signal<boolean>(false);
 
-  // Computed
+  // Computed signals
   currentQuestion = computed(() => {
     const q = this.quiz();
-    if (!q) return null;
+    if (!q || !q.questions.length) return null;
     return q.questions[this.currentQuestionIndex()];
   });
 
-  progress = computed(() => {
-    const q = this.quiz();
-    if (!q) return 0;
-    return ((this.currentQuestionIndex() + 1) / q.questions.length) * 100;
+  totalQuestions = computed(() => this.quiz()?.questions.length || 0);
+
+  answeredCount = computed(() => this.answers().length);
+
+  correctCount = computed(() =>
+    this.answers().filter(a => a.isCorrect).length
+  );
+
+  incorrectCount = computed(() =>
+    this.answers().filter(a => !a.isCorrect).length
+  );
+
+  unansweredCount = computed(() =>
+    this.totalQuestions() - this.answeredCount()
+  );
+
+  totalTime = computed(() => {
+    if (!this.showResults()) return 0;
+    return this.answers().reduce((sum, a) => sum + a.timeSpent, 0);
   });
 
-  totalQuestions = computed(() => this.quiz()?.questions.length || 0);
+  score = computed(() => {
+    return this.answers()
+      .filter(a => a.isCorrect)
+      .reduce((sum, a) => {
+        const question = this.getQuestionById(a.questionId);
+        return sum + (question?.points || 0);
+      }, 0);
+  });
+
+  accuracy = computed(() => {
+    const answered = this.answeredCount();
+    if (answered === 0) return 0;
+    return Math.round((this.correctCount() / answered) * 100);
+  });
 
   constructor(
     private route: ActivatedRoute,
@@ -49,12 +79,12 @@ export class QuizzPlay implements OnInit {
 
   ngOnInit(): void {
     const quizId = this.route.snapshot.paramMap.get('id');
-    if (quizId) {
-      this.loadQuiz(parseInt(quizId));
+    if (quizId && quizId !== 'create') {
+      this.loadQuiz(quizId);
     }
   }
 
-  loadQuiz(id: number): void {
+  loadQuiz(id: string): void {
     this.quizService.getQuizById(id).subscribe({
       next: (quiz) => {
         this.quiz.set(quiz);
@@ -67,50 +97,38 @@ export class QuizzPlay implements OnInit {
     });
   }
 
-  startQuiz(showReminder: boolean): void {
-    this.showReminder.set(showReminder);
-    if (!showReminder) {
-      this.showStartScreen.set(false);
-    }
-  }
-
-  closeReminder(): void {
-    this.showStartScreen.set(false);
-  }
-
-  selectAnswer(alternativeId: number): void {
+  selectAnswer(alternativeId: string): void {
     const question = this.currentQuestion();
     if (!question) return;
 
-    // Verificar si la respuesta es correcta
+    // Verificar si ya respondió esta pregunta
+    const existingAnswer = this.answers().find(a => a.questionId === question.id);
+    if (existingAnswer) return;
+
+    // Calcular tiempo
+    // @ts-ignore
+    const timeSpent = Math.floor((Date.now() - this.startTime.set()) / 1000);
+
+    // Verificar si es correcta
     const correctAlternative = question.getCorrectAlternative();
     // @ts-ignore
     const isCorrect = correctAlternative?.id === alternativeId;
 
-    if (!isCorrect) {
-      // Restar una vida si es incorrecta
-      this.lives.update(lives => lives - 1);
-
-      if (this.lives() === 0) {
-        // Game Over
-        this.quizCompleted.set(true);
-        return;
-      }
-    } else {
-      // Sumar puntos si es correcta
-      this.score.update(score => score + question.points);
-    }
-
     // Guardar respuesta
     this.answers.update(answers => [
       ...answers,
-      { questionId: question.id!, selectedAlternativeId: alternativeId }
+      {
+        questionId: question.id,
+        selectedAlternativeId: alternativeId,
+        isCorrect,
+        timeSpent
+      }
     ]);
 
-    // Pasar a la siguiente pregunta después de un pequeño delay
+    // Esperar un momento para mostrar feedback visual
     setTimeout(() => {
       this.nextQuestion();
-    }, 100);
+    }, 800);
   }
 
   nextQuestion(): void {
@@ -118,38 +136,99 @@ export class QuizzPlay implements OnInit {
 
     if (nextIndex >= this.totalQuestions()) {
       // Quiz completado
-      this.quizCompleted.set(true);
+      this.showResults.set(true);
     } else {
       this.currentQuestionIndex.set(nextIndex);
     }
   }
 
-  getAnswerForQuestion(questionId: string): number | undefined {
-    return this.answers().find(a => a.questionId === questionId)?.selectedAlternativeId;
+  previousQuestion(): void {
+    const prevIndex = this.currentQuestionIndex() - 1;
+    if (prevIndex >= 0) {
+      this.currentQuestionIndex.set(prevIndex);
+    }
+  }
+
+  goToQuestion(index: number): void {
+    this.currentQuestionIndex.set(index);
+  }
+
+  getAnswerForQuestion(questionId: string): Answer | undefined {
+    return this.answers().find(a => a.questionId === questionId);
+  }
+
+  isAnswered(questionId: string): boolean {
+    return this.answers().some(a => a.questionId === questionId);
+  }
+
+  isCorrectAnswer(questionId: string): boolean {
+    const answer = this.getAnswerForQuestion(questionId);
+    return answer?.isCorrect || false;
+  }
+
+  getQuestionById(questionId: string): Question | undefined {
+    return this.quiz()?.questions.find(q => q.id === questionId);
+  }
+
+  getAlternativeClass(alternativeId: string): string {
+    const question = this.currentQuestion();
+    if (!question) return '';
+
+    const answer = this.getAnswerForQuestion(question.id);
+    if (!answer) return '';
+
+    const correctAlt = question.getCorrectAlternative();
+
+    // Si es la respuesta seleccionada
+    if (answer.selectedAlternativeId === alternativeId) {
+      return answer.isCorrect ? 'correct' : 'incorrect';
+    }
+
+    // Mostrar la correcta si respondió mal
+    // @ts-ignore
+    if (!answer.isCorrect && correctAlt?.id === alternativeId) {
+      return 'correct-highlight';
+    }
+
+    return '';
+  }
+
+  showCorrections(): void {
+    this.showReview.set(true);
+    this.currentQuestionIndex.set(0);
+  }
+
+  closeReview(): void {
+    this.showReview.set(false);
+    this.showResults.set(true);
   }
 
   restartQuiz(): void {
     this.currentQuestionIndex.set(0);
     this.answers.set([]);
-    this.lives.set(5);
-    this.showStartScreen.set(true);
-    this.showReminder.set(true);
-    this.quizCompleted.set(false);
-    this.score.set(0);
+    this.showResults.set(false);
+    this.showReview.set(false);
+    this.startTime.set(Date.now());
   }
 
   exitQuiz(): void {
     this.router.navigate(['/quizz']);
   }
 
-  getLivesArray(): number[] {
-    return Array(5).fill(0).map((_, i) => i);
+  formatTime(seconds: number): string {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   }
 
-  isAnswerSelected(alternativeId: number): boolean {
-    const question = this.currentQuestion();
-    if (!question) return false;
-    return this.getAnswerForQuestion(question.id!) === alternativeId;
+  getQuestionStatusClass(index: number): string {
+    const question = this.quiz()?.questions[index];
+    if (!question) return '';
+
+    const answer = this.getAnswerForQuestion(question.id);
+    if (!answer) return 'unanswered';
+
+    return answer.isCorrect ? 'correct' : 'incorrect';
   }
 
   protected readonly String = String;

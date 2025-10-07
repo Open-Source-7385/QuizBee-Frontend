@@ -1,134 +1,235 @@
-<div class="quiz-play-container">
-  <!-- Start Screen -->
-  @if (showStartScreen() && quiz()) {
-    <div class="start-screen">
-      <h1 class="quiz-title">{{ quiz()!.title }}</h1>
-
-      <div class="quiz-rules">
-        <h2>Antes de Iniciar el Quiz</h2>
-        <div class="lives-display">
-          <span>Empiezas con 5 vidas</span>
-          <div class="hearts">
-            @for (heart of getLivesArray(); track $index) {
-              <span class="heart">❤️</span>
-            }
-          </div>
-        </div>
-        <p class="rule">Cada respuesta incorrecta te quita 1 vida.</p>
-        <p class="rule">El objetivo es llegar al final con la mayor cantidad de vidas posibles.</p>
-        <p class="rule">Al terminar verás tu puntaje</p>
-
-        <div class="reminder-section">
-          <p class="reminder-text">¿Deseas ver este mensaje otra vez?</p>
-          <div class="reminder-options">
-            <button class="btn-option" (click)="startQuiz(false)">Sí</button>
-            <button class="btn-option" (click)="startQuiz(false)">No</button>
-          </div>
-        </div>
-      </div>
-
-      @if (!showReminder()) {
-        <button class="btn-start" (click)="closeReminder()">
-          Comenzar
-        </button>
-      }
-    </div>
-  }
-
-  <!-- Quiz Playing -->
-  @if (!showStartScreen() && !quizCompleted() && quiz()) {
+<div class="quiz-container">
+  <!-- MODO PREGUNTA -->
+  @if (!showResults() && !showReview() && quiz()) {
     <div class="quiz-header">
-      <button class="btn-back" (click)="exitQuiz()">← Volver a ver los Quizzies</button>
-
-      <h1 class="quiz-title-small">{{ quiz()!.title }}</h1>
-
-      <div class="lives-counter">
-        @for (heart of getLivesArray(); track $index) {
-          @if ($index < lives()) {
-            <span class="heart">❤️</span>
-          } @else {
-            <span class="heart dead">🖤</span>
-          }
-        }
-      </div>
+      <button class="btn-back" (click)="exitQuiz()">
+        ← Volver a ver los Quizzies
+      </button>
+      <h1 class="quiz-title">{{ quiz()!.title }}</h1>
     </div>
 
-    <div class="progress-bar">
-      <div class="progress-fill" [style.width.%]="progress()"></div>
-    </div>
-
+    <!-- Área de la pregunta -->
     @if (currentQuestion()) {
-      <div class="question-container">
-        <div class="question-header">
-          <h2>Pregunta {{ currentQuestionIndex() + 1 }}/{{ totalQuestions() }}</h2>
-          <span class="question-category">{{ quiz()!.category }}</span>
+      <div class="question-section">
+        <!-- Número de pregunta -->
+        <div class="question-number">
+          Pregunta N°{{ currentQuestionIndex() + 1 }}
         </div>
 
+        <!-- Texto de la pregunta -->
         <div class="question-text">
           {{ currentQuestion()!.textquestion }}
         </div>
 
-        <div class="alternatives-grid">
+        <!-- Lista de alternativas -->
+        <div class="alternatives-list">
           @for (alternative of currentQuestion()!.alternatives; track alternative.id) {
             <button
               class="alternative-btn"
-              [class.selected]="isAnswerSelected(alternative.id!)"
-              (click)="selectAnswer(alternative.id!)">
+              [class.selected]="getAnswerForQuestion(currentQuestion()!.id)?.selectedAlternativeId === alternative.id"
+              [class]="getAlternativeClass(alternative.id)"
+              [disabled]="isAnswered(currentQuestion()!.id)"
+              (click)="selectAnswer(alternative.id)">
               <span class="alternative-letter">{{ String.fromCharCode(65 + $index) }}</span>
               <span class="alternative-text">{{ alternative.text }}</span>
+
+              @if (getAlternativeClass(alternative.id) === 'correct' || getAlternativeClass(alternative.id) === 'correct-highlight') {
+                <span class="checkmark">✓</span>
+              }
+              @if (getAlternativeClass(alternative.id) === 'incorrect') {
+                <span class="crossmark">✗</span>
+              }
             </button>
           }
         </div>
 
-        <div class="question-info">
-          <span class="info-item">
-            💎 Puntos: {{ currentQuestion()!.points }}
+        <!-- Navegación -->
+        <div class="question-navigation">
+          <button
+            class="btn-nav"
+            [disabled]="currentQuestionIndex() === 0"
+            (click)="previousQuestion()">
+            ← Anterior
+          </button>
+
+          <span class="question-counter">
+            {{ currentQuestionIndex() + 1 }} / {{ totalQuestions() }}
           </span>
+
+          <button
+            class="btn-nav"
+            [disabled]="!isAnswered(currentQuestion()!.id)"
+            (click)="nextQuestion()">
+            @if (currentQuestionIndex() + 1 < totalQuestions()) {
+              Siguiente →
+            } @else {
+              Ver Resultados
+            }
+          </button>
         </div>
       </div>
     }
   }
 
-  <!-- Quiz Completed -->
-  @if (quizCompleted() && quiz()) {
-    <div class="completion-screen">
-      @if (lives() === 0) {
-        <h1 class="game-over-title">😢 Game Over</h1>
-        <p class="game-over-text">Te quedaste sin vidas</p>
-      } @else {
-        <h1 class="completion-title">🎉 ¡Quiz Completado!</h1>
+  <!-- PANTALLA DE RESULTADOS -->
+  @if (showResults() && quiz()) {
+    <div class="results-screen">
+      <div class="results-header">
+        <button class="btn-back" (click)="exitQuiz()">
+          ← Volver a ver los Quizzies
+        </button>
+        <h1 class="quiz-title">{{ quiz()!.title }}</h1>
+      </div>
+
+      <div class="results-content">
+        <!-- Estado del quiz -->
+        <div class="quiz-status">
+          @if (incorrectCount() > 0) {
+            <div class="status-icon failed">
+              <svg width="80" height="80" viewBox="0 0 80 80">
+                <circle cx="40" cy="40" r="35" fill="#ff4757" opacity="0.1"/>
+                <text x="40" y="50" text-anchor="middle" font-size="40" fill="#ff4757">👎</text>
+              </svg>
+            </div>
+            <h2 class="status-title">HAS REPROBADO EL QUIZZ</h2>
+          } @else {
+            <div class="status-icon passed">
+              <svg width="80" height="80" viewBox="0 0 80 80">
+                <circle cx="40" cy="40" r="35" fill="#2ed573" opacity="0.1"/>
+                <text x="40" y="50" text-anchor="middle" font-size="40" fill="#2ed573">👍</text>
+              </svg>
+            </div>
+            <h2 class="status-title">¡FELICITACIONES! APROBASTE</h2>
+          }
+
+          <div class="main-score">
+            {{ correctCount() }}/{{ totalQuestions() }} respuestas correctas
+          </div>
+
+          <a href="#" class="retry-link" (click)="restartQuiz(); $event.preventDefault()">
+            Haz clic aquí para intentarlo de nuevo
+          </a>
+        </div>
+
+        <!-- Métricas principales -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-icon">✓</div>
+            <div class="metric-value">{{ correctCount() }}/{{ totalQuestions() }}</div>
+            <div class="metric-label">% Correctas</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon">✗</div>
+            <div class="metric-value">{{ incorrectCount() }}/{{ totalQuestions() }}</div>
+            <div class="metric-label">% Incorrectas</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon">⏱</div>
+            <div class="metric-value">{{ accuracy() }}%</div>
+            <div class="metric-label">Precisión</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon">🕐</div>
+            <div class="metric-value">{{ formatTime(totalTime()) }}</div>
+            <div class="metric-label">Tiempo</div>
+          </div>
+        </div>
+
+        <!-- Visión general -->
+        <div class="overview-section">
+          <h3>Visión general</h3>
+
+          <div class="stats-summary">
+            <div class="stat-item correct">
+              <span class="stat-icon">👍</span>
+              <span class="stat-text">{{ correctCount() }}/{{ totalQuestions() }}</span>
+              <span class="stat-label">% correctas</span>
+            </div>
+
+            <div class="stat-item incorrect">
+              <span class="stat-icon">👎</span>
+              <span class="stat-text">{{ incorrectCount() }}/{{ totalQuestions() }}</span>
+              <span class="stat-label">% Incorrectas</span>
+            </div>
+
+            <div class="stat-item unanswered">
+              <span class="stat-icon">⭕</span>
+              <span class="stat-text">{{ unansweredCount() }}/{{ totalQuestions() }}</span>
+              <span class="stat-label">Sin responder</span>
+            </div>
+          </div>
+
+          <!-- Mapa de preguntas -->
+          <div class="questions-map">
+            @for (question of quiz()!.questions; track question.id) {
+              <button
+                class="question-dot"
+                [class]="getQuestionStatusClass($index)"
+                (click)="goToQuestion($index); showCorrections()">
+                {{ $index + 1 }}
+              </button>
+            }
+          </div>
+
+          <button class="btn-review" (click)="showCorrections()">
+            VER CORRECCIONES
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- MODO REVISIÓN -->
+  @if (showReview() && quiz()) {
+    <div class="review-mode">
+      <div class="review-header">
+        <button class="btn-back" (click)="closeReview()">
+          ← Volver a resultados
+        </button>
+        <h1 class="quiz-title">Revisión - {{ quiz()!.title }}</h1>
+      </div>
+
+      @if (currentQuestion()) {
+        <div class="question-section review">
+          <div class="question-number">
+            Pregunta N°{{ currentQuestionIndex() + 1 }}
+            @if (isCorrectAnswer(currentQuestion()!.id)) {
+              <span class="badge correct">✓ Correcta</span>
+            } @else if (isAnswered(currentQuestion()!.id)) {
+              <span class="badge incorrect">✗ Incorrecta</span>
+            } @else {
+              <span class="badge unanswered">Sin responder</span>
+            }
+          </div>
+
+          <div class="question-text">
+            {{ currentQuestion()!.textquestion }}
+          </div>
+
+          <div class="question-navigation">
+            <button
+              class="btn-nav"
+              [disabled]="currentQuestionIndex() === 0"
+              (click)="previousQuestion()">
+              ← Anterior
+            </button>
+
+            <span class="question-counter">
+              {{ currentQuestionIndex() + 1 }} / {{ totalQuestions() }}
+            </span>
+
+            <button
+              class="btn-nav"
+              [disabled]="currentQuestionIndex() + 1 >= totalQuestions()"
+              (click)="nextQuestion()">
+              Siguiente →
+            </button>
+          </div>
+        </div>
       }
-
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-value">{{ score() }}</div>
-          <div class="stat-label">Puntos Obtenidos</div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-value">{{ currentQuestionIndex() + 1 }}/{{ totalQuestions() }}</div>
-          <div class="stat-label">Preguntas Respondidas</div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-value">{{ lives() }}</div>
-          <div class="stat-label">Vidas Restantes</div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-value">{{ ((score() / quiz()!.points) * 100).toFixed(0) }}%</div>
-          <div class="stat-label">Precisión</div>
-        </div>
-      </div>
-
-      <div class="completion-actions">
-        <button class="btn-secondary" (click)="exitQuiz()">
-          Ver Todos los Quizzes
-        </button>
-        <button class="btn-primary" (click)="restartQuiz()">
-          🔄 Reintentar Quiz
-        </button>
-      </div>
     </div>
   }
 </div>
