@@ -1,0 +1,36 @@
+.ranking-container {
+  padding: 20px;
+}
+
+.filters {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.mat-table {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.rank-badge {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  text-align: center;
+  line-height: 30px;
+  font-weight: bold;
+}
+
+.top-three {
+  background-color: #ffd700; /* Gold for top 3 */
+  color: white;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
