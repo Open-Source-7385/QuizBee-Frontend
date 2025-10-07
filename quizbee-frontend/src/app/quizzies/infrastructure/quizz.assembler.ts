@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { Quiz } from '../domain/model/quiz.entity';
 import { Question } from '../domain/model/question.entity';
 import { Alternative } from '../domain/model/alternative.entity';
-import { QuizResource} from './quizz.resource';
+import { QuizResource } from './quizz.resource';
 import { QuestionResource } from './question.resource';
 import { AlternativeResource } from './alternative.resource';
-import { CreatorResource } from './creator.resource';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +15,9 @@ export class QuizAssembler {
    * Convierte un Resource de la API a una Entity del dominio
    */
   toEntityFromResource(resource: QuizResource): Quiz {
+
     return new Quiz({
-      id: parseInt(resource.id),
+      id: resource.id,
       title: resource.title,
       description: resource.description,
       category: resource.category,
@@ -37,7 +37,7 @@ export class QuizAssembler {
    */
   toResourceFromEntity(entity: Quiz): QuizResource {
     return {
-      id: entity.id?.toString() || '',
+      id: entity.id || '',
       title: entity.title,
       description: entity.description,
       category: entity.category,
@@ -60,22 +60,24 @@ export class QuizAssembler {
   }
 
   // ============= PRIVATE HELPERS =============
+
   private questionsFromResource(resources: QuestionResource[]): Question[] {
-    // @ts-ignore
-    return resources.map(resource => new Question({
-      id: parseInt(resource.id.replace('q', '')),
-      // ✅ aceptar tanto textquestion como text
-      textquestion: resource.textquestion ?? resource.textquestion?? '',
-      order: resource.order,
-      points: resource.points,
-      alternatives: this.alternativesFromResource(resource.alternatives)
-    }));
+    return resources.map(resource => {
+      const question = new Question();
+      question.id = resource.id; // ✅ mantener string
+      question.textquestion = resource.textquestion ?? resource.textquestion ?? '';
+      question.order = resource.order;
+      question.points = resource.points;
+      question.alternatives = this.alternativesFromResource(resource.alternatives);
+      return question;
+    });
   }
 
+
   private questionsToResource(questions: Question[]): QuestionResource[] {
+    if (!questions) return [];
     return questions.map((question, index) => ({
-      id: `q${question.id || index + 1}`,
-      // ✅ siempre enviar textquestion al JSON
+      id: question.id || `q${index + 1}`,
       textquestion: question.textquestion,
       order: question.order,
       points: question.points,
@@ -84,17 +86,21 @@ export class QuizAssembler {
   }
 
   private alternativesFromResource(resources: AlternativeResource[]): Alternative[] {
-    // @ts-ignore
-    return resources.map(resource => new Alternative({
-      id: parseInt(resource.id.replace('a', '')),
-      text: resource.text,
-      isCorrect: resource.isCorrect
-    }));
+    return resources.map(resource => {
+      const alt = new Alternative();
+      alt.id = resource.id;
+      alt.text = resource.text;
+      alt.isCorrect = resource.isCorrect;
+      return alt;
+    });
   }
 
+
   private alternativesToResource(alternatives: Alternative[]): AlternativeResource[] {
+    if (!alternatives) return [];
+    // @ts-ignore
     return alternatives.map((alt, index) => ({
-      id: `a${alt.id || index + 1}`,
+      id: alt.id || `a${index + 1}`,
       text: alt.text,
       isCorrect: alt.isCorrect
     }));

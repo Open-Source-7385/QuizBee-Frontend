@@ -7,14 +7,13 @@ export class Question   {
   points: number;
   alternatives: Alternative[];
 
-  constructor() {
-    this .id = '';
-    this.textquestion= '';
-    this.order = 0;
-    this.points = 0;
-    this.alternatives = [];
+  constructor(init?: Partial<Question>) {
+    this.id = init?.id ?? '';
+    this.textquestion = init?.textquestion ?? '';
+    this.order = init?.order ?? 0;
+    this.points = init?.points ?? 0;
+    this.alternatives = init?.alternatives ?? [];
   }
-
   hasCorrectAnswer(): boolean {
     return this.alternatives.some(alt => alt.isCorrect);
   }

@@ -7,7 +7,7 @@ export interface Creator {
 }
 
 export class Quiz   {
-  id : number;
+  id : string;
   title: string;
   description: string;
   category: string;
@@ -21,7 +21,7 @@ export class Quiz   {
   questions: Question[];
 
   constructor(data: Partial<Quiz> = {}) {
-    this.id = data.id || 0;
+    this.id = data.id || '';
     this.title = data.title || '';
     this.description = data.description || '';
     this.category = data.category || '';

@@ -53,7 +53,7 @@ export class QuizApp {
   /**
    * Obtiene un quiz por ID
    */
-  getQuizById(id: number): Observable<Quiz> {
+  getQuizById(id: string): Observable<Quiz> {
     this.loadingSignal.set(true);
 
     return this.quizApiService.getById(id).pipe(
@@ -113,27 +113,7 @@ export class QuizApp {
     );
   }
 
-  /**
-   * Elimina un quiz
-   */
-  deleteQuiz(id: number): Observable<void> {
-    this.loadingSignal.set(true);
 
-    return this.quizApiService.delete(id).pipe(
-      tap({
-        next: () => {
-          this.quizzesSignal.update(quizzes =>
-            quizzes.filter(q => q.id !== id)
-          );
-          this.loadingSignal.set(false);
-        },
-        error: (error) => {
-          this.errorSignal.set(error.message);
-          this.loadingSignal.set(false);
-        }
-      })
-    );
-  }
 
   /**
    * Busca quizzes por término
@@ -206,4 +186,5 @@ export class QuizApp {
   clearSelection(): void {
     this.selectedQuizSignal.set(null);
   }
+
 }

@@ -28,6 +28,12 @@ export const routes: Routes = [
         title: `${baseTitle} - About`
       },
       {
+        path: 'quizz/create',
+        loadComponent: () => import('./quizzies/presentation/views/quizz-create/quizz-create')
+          .then(m => m.QuizzCreate),
+        title: `${baseTitle} - Quizz create`
+      },
+      {
         path: 'quizz',
         loadComponent: () => import('./quizzies/presentation/views/quizz-list/quizz-list')
           .then(m => m.QuizzList),
@@ -44,6 +50,7 @@ export const routes: Routes = [
         loadComponent: pageNotFound,
         title: `${baseTitle} - Page Not Found`
       }
+
     ]
   }
 ];

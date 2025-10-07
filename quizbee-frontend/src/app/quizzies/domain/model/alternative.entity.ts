@@ -1,11 +1,13 @@
 export class Alternative  {
-  id: number;
+  id: string;
   text: string;
   isCorrect: boolean;
-  constructor() {
-    this.id= 0;
-    this.text = '';
-    this.isCorrect = false;
+
+
+  constructor(init?: Partial<Alternative>) {
+    this.id = init?.id ?? '';
+    this.text = init?.text ?? '';
+    this.isCorrect = init?.isCorrect ?? false;
   }
 
 }

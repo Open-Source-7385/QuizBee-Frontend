@@ -30,7 +30,7 @@ export class QuizApiService {
   /**
    * Obtiene un quiz por ID
    */
-  getById(id: number): Observable<Quiz> {
+  getById(id: string): Observable<Quiz> {
     return this.http.get<QuizResource>(`${this.apiUrl}/${id}`).pipe(
       map(resource => this.assembler.toEntityFromResource(resource)),
       catchError(this.handleError('Failed to fetch quiz'))
