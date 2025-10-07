@@ -1,0 +1,28 @@
+{
+  "rankings": [
+    {
+      "id": 1,
+      "userId": 101,
+      "userName": "JohnDoe",
+      "score": 1500,
+      "level": "B2",
+      "country": "Peru",
+      "quizCount": 45,
+      "averageScore": 85.5,
+      "rankPosition": 1,
+      "updatedAt": "2024-01-15T10:30:00Z"
+    },
+    {
+      "id": 2,
+      "userId": 102,
+      "userName": "MariaGarcia",
+      "score": 1480,
+      "level": "C1",
+      "country": "Mexico",
+      "quizCount": 52,
+      "averageScore": 88.2,
+      "rankPosition": 2,
+      "updatedAt": "2024-01-15T09:15:00Z"
+    }
+  ]
+}
