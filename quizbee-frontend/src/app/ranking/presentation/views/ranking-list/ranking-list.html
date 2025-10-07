@@ -1,0 +1,97 @@
+<div class="ranking-container">
+  <h2>QuizBee Rankings</h2>
+
+  <div class="filters">
+    <mat-form-field>
+      <mat-label>Level</mat-label>
+      <mat-select
+        [value]="selectedLevel()"
+        (selectionChange)="selectedLevel.set($event.value); onLevelChange()">
+        <mat-option *ngFor="let level of levels" [value]="level">
+          {{ level === 'all' ? 'All Levels' : level }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Country</mat-label>
+      <mat-select
+        [value]="selectedCountry()"
+        (selectionChange)="selectedCountry.set($event.value); onCountryChange()">
+        <mat-option *ngFor="let country of countries" [value]="country">
+          {{ country === 'global' ? 'Global' : country }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="store.loading()" class="loading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <span>Loading rankings...</span>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="store.error()" class="error-message">
+    <mat-error>{{ store.error() }}</mat-error>
+  </div>
+
+  <!-- Data Table -->
+  <div *ngIf="!store.loading() && !store.error() && store.globalRankings().length > 0">
+    <table
+      mat-table
+      [dataSource]="store.globalRankings()"
+      class="mat-elevation-z8">
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> Rank </th>
+        <td mat-cell *matCellDef="let ranking">
+          <span [class.top-three]="ranking.rankPosition <= 3" class="rank-badge">
+            {{ ranking.rankPosition }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- User Name Column -->
+      <ng-container matColumnDef="userName">
+        <th mat-header-cell *matHeaderCellDef> User </th>
+        <td mat-cell *matCellDef="let ranking"> {{ ranking.userName }} </td>
+      </ng-container>
+
+      <!-- Score Column -->
+      <ng-container matColumnDef="score">
+        <th mat-header-cell *matHeaderCellDef> Score </th>
+        <td mat-cell *matCellDef="let ranking"> {{ ranking.score }} </td>
+      </ng-container>
+
+      <!-- Level Column -->
+      <ng-container matColumnDef="level">
+        <th mat-header-cell *matHeaderCellDef> Level </th>
+        <td mat-cell *matCellDef="let ranking"> {{ ranking.level }} </td>
+      </ng-container>
+
+      <!-- Quiz Count Column -->
+      <ng-container matColumnDef="quizCount">
+        <th mat-header-cell *matHeaderCellDef> Quizzes </th>
+        <td mat-cell *matCellDef="let ranking"> {{ ranking.quizCount }} </td>
+      </ng-container>
+
+      <!-- Average Score Column -->
+      <ng-container matColumnDef="averageScore">
+        <th mat-header-cell *matHeaderCellDef> Average </th>
+        <td mat-cell *matCellDef="let ranking">
+          {{ ranking.averageScore | number:'1.1-1' }}%
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <!-- No Data State -->
+  <div *ngIf="!store.loading() && !store.error() && store.globalRankings().length === 0" class="no-data">
+    <p>No rankings available.</p>
+  </div>
+</div>

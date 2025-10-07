@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterLink, RouterLinkActive } from '@angular/router';
 interface SidebarItem {
   label: string;
@@ -8,7 +8,7 @@ interface SidebarItem {
 }
 @Component({
   selector: 'app-sidebar-content',
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './sidebar-content.html',
   styleUrl: './sidebar-content.css'
 })

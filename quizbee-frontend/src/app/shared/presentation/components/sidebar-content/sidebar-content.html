@@ -6,12 +6,14 @@
 
   <nav>
     <ul>
-      <li *ngFor="let item of menuItems">
-        <a [routerLink]="item.route" routerLinkActive="active">
-          <span class="icon">{{ item.icon }}</span>
-          <span class="label">{{ item.label }}</span>
-        </a>
-      </li>
+      @for (item of menuItems; track item) {
+        <li>
+          <a [routerLink]="item.route" routerLinkActive="active">
+            <span class="icon">{{ item.icon }}</span>
+            <span class="label">{{ item.label }}</span>
+          </a>
+        </li>
+      }
     </ul>
   </nav>
 
