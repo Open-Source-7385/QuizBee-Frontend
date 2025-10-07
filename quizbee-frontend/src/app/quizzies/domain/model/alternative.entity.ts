@@ -4,10 +4,10 @@ export class Alternative  {
   isCorrect: boolean;
 
 
-  constructor(init?: Partial<Alternative>) {
-    this.id = init?.id ?? '';
-    this.text = init?.text ?? '';
-    this.isCorrect = init?.isCorrect ?? false;
+  constructor(data?: Partial<Alternative>) {
+    this.id = data?.id ?? '';
+    this.text = data?.text ?? '';
+    this.isCorrect = data?.isCorrect ?? false;
   }
 
 }

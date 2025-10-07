@@ -107,6 +107,16 @@ export class QuizApiService {
       catchError(this.handleError('Failed to fetch popular quizzes'))
     );
   }
+  /**
+   * Incrementa el número de reproducciones (plays)
+   */
+  incrementPlays(id: string, currentPlays: number): Observable<Quiz> {
+    const updatedData = { plays: currentPlays + 1 };
+    return this.http.patch<QuizResource>(`${this.apiUrl}/${id}`, updatedData).pipe(
+      map(resource => this.assembler.toEntityFromResource(resource)),
+      catchError(this.handleError('Failed to increment plays'))
+    );
+  }
 
   /**
    * Maneja errores HTTP

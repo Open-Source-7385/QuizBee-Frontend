@@ -4,13 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Quiz } from '../../../domain/model/quiz.entity';
 import { Question } from '../../../domain/model/question.entity';
 import { QuizApp } from '../../../application/quizz-app';
+import {Answer} from '../../../domain/model/answer.entity';
 
-interface Answer {
-  questionId: string;
-  selectedAlternativeId: string;
-  isCorrect: boolean;
-  timeSpent: number;
-}
+
 
 @Component({
   selector: 'app-quizz-play',
@@ -88,6 +84,18 @@ export class QuizzPlay implements OnInit {
     this.quizService.getQuizById(id).subscribe({
       next: (quiz) => {
         this.quiz.set(quiz);
+
+        // Incrementar plays cuando se carga el quiz
+        this.quizService.incrementQuizPlays(quiz.id, quiz.plays).subscribe({
+          next: (updatedQuiz) => {
+            // Actualiza el valor local del signal
+            this.quiz.set(updatedQuiz);
+            console.log(`✅ Plays incrementado a: ${updatedQuiz.plays}`);
+          },
+          error: (err) => {
+            console.error('Error incrementando plays:', err);
+          }
+        });
       },
       error: (error) => {
         console.error('Error loading quiz:', error);
@@ -96,6 +104,7 @@ export class QuizzPlay implements OnInit {
       }
     });
   }
+
 
   selectAnswer(alternativeId: string): void {
     const question = this.currentQuestion();
@@ -107,7 +116,7 @@ export class QuizzPlay implements OnInit {
 
     // Calcular tiempo
     // @ts-ignore
-    const timeSpent = Math.floor((Date.now() - this.startTime.set()) / 1000);
+    const timeSpent = Math.floor((Date.now() - this.startTime.set()) / 2000);
 
     // Verificar si es correcta
     const correctAlternative = question.getCorrectAlternative();

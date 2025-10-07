@@ -7,12 +7,12 @@ export class Question   {
   points: number;
   alternatives: Alternative[];
 
-  constructor(init?: Partial<Question>) {
-    this.id = init?.id ?? '';
-    this.textquestion = init?.textquestion ?? '';
-    this.order = init?.order ?? 0;
-    this.points = init?.points ?? 0;
-    this.alternatives = init?.alternatives ?? [];
+  constructor(data?: Partial<Question>) {
+    this.id = data?.id ?? '';
+    this.textquestion = data?.textquestion ?? '';
+    this.order = data?.order ?? 0;
+    this.points = data?.points ?? 0;
+    this.alternatives = data?.alternatives ?? [];
   }
   hasCorrectAnswer(): boolean {
     return this.alternatives.some(alt => alt.isCorrect);

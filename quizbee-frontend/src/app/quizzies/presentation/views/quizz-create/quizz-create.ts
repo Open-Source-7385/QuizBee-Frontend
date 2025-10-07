@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Quiz } from '../../../domain/model/quiz.entity';
 import { Question } from '../../../domain/model/question.entity';
 import { Alternative } from '../../../domain/model/alternative.entity';
+import {Observable} from 'rxjs';
 import { QuizApp } from '../../../application/quizz-app';
 
 interface QuestionForm {
@@ -47,11 +48,13 @@ export class QuizzCreate implements OnInit {
     { value: 2, label: 'Fácil' },
     { value: 3, label: 'Intermedio' },
     { value: 4, label: 'Difícil' },
-    { value: 5, label: 'Muy Difícil' }
+    { value: 5, label: 'Muy Difícil' },
+    { value: 5, label: 'Extremo' }
   ];
   types = [
     { value: 'questions', label: 'Preguntas' },
     { value: 'true-false', label: 'Verdadero/Falso' }
+
   ];
 
   // Computed helpers
@@ -157,7 +160,7 @@ export class QuizzCreate implements OnInit {
   }
 
   canAddQuestion(): boolean {
-    return this.questions().length < 50; // límite arbitrario
+    return this.questions().length < 12; // límite arbitrario
   }
 
   canSaveQuiz(): boolean {
@@ -272,4 +275,5 @@ export class QuizzCreate implements OnInit {
   // trackBy
   trackByQuestion(index: number, item: QuestionForm) { return index; }
   trackByAlternative(index: number, item: {text:string}) { return index; }
+  trackByIndex = (index: number) => index;
 }

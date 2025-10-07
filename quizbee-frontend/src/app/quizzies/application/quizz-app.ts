@@ -90,6 +90,9 @@ export class QuizApp {
       })
     );
   }
+  incrementQuizPlays(id: string, currentPlays: number): Observable<Quiz> {
+    return this.quizApiService.incrementPlays(id, currentPlays);
+  }
 
   /**
    * Actualiza un quiz existente
@@ -185,6 +188,10 @@ export class QuizApp {
    */
   clearSelection(): void {
     this.selectedQuizSignal.set(null);
+  }
+
+  getAllQuizzes() {
+    return this.quizApiService.getAll();
   }
 
 }

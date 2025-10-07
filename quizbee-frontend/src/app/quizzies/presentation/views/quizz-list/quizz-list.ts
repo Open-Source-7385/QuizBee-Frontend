@@ -94,7 +94,7 @@ export class QuizzList implements OnInit {
   }
 
   goToCreateQuiz(): void {
-    this.router.navigate(['/crear']);
+    this.router.navigate(['/quizz/create']);
   }
 
   clearFilters(): void {
