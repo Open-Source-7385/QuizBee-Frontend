@@ -1,0 +1,97 @@
+{
+  "plans": [
+    {
+      "id": "basico",
+      "name": "Básico Premium",
+      "subtitle": "100% individual",
+      "price": 19.99,
+      "currency": "$",
+      "period": "mes",
+      "features": [
+        "Acceso ilimitado a lecciones",
+        "Video lecciones HD",
+        "Práctica de habilidades",
+        "Seguimiento de progreso",
+        "Sin anuncios"
+      ],
+      "popular": false
+    },
+    {
+      "id": "familia",
+      "name": "Super Familia",
+      "subtitle": "Hasta 6 usuarios - $1.65 al mes",
+      "price": 10.69,
+      "currency": "$",
+      "period": "mes",
+      "features": [
+        "Contenido de aprendizaje completo",
+        "Vidas ilimitadas",
+        "Práctica de habilidades avanzada",
+        "Desafíos sin límites",
+        "Sin anuncios",
+        "¡Hasta 6 usuarios pueden disfrutar de aprendizaje súper veloz!"
+      ],
+      "popular": true
+    },
+    {
+      "id": "ultra",
+      "name": "Ultra Mega-Premium",
+      "subtitle": "Plan definitivo",
+      "price": 49.99,
+      "currency": "$",
+      "period": "mes",
+      "features": [
+        "Profesional diario 1X8",
+        "Todo Premium Plus incluido",
+        "Clases particulares con tutores",
+        "Ejercicios de dominio avanzado",
+        "Certificados oficiales",
+        "Aprendizaje sin conexión"
+      ],
+      "popular": false
+    }
+  ],
+  "subscriptions": [
+    {
+      "id": "1",
+      "userId": "pedro-castillo",
+      "planId": "familia",
+      "planName": "Super Familia",
+      "price": 10.69,
+      "status": "active",
+      "startDate": "2025-10-03T00:00:00Z",
+      "nextBillingDate": "2025-11-03T00:00:00Z",
+      "paymentMethod": {
+        "type": "visa",
+        "lastFourDigits": "1467",
+        "expiryDate": "04/31"
+      },
+      "benefits": [
+        "1 cuenta Premium verificada",
+        "Múltiples Beneficios",
+        "Cancela cuando quieras"
+      ]
+    }
+  ],
+  "payments": [
+    {
+      "id": "1",
+      "subscriptionId": "1",
+      "amount": 10.69,
+      "currency": "$",
+      "status": "completed",
+      "date": "2025-10-03T00:00:00Z",
+      "paymentMethod": "visa",
+      "lastFourDigits": "1467"
+    }
+  ],
+  "users": [
+    {
+      "id": "pedro-castillo",
+      "name": "Pedro Castillo",
+      "email": "pedro@example.com",
+      "avatar": "",
+      "accountType": "Premium"
+    }
+  ]
+}

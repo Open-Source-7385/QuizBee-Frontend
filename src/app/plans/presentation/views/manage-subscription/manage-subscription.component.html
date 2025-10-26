@@ -1,0 +1,94 @@
+<div class="manage-container">
+  <header class="header">
+    <div class="user-info">
+      <div class="user-avatar"></div>
+      <div class="user-details">
+        <span class="user-name">Pedro Castillo</span>
+        <span class="user-status">Premium</span>
+      </div>
+    </div>
+    <div class="header-icons">
+      <button class="icon-btn">🔔</button>
+      <button class="icon-btn">💬</button>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <h1 class="title">Administra tu suscripción</h1>
+
+    <div *ngIf="loading" class="loading">Cargando...</div>
+
+    <div class="content-grid" *ngIf="!loading && subscription">
+      <div class="subscription-card">
+        <div class="card-header">
+          <h2 class="plan-title">{{ subscription.planName }}</h2>
+          <span class="status-badge" [class.active]="subscription.status === 'active'">
+            {{ subscription.status === 'active' ? 'Activa' : 'Inactiva' }}
+          </span>
+        </div>
+
+        <ul class="benefits-list">
+          <li *ngFor="let benefit of subscription.benefits" class="benefit-item">
+            <span class="check-icon">✓</span>
+            <span>{{ benefit }}</span>
+          </li>
+        </ul>
+
+        <button class="change-plan-btn" (click)="changePlan()">
+          Cambiar de Plan
+        </button>
+      </div>
+
+      <div class="action-buttons">
+        <button class="cancel-btn" (click)="openCancelModal()">
+          Cancelar suscripción
+        </button>
+      </div>
+
+      <div class="payment-section">
+        <h3 class="section-title">Pago</h3>
+        <p class="next-billing">
+          Tu próxima factura será de <strong>${{ subscription.price }}</strong>
+          y llegará el <strong>{{ formatDate(subscription.nextBillingDate) }}</strong>.
+        </p>
+
+        <div class="payment-method-card">
+          <div class="card-info">
+            <div class="card-icon">💳</div>
+            <div class="card-details">
+              <span class="card-type">{{ subscription.paymentMethod.type }}</span>
+              <span class="card-number">•••• {{ subscription.paymentMethod.lastFourDigits }}</span>
+              <span class="card-expiry">{{ subscription.paymentMethod.expiryDate }}</span>
+            </div>
+          </div>
+          <button class="update-btn" (click)="updatePaymentMethod()">
+            Actualizar
+          </button>
+        </div>
+
+        <button class="invoice-btn" (click)="viewInvoiceHistory()">
+          Historial de Facturas
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal de Cancelación -->
+  <div class="modal-overlay" *ngIf="showCancelModal" (click)="closeCancelModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h2 class="modal-title">¿Cancelar suscripción?</h2>
+      <p class="modal-text">
+        Si cancelas tu suscripción, perderás acceso a todos los beneficios Premium
+        al final de tu período de facturación actual.
+      </p>
+      <div class="modal-actions">
+        <button class="modal-btn cancel" (click)="closeCancelModal()">
+          No, mantener
+        </button>
+        <button class="modal-btn confirm" (click)="confirmCancel()">
+          Sí, cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
