@@ -3,6 +3,7 @@ import { PlanSelectionComponent } from './plans/presentation/views/plan-selectio
 import { PaymentProcessComponent } from './plans/presentation/views/payment-process/payment-process.component';
 import { ManageSubscriptionComponent } from './plans/presentation/views/manage-subscription/manage-subscription.component';
 import { InvoiceHistoryComponent } from './plans/presentation/views/invoice-history/invoice-history.component';
+import { InvoiceDetailComponent } from './plans/presentation/views/invoice-detail/invoice-detail.component';
 
 export const routes: Routes = [
   {
@@ -25,6 +26,10 @@ export const routes: Routes = [
   {
     path: 'invoice-history',
     component: InvoiceHistoryComponent
+  },
+  {
+    path: 'invoice-detail/:id',
+    component: InvoiceDetailComponent
   },
   {
     path: '**',

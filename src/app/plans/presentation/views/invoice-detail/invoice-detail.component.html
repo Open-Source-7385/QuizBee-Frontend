@@ -1,0 +1,98 @@
+<div class="invoice-detail-container">
+  <header class="header">
+    <div class="header-icons">
+      <button class="icon-btn">🔔</button>
+      <button class="icon-btn">💬</button>
+    </div>
+    <div class="user-info">
+      <div class="user-avatar"></div>
+      <div class="user-details">
+        <span class="user-name">Pedro Castillo</span>
+        <span class="user-status">Premium</span>
+      </div>
+    </div>
+  </header>
+
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Cargando factura...</p>
+  </div>
+
+  <main class="main-content" *ngIf="!loading && invoice">
+    <div class="invoice-card">
+      <!-- Header de la factura -->
+      <div class="invoice-header">
+        <div class="billed-to">
+          <p class="label">Facturado a</p>
+          <h2 class="name">{{ invoice.billedTo.name }}</h2>
+          <p class="email">{{ invoice.billedTo.email }}</p>
+        </div>
+
+        <div class="invoice-info">
+          <p class="label">Factura</p>
+          <h2 class="invoice-number">{{ invoice.invoiceNumber }}</h2>
+          <div class="date-status">
+            <p class="date">
+              <span class="date-label">Fecha de emisión</span>
+              <strong>{{ invoice.date }}</strong>
+            </p>
+            <span class="status-badge paid">{{ invoice.status }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detalles de la factura -->
+      <div class="invoice-details">
+        <h3 class="section-title">Detalles de la factura</h3>
+
+        <div class="details-table">
+          <div class="table-header">
+            <span>Descripción</span>
+            <span>Monto</span>
+          </div>
+          <div class="table-row">
+            <span class="description">{{ invoice.description }}</span>
+            <span class="amount">${{ invoice.amount }}</span>
+          </div>
+        </div>
+
+        <div class="payment-info">
+          <div class="info-row">
+            <span class="info-label">Método de pago</span>
+            <span class="info-value">{{ invoice.paymentMethod }} •••• {{ invoice.cardLastDigits }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Plan</span>
+            <span class="info-value">{{ invoice.plan }}</span>
+          </div>
+        </div>
+
+        <div class="totals">
+          <div class="total-row">
+            <span>Subtotal</span>
+            <span>${{ invoice.subtotal }}</span>
+          </div>
+          <div class="total-row">
+            <span>Impuestos</span>
+            <span>${{ invoice.taxes }}</span>
+          </div>
+          <div class="total-row final">
+            <span>Total</span>
+            <span>${{ invoice.total }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="action-buttons">
+        <button class="download-btn" (click)="downloadPDF()">
+          <span class="btn-icon">⬇️</span>
+          Descargar PDF
+        </button>
+        <button class="back-btn" (click)="goBack()">
+          Volver al Historial
+        </button>
+      </div>
+    </div>
+  </main>
+</div>

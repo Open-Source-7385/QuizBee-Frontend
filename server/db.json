@@ -53,26 +53,6 @@
   ],
   "subscriptions": [
     {
-      "id": "8e93",
-      "userId": "pedro-castillo",
-      "planId": "ultra",
-      "planName": "Ultra Mega-Premium",
-      "price": 49.99,
-      "status": "active",
-      "startDate": "2025-10-26T22:35:42.236Z",
-      "nextBillingDate": "2025-11-25T22:35:42.236Z",
-      "paymentMethod": {
-        "type": "visa",
-        "lastFourDigits": "",
-        "expiryDate": ""
-      },
-      "benefits": [
-        "1 cuenta Premium verificada",
-        "Múltiples Beneficios",
-        "Cancela cuando quieras"
-      ]
-    },
-    {
       "id": "4fb5",
       "userId": "pedro-castillo",
       "planId": "ultra",

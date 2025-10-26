@@ -98,7 +98,7 @@ export class InvoiceHistoryComponent implements OnInit {
   }
 
   viewInvoice(invoice: Invoice): void {
-    alert(`Ver factura: ${invoice.invoiceNumber}`);
+    this.router.navigate(['/invoice-detail', invoice.id]);
   }
 
   downloadInvoice(invoice: Invoice): void {
