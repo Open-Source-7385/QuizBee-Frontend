@@ -53,26 +53,6 @@
   ],
   "subscriptions": [
     {
-      "id": "1",
-      "userId": "pedro-castillo",
-      "planId": "familia",
-      "planName": "Super Familia",
-      "price": 10.69,
-      "status": "active",
-      "startDate": "2025-10-03T00:00:00Z",
-      "nextBillingDate": "2025-11-03T00:00:00Z",
-      "paymentMethod": {
-        "type": "visa",
-        "lastFourDigits": "1467",
-        "expiryDate": "04/31"
-      },
-      "benefits": [
-        "1 cuenta Premium verificada",
-        "Múltiples Beneficios",
-        "Cancela cuando quieras"
-      ]
-    },
-    {
       "id": "8e93",
       "userId": "pedro-castillo",
       "planId": "ultra",
@@ -91,12 +71,72 @@
         "Múltiples Beneficios",
         "Cancela cuando quieras"
       ]
+    },
+    {
+      "id": "4fb5",
+      "userId": "pedro-castillo",
+      "planId": "ultra",
+      "planName": "Ultra Mega-Premium",
+      "price": 49.99,
+      "status": "active",
+      "startDate": "2025-10-26T22:37:59.259Z",
+      "nextBillingDate": "2025-11-25T22:37:59.259Z",
+      "paymentMethod": {
+        "type": "visa",
+        "lastFourDigits": "",
+        "expiryDate": ""
+      },
+      "benefits": [
+        "1 cuenta Premium verificada",
+        "Múltiples Beneficios",
+        "Cancela cuando quieras"
+      ]
+    },
+    {
+      "id": "3661",
+      "userId": "pedro-castillo",
+      "planId": "familia",
+      "planName": "Super Familia",
+      "price": 10.69,
+      "status": "active",
+      "startDate": "2025-10-26T22:55:29.667Z",
+      "nextBillingDate": "2025-11-25T22:55:29.667Z",
+      "paymentMethod": {
+        "type": "visa",
+        "lastFourDigits": "",
+        "expiryDate": ""
+      },
+      "benefits": [
+        "1 cuenta Premium verificada",
+        "Múltiples Beneficios",
+        "Cancela cuando quieras"
+      ]
+    },
+    {
+      "id": "a5b1",
+      "userId": "pedro-castillo",
+      "planId": "familia",
+      "planName": "Super Familia",
+      "price": 10.69,
+      "status": "active",
+      "startDate": "2025-10-26T22:55:46.555Z",
+      "nextBillingDate": "2025-11-25T22:55:46.555Z",
+      "paymentMethod": {
+        "type": "visa",
+        "lastFourDigits": "",
+        "expiryDate": ""
+      },
+      "benefits": [
+        "1 cuenta Premium verificada",
+        "Múltiples Beneficios",
+        "Cancela cuando quieras"
+      ]
     }
   ],
   "payments": [
     {
       "id": "1",
-      "subscriptionId": "1",
+      "subscriptionId": null,
       "amount": 10.69,
       "currency": "$",
       "status": "completed",

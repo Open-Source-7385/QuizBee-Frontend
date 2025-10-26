@@ -92,7 +92,7 @@ export class ManageSubscriptionComponent implements OnInit {
   }
 
   viewInvoiceHistory(): void {
-    alert('Mostrando historial de facturas');
+    this.router.navigate(['/invoice-history']);
   }
 
   formatDate(dateString: string): string {

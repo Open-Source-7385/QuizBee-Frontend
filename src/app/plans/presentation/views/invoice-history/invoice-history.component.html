@@ -1,0 +1,114 @@
+<div class="invoice-container">
+  <header class="header">
+    <button class="back-btn" (click)="goBack()">
+      ← Volver
+    </button>
+    <div class="user-info">
+      <div class="user-avatar"></div>
+      <div class="user-details">
+        <span class="user-name">Pedro Castillo</span>
+        <span class="user-status">Premium</span>
+      </div>
+    </div>
+    <div class="header-icons">
+      <button class="icon-btn">🔔</button>
+      <button class="icon-btn">💬</button>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="title-section">
+      <div>
+        <h1 class="title">Historial de Facturas</h1>
+        <p class="subtitle">Todas tus facturas y pagos en un solo lugar</p>
+      </div>
+      <div class="invoice-badge">
+        <span class="badge-icon">📄</span>
+        <span class="badge-text">{{ invoices.length }} factura{{ invoices.length !== 1 ? 's' : '' }}</span>
+      </div>
+    </div>
+
+    <div class="search-section">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (input)="onSearch()"
+          placeholder="Buscar por número de factura o plan..."
+          class="search-input">
+      </div>
+    </div>
+
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Cargando facturas...</p>
+    </div>
+
+    <div class="invoices-section" *ngIf="!loading">
+      <div class="table-header">
+        <div class="header-cell">Factura</div>
+        <div class="header-cell">Fecha</div>
+        <div class="header-cell">Plan</div>
+        <div class="header-cell">Monto</div>
+        <div class="header-cell">Estado</div>
+        <div class="header-cell">Acciones</div>
+      </div>
+
+      <div class="table-body">
+        <div
+          *ngFor="let invoice of filteredInvoices"
+          class="invoice-row">
+
+          <div class="cell invoice-cell">
+            <span class="invoice-icon">📄</span>
+            <span class="invoice-number">{{ invoice.invoiceNumber }}</span>
+          </div>
+
+          <div class="cell date-cell">
+            {{ invoice.date }}
+          </div>
+
+          <div class="cell plan-cell">
+            {{ invoice.plan }}
+          </div>
+
+          <div class="cell amount-cell">
+            ${{ invoice.amount }}
+          </div>
+
+          <div class="cell status-cell">
+            <span
+              class="status-badge"
+              [class.paid]="invoice.status === 'Pagada'"
+              [class.pending]="invoice.status === 'Pendiente'"
+              [class.cancelled]="invoice.status === 'Cancelada'">
+              {{ invoice.status }}
+            </span>
+          </div>
+
+          <div class="cell actions-cell">
+            <button
+              class="action-btn view-btn"
+              (click)="viewInvoice(invoice)"
+              title="Ver factura">
+              👁️
+            </button>
+            <button
+              class="action-btn download-btn"
+              (click)="downloadInvoice(invoice)"
+              title="Descargar factura">
+              ⬇️
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="filteredInvoices.length === 0" class="no-results">
+        <p class="no-results-icon">🔍</p>
+        <p class="no-results-text">No se encontraron facturas</p>
+        <p class="no-results-subtext">Intenta con otro término de búsqueda</p>
+      </div>
+    </div>
+  </main>
+</div>
