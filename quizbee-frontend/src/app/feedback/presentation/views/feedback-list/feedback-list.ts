@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatError } from '@angular/material/form-field';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
 import { FeedbackStore } from '../../../application/feedback-store';
 import { Feedback } from '../../../domain/model/feedback.entity';
 
@@ -14,10 +15,11 @@ import { Feedback } from '../../../domain/model/feedback.entity';
     MatTableModule,
     MatButtonModule,
     MatError,
-    MatProgressSpinner
+    MatProgressSpinner,
+    MatIconModule
   ],
-  templateUrl: './feedback-list.component.html',
-  styleUrl: './feedback-list.component.css'
+  templateUrl: './feedback-list.html',
+  styleUrl: './feedback-list.css'
 })
 export class FeedbackList {
   readonly store = inject(FeedbackStore);

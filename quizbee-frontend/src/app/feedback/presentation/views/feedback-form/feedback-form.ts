@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatCardModule } from '@angular/material/card'; // ADD THIS IMPORT
 
 @Component({
   selector: 'app-feedback-form',
@@ -18,10 +19,11 @@ import { MatSliderModule } from '@angular/material/slider';
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
-    MatSliderModule
+    MatSliderModule,
+    MatCardModule
   ],
-  templateUrl: './feedback-form.component.html',
-  styleUrl: './feedback-form.component.css'
+  templateUrl: './feedback-form.html',
+  styleUrl: './feedback-form.css'
 })
 export class FeedbackForm {
   private fb = inject(FormBuilder);

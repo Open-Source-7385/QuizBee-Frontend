@@ -25,6 +25,7 @@ export class FeedbackStore {
     return feedbacks.reduce((sum, feedback) => sum + feedback.rating, 0) / feedbacks.length;
   });
 
+
   constructor(private feedbackApi: FeedbackApi) {
     this.loadFeedbacks();
   }

@@ -18,8 +18,8 @@ import { MatCardModule } from '@angular/material/card';
     MatButtonModule,
     MatCardModule
   ],
-  templateUrl: './feedback-response-form.component.html',
-  styleUrl: './feedback-response-form.component.css'
+  templateUrl: './feedback-response-form.html',
+  styleUrl: './feedback-response-form.css'
 })
 export class FeedbackResponseForm implements OnInit {
   private fb = inject(FormBuilder);
