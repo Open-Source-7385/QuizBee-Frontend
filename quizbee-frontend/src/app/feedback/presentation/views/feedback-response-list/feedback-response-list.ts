@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatError } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon'; // FIXED: Correct import
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { FeedbackStore } from '../../../application/feedback-store';
@@ -16,10 +17,11 @@ import { FeedbackResponse } from '../../../domain/model/feedback-response.entity
     MatButtonModule,
     MatError,
     MatProgressSpinner,
-    MatCardModule
+    MatCardModule,
+    MatIconModule
   ],
-  templateUrl: './feedback-response-list.component.html',
-  styleUrl: './feedback-response-list.component.css'
+  templateUrl: './feedback-response-list.html',
+  styleUrl: './feedback-response-list.css'
 })
 export class FeedbackResponseList implements OnInit {
   private route = inject(ActivatedRoute);
