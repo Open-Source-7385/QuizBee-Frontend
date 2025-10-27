@@ -1,89 +1,56 @@
-import {Injectable} from '@angular/core';
-import {BaseApi} from '../../shared/infrastructure/base-api';
-import {Ranking} from '../domain/model/ranking.entity';
-import {Leaderboard} from '../domain/model/leaderboard.entity';
-import {UserScore} from '../domain/model/user-score.entity';
-import {HttpClient} from '@angular/common/http';
-import {RankingApiEndpoint} from './ranking-api-endpoint';
-import {LeaderboardApiEndpoint} from './leaderboard-api-endpoint';
-import {UserScoreApiEndpoint} from './user-score-api-endpoint';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BaseApi } from '../../shared/infrastructure/base-api';
+import { Ranking } from '../domain/model/ranking.entity';
+import { RankingApiEndpoint } from './ranking-api-endpoint';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RankingApi extends BaseApi {
-  private readonly rankingsEndpoint: RankingApiEndpoint;
-  private readonly leaderboardsEndpoint: LeaderboardApiEndpoint;
-  private readonly userScoresEndpoint: UserScoreApiEndpoint;
+  private readonly rankingEndpoint: RankingApiEndpoint;
 
   constructor(http: HttpClient) {
     super();
-    this.rankingsEndpoint = new RankingApiEndpoint(http);
-    this.leaderboardsEndpoint = new LeaderboardApiEndpoint(http);
-    this.userScoresEndpoint = new UserScoreApiEndpoint(http);
+    this.rankingEndpoint = new RankingApiEndpoint(http);
   }
 
-  // Ranking methods
-  getRankings(): Observable<Ranking[]> {
-    return this.rankingsEndpoint.getAll();
+  /**
+   * Gets global ranking
+   */
+  getGlobalRanking(page: number = 1, limit: number = 50): Observable<Ranking[]> {
+    return this.rankingEndpoint.getGlobalRanking(page, limit);
   }
 
-  getRanking(id: number): Observable<Ranking> {
-    return this.rankingsEndpoint.getById(id);
+  /**
+   * Gets ranking by level
+   */
+  getRankingByLevel(level: string, page: number = 1, limit: number = 50): Observable<Ranking[]> {
+    return this.rankingEndpoint.getRankingByLevel(level, page, limit);
   }
 
-  createRanking(ranking: Ranking): Observable<Ranking> {
-    return this.rankingsEndpoint.create(ranking);
+  /**
+   * Gets ranking by country
+   */
+  getRankingByCountry(country: string, page: number = 1, limit: number = 50): Observable<Ranking[]> {
+    return this.rankingEndpoint.getRankingByCountry(country, page, limit);
   }
 
-  updateRanking(ranking: Ranking): Observable<Ranking> {
-    return this.rankingsEndpoint.update(ranking, ranking.id);
+  /**
+   * Gets user's current ranking
+   */
+  getUserRanking(userId: number): Observable<Ranking> {
+    return this.rankingEndpoint.getUserRanking(userId);
   }
 
-  deleteRanking(id: number): Observable<void> {
-    return this.rankingsEndpoint.delete(id);
-  }
-
-  // Leaderboard methods
-  getLeaderboards(): Observable<Leaderboard[]> {
-    return this.leaderboardsEndpoint.getAll();
-  }
-
-  getLeaderboard(id: number): Observable<Leaderboard> {
-    return this.leaderboardsEndpoint.getById(id);
-  }
-
-  createLeaderboard(leaderboard: Leaderboard): Observable<Leaderboard> {
-    return this.leaderboardsEndpoint.create(leaderboard);
-  }
-
-  updateLeaderboard(leaderboard: Leaderboard): Observable<Leaderboard> {
-    return this.leaderboardsEndpoint.update(leaderboard, leaderboard.id);
-  }
-
-  deleteLeaderboard(id: number): Observable<void> {
-    return this.leaderboardsEndpoint.delete(id);
-  }
-
-  // UserScore methods
-  getUserScores(): Observable<UserScore[]> {
-    return this.userScoresEndpoint.getAll();
-  }
-
-  getUserScore(id: number): Observable<UserScore> {
-    return this.userScoresEndpoint.getById(id);
-  }
-
-  createUserScore(userScore: UserScore): Observable<UserScore> {
-    return this.userScoresEndpoint.create(userScore);
-  }
-
-  updateUserScore(userScore: UserScore): Observable<UserScore> {
-    return this.userScoresEndpoint.update(userScore, userScore.id);
-  }
-
-  deleteUserScore(id: number): Observable<void> {
-    return this.userScoresEndpoint.delete(id);
+  /**
+   * Updates user ranking after quiz completion
+   */
+  updateUserRanking(userId: number, score: number): Observable<Ranking> {
+    // This would typically be called by the backend automatically after quiz completion
+    // For now, we'll implement it as a separate method
+    const updateData = { userId, score };
+    return this.rankingEndpoint.update({} as Ranking, userId); // Simplified for example
   }
 }

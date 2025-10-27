@@ -1,0 +1,71 @@
+<div class="ranking-container">
+  <div class="ranking-header">
+    <h2>Country Ranking</h2>
+    <div class="controls">
+      <select
+        [(ngModel)]="selectedCountry"
+        (change)="onCountryChange()"
+        [disabled]="loading()"
+        class="country-select">
+        <option *ngFor="let country of countries" [value]="country.value">
+          {{ country.flag }} {{ country.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="country-info" *ngIf="getSelectedCountryFlag()">
+    <span class="country-flag">{{ getSelectedCountryFlag() }}</span>
+    <span class="country-name">{{ getSelectedCountryName() }}</span>
+  </div>
+
+  <div class="pagination-controls">
+    <button
+      (click)="previousPage()"
+      [disabled]="currentPage === 1 || loading()"
+      class="btn btn-secondary">
+      Previous
+    </button>
+    <span class="page-info">Page {{ currentPage }}</span>
+    <button
+      (click)="nextPage()"
+      [disabled]="loading()"
+      class="btn btn-secondary">
+      Next
+    </button>
+  </div>
+
+  <div *ngIf="loading()" class="loading-spinner">
+    Loading {{ getSelectedCountryName() }} ranking...
+  </div>
+
+  <div *ngIf="error()" class="error-message">
+    {{ error() }}
+  </div>
+
+  <div *ngIf="!loading() && countryRanking().length === 0" class="no-data">
+    No ranking data available for {{ getSelectedCountryName() }}.
+  </div>
+
+  <div class="ranking-list" *ngIf="!loading() && countryRanking().length > 0">
+    <div class="ranking-item header">
+      <div class="rank">Rank</div>
+      <div class="user">User</div>
+      <div class="score">Score</div>
+      <div class="level">Level</div>
+    </div>
+
+    <div
+      *ngFor="let position of countryRanking(); trackBy: trackByRanking"
+      class="ranking-item"
+      [class.highlighted]="position.rank <= 3">
+      <div class="rank">
+        <span *ngIf="position.rank <= 3" class="medal">🥇</span>
+        {{ position.rank }}
+      </div>
+      <div class="user">{{ position.username }}</div>
+      <div class="score">{{ position.score }}</div>
+      <div class="level">{{ position.level }}</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,169 @@
+{
+  "ranking": [
+    {
+      "id": 1,
+      "userId": 101,
+      "totalScore": 9850,
+      "quizzesCompleted": 42,
+      "level": "advanced",
+      "country": "USA",
+      "lastActivity": "2024-01-15T14:30:00.000Z",
+      "userName": "JohnDoe",
+      "userAvatar": "https://example.com/avatars/johndoe.jpg"
+    },
+    {
+      "id": 2,
+      "userId": 102,
+      "totalScore": 8760,
+      "quizzesCompleted": 38,
+      "level": "advanced",
+      "country": "Canada",
+      "lastActivity": "2024-01-14T16:45:00.000Z",
+      "userName": "JaneSmith",
+      "userAvatar": "https://example.com/avatars/janesmith.jpg"
+    },
+    {
+      "id": 3,
+      "userId": 103,
+      "totalScore": 7650,
+      "quizzesCompleted": 35,
+      "level": "intermediate",
+      "country": "UK",
+      "lastActivity": "2024-01-15T10:20:00.000Z",
+      "userName": "MikeJohnson",
+      "userAvatar": "https://example.com/avatars/mikejohnson.jpg"
+    },
+    {
+      "id": 4,
+      "userId": 104,
+      "totalScore": 6540,
+      "quizzesCompleted": 29,
+      "level": "intermediate",
+      "country": "Germany",
+      "lastActivity": "2024-01-13T09:15:00.000Z",
+      "userName": "SarahWilson",
+      "userAvatar": "https://example.com/avatars/sarahwilson.jpg"
+    },
+    {
+      "id": 5,
+      "userId": 105,
+      "totalScore": 5430,
+      "quizzesCompleted": 25,
+      "level": "beginner",
+      "country": "France",
+      "lastActivity": "2024-01-15T11:30:00.000Z",
+      "userName": "DavidBrown",
+      "userAvatar": "https://example.com/avatars/davidbrown.jpg"
+    },
+    {
+      "id": 6,
+      "userId": 106,
+      "totalScore": 4320,
+      "quizzesCompleted": 22,
+      "level": "beginner",
+      "country": "Spain",
+      "lastActivity": "2024-01-12T13:45:00.000Z",
+      "userName": "EmmaDavis",
+      "userAvatar": "https://example.com/avatars/emmadavis.jpg"
+    },
+    {
+      "id": 7,
+      "userId": 107,
+      "totalScore": 3210,
+      "quizzesCompleted": 18,
+      "level": "beginner",
+      "country": "Italy",
+      "lastActivity": "2024-01-14T15:20:00.000Z",
+      "userName": "RobertMiller",
+      "userAvatar": "https://example.com/avatars/robertmiller.jpg"
+    },
+    {
+      "id": 8,
+      "userId": 108,
+      "totalScore": 2980,
+      "quizzesCompleted": 16,
+      "level": "beginner",
+      "country": "USA",
+      "lastActivity": "2024-01-15T08:10:00.000Z",
+      "userName": "LisaTaylor",
+      "userAvatar": "https://example.com/avatars/lisataylor.jpg"
+    },
+    {
+      "id": 9,
+      "userId": 109,
+      "totalScore": 7120,
+      "quizzesCompleted": 32,
+      "level": "intermediate",
+      "country": "Canada",
+      "lastActivity": "2024-01-14T12:30:00.000Z",
+      "userName": "ThomasAnderson",
+      "userAvatar": "https://example.com/avatars/thomasanderson.jpg"
+    },
+    {
+      "id": 10,
+      "userId": 110,
+      "totalScore": 8230,
+      "quizzesCompleted": 36,
+      "level": "advanced",
+      "country": "UK",
+      "lastActivity": "2024-01-13T17:25:00.000Z",
+      "userName": "JenniferLee",
+      "userAvatar": "https://example.com/avatars/jenniferlee.jpg"
+    },
+    {
+      "id": 11,
+      "userId": 111,
+      "totalScore": 4560,
+      "quizzesCompleted": 21,
+      "level": "beginner",
+      "country": "Germany",
+      "lastActivity": "2024-01-15T14:15:00.000Z",
+      "userName": "KevinWhite",
+      "userAvatar": "https://example.com/avatars/kevinwhite.jpg"
+    },
+    {
+      "id": 12,
+      "userId": 112,
+      "totalScore": 6780,
+      "quizzesCompleted": 30,
+      "level": "intermediate",
+      "country": "France",
+      "lastActivity": "2024-01-12T10:40:00.000Z",
+      "userName": "AmandaClark",
+      "userAvatar": "https://example.com/avatars/amandaclark.jpg"
+    },
+    {
+      "id": 13,
+      "userId": 113,
+      "totalScore": 9120,
+      "quizzesCompleted": 40,
+      "level": "advanced",
+      "country": "USA",
+      "lastActivity": "2024-01-15T16:50:00.000Z",
+      "userName": "ChristopherHall",
+      "userAvatar": "https://example.com/avatars/christopherhall.jpg"
+    },
+    {
+      "id": 14,
+      "userId": 114,
+      "totalScore": 3890,
+      "quizzesCompleted": 19,
+      "level": "beginner",
+      "country": "Spain",
+      "lastActivity": "2024-01-14T11:25:00.000Z",
+      "userName": "MichelleYoung",
+      "userAvatar": "https://example.com/avatars/michelleyoung.jpg"
+    },
+    {
+      "id": 15,
+      "userId": 115,
+      "totalScore": 7450,
+      "quizzesCompleted": 33,
+      "level": "intermediate",
+      "country": "Italy",
+      "lastActivity": "2024-01-13T14:35:00.000Z",
+      "userName": "DanielKing",
+      "userAvatar": "https://example.com/avatars/danielking.jpg"
+    }
+  ]
+}

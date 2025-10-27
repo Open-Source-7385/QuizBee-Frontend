@@ -1,0 +1,66 @@
+<div class="ranking-container">
+  <div class="ranking-header">
+    <h2>Level Ranking</h2>
+    <div class="controls">
+      <select
+        [(ngModel)]="selectedLevel"
+        (change)="onLevelChange()"
+        [disabled]="loading()"
+        class="level-select">
+        <option *ngFor="let level of levels" [value]="level.value">
+          {{ level.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="pagination-controls">
+    <button
+      (click)="previousPage()"
+      [disabled]="currentPage === 1 || loading()"
+      class="btn btn-secondary">
+      Previous
+    </button>
+    <span class="page-info">Page {{ currentPage }}</span>
+    <button
+      (click)="nextPage()"
+      [disabled]="loading()"
+      class="btn btn-secondary">
+      Next
+    </button>
+  </div>
+
+  <div *ngIf="loading()" class="loading-spinner">
+    Loading {{ selectedLevel }} ranking...
+  </div>
+
+  <div *ngIf="error()" class="error-message">
+    {{ error() }}
+  </div>
+
+  <div *ngIf="!loading() && levelRanking().length === 0" class="no-data">
+    No ranking data available for {{ selectedLevel }} level.
+  </div>
+
+  <div class="ranking-list" *ngIf="!loading() && levelRanking().length > 0">
+    <div class="ranking-item header">
+      <div class="rank">Rank</div>
+      <div class="user">User</div>
+      <div class="score">Score</div>
+      <div class="country">Country</div>
+    </div>
+
+    <div
+      *ngFor="let position of levelRanking(); trackBy: trackByRanking"
+      class="ranking-item"
+      [class.highlighted]="position.rank <= 3">
+      <div class="rank">
+        <span *ngIf="position.rank <= 3" class="medal">🥇</span>
+        {{ position.rank }}
+      </div>
+      <div class="user">{{ position.username }}</div>
+      <div class="score">{{ position.score }}</div>
+      <div class="country">{{ position.country }}</div>
+    </div>
+  </div>
+</div>

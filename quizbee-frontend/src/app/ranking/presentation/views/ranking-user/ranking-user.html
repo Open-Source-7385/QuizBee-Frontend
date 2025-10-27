@@ -1,0 +1,63 @@
+<div class="user-ranking-container">
+  <div class="user-ranking-header">
+    <h2>My Ranking</h2>
+  </div>
+
+  <div *ngIf="loading()" class="loading-spinner">
+    Loading your ranking...
+  </div>
+
+  <div *ngIf="error()" class="error-message">
+    {{ error() }}
+  </div>
+
+  <!-- User's Current Ranking -->
+  <div *ngIf="!loading() && userPosition()" class="user-current-ranking">
+    <div class="user-card" [class]="getRankClass(userPosition()!.rank)">
+      <div class="user-rank">
+        <span class="rank-badge">{{ getRankBadge(userPosition()!.rank) }}</span>
+        <span class="rank-number">#{{ userPosition()!.rank }}</span>
+      </div>
+      <div class="user-info">
+        <div class="username">{{ userPosition()!.username }}</div>
+        <div class="user-details">
+          <span class="level">Level: {{ userPosition()!.level }}</span>
+          <span class="country">Country: {{ userPosition()!.country }}</span>
+        </div>
+      </div>
+      <div class="user-score">
+        <div class="score-value">{{ userPosition()!.score }}</div>
+        <div class="score-label">Points</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top 10 Global Ranking for Context -->
+  <div *ngIf="!loading() && globalRanking().length > 0" class="top-ranking-section">
+    <h3>Top 10 Global Ranking</h3>
+    <div class="top-ranking-list">
+      <div
+        *ngFor="let position of globalRanking(); trackBy: trackByRanking"
+        class="top-ranking-item"
+        [class.current-user]="position.userId === currentUserId"
+        [class]="getRankClass(position.rank)">
+        <div class="top-rank">
+          {{ getRankBadge(position.rank) }}
+        </div>
+        <div class="top-user">{{ position.username }}</div>
+        <div class="top-score">{{ position.score }}</div>
+        <div class="top-level">{{ position.level }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading() && !userPosition()" class="no-ranking">
+    <div class="no-ranking-content">
+      <h3>No Ranking Yet</h3>
+      <p>Complete your first quiz to appear in the rankings!</p>
+      <button class="btn btn-primary" routerLink="/quizzes">
+        Start a Quiz
+      </button>
+    </div>
+  </div>
+</div>

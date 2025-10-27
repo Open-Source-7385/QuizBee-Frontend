@@ -1,0 +1,143 @@
+.ranking-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.ranking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #3ABEF9;
+}
+
+.ranking-header h2 {
+  color: #3ABEF9;
+  margin: 0;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-secondary {
+  background-color: #A5E8FF;
+  color: #333;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-info {
+  font-weight: bold;
+  color: #333;
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 40px;
+  color: #3ABEF9;
+  font-size: 16px;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 16px;
+  border-radius: 4px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.no-data {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-size: 16px;
+}
+
+.ranking-list {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.ranking-item {
+  display: grid;
+  grid-template-columns: 80px 1fr 100px 100px 100px;
+  gap: 15px;
+  padding: 15px;
+  align-items: center;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.ranking-item.header {
+  background-color: #F5F9FC;
+  font-weight: bold;
+  color: #333;
+}
+
+.ranking-item:not(.header):hover {
+  background-color: #f8fdff;
+}
+
+.ranking-item.highlighted {
+  background-color: #fff9e6;
+}
+
+.rank {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.medal {
+  font-size: 16px;
+}
+
+.user {
+  font-weight: 500;
+}
+
+.score {
+  text-align: center;
+  font-weight: bold;
+  color: #3ABEF9;
+}
+
+.level, .country {
+  text-align: center;
+  text-transform: capitalize;
+}
+
+@media (max-width: 768px) {
+  .ranking-item {
+    grid-template-columns: 60px 1fr 80px;
+    gap: 10px;
+  }
+
+  .level, .country {
+    display: none;
+  }
+
+  .ranking-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+}

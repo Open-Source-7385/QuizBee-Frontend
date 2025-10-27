@@ -1,0 +1,185 @@
+.ranking-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.ranking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #3ABEF9;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.ranking-header h2 {
+  color: #3ABEF9;
+  margin: 0;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.country-select {
+  padding: 8px 12px;
+  border: 1px solid #A5E8FF;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 14px;
+  min-width: 220px;
+}
+
+.country-info {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #F5F9FC;
+  border-radius: 4px;
+}
+
+.country-flag {
+  font-size: 24px;
+  margin-right: 8px;
+}
+
+.country-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-secondary {
+  background-color: #A5E8FF;
+  color: #333;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-info {
+  font-weight: bold;
+  color: #333;
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 40px;
+  color: #3ABEF9;
+  font-size: 16px;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 16px;
+  border-radius: 4px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.no-data {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-size: 16px;
+}
+
+.ranking-list {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.ranking-item {
+  display: grid;
+  grid-template-columns: 80px 1fr 100px 100px;
+  gap: 15px;
+  padding: 15px;
+  align-items: center;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.ranking-item.header {
+  background-color: #F5F9FC;
+  font-weight: bold;
+  color: #333;
+}
+
+.ranking-item:not(.header):hover {
+  background-color: #f8fdff;
+}
+
+.ranking-item.highlighted {
+  background-color: #fff9e6;
+}
+
+.rank {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.medal {
+  font-size: 16px;
+}
+
+.user {
+  font-weight: 500;
+}
+
+.score {
+  text-align: center;
+  font-weight: bold;
+  color: #3ABEF9;
+}
+
+.level {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .ranking-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .ranking-item {
+    grid-template-columns: 60px 1fr 80px;
+    gap: 10px;
+  }
+
+  .level {
+    display: none;
+  }
+
+  .country-select {
+    min-width: 150px;
+  }
+}

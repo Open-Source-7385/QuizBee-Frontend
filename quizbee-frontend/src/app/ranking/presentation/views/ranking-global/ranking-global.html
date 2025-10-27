@@ -1,0 +1,56 @@
+<div class="ranking-container">
+  <div class="ranking-header">
+    <h2>Global Ranking</h2>
+    <div class="pagination-controls">
+      <button
+        (click)="previousPage()"
+        [disabled]="currentPage === 1 || loading()"
+        class="btn btn-secondary">
+        Previous
+      </button>
+      <span class="page-info">Page {{ currentPage }}</span>
+      <button
+        (click)="nextPage()"
+        [disabled]="loading()"
+        class="btn btn-secondary">
+        Next
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="loading()" class="loading-spinner">
+    Loading global ranking...
+  </div>
+
+  <div *ngIf="error()" class="error-message">
+    {{ error() }}
+  </div>
+
+  <div *ngIf="!loading() && globalRanking().length === 0" class="no-data">
+    No ranking data available.
+  </div>
+
+  <div class="ranking-list" *ngIf="!loading() && globalRanking().length > 0">
+    <div class="ranking-item header">
+      <div class="rank">Rank</div>
+      <div class="user">User</div>
+      <div class="score">Score</div>
+      <div class="level">Level</div>
+      <div class="country">Country</div>
+    </div>
+
+    <div
+      *ngFor="let position of globalRanking(); trackBy: trackByRanking"
+      class="ranking-item"
+      [class.highlighted]="position.rank <= 3">
+      <div class="rank">
+        <span *ngIf="position.rank <= 3" class="medal">🥇</span>
+        {{ position.rank }}
+      </div>
+      <div class="user">{{ position.username }}</div>
+      <div class="score">{{ position.score }}</div>
+      <div class="level">{{ position.level }}</div>
+      <div class="country">{{ position.country }}</div>
+    </div>
+  </div>
+</div>

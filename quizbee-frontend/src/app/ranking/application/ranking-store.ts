@@ -1,241 +1,167 @@
-import {Injectable, computed, signal, Signal} from '@angular/core';
-import {Ranking} from '../domain/model/ranking.entity';
-import {Leaderboard} from '../domain/model/leaderboard.entity';
-import {UserScore} from '../domain/model/user-score.entity';
-import {RankingApi} from '../infrastructure/ranking-api';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {retry} from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { computed, Signal, signal } from '@angular/core';
+import { Ranking } from '../domain/model/ranking.entity';
+import { RankingPosition } from '../domain/model/ranking-position';
+import { RankingApi } from '../infrastructure/ranking-api';
+import { RankingAssembler } from '../infrastructure/ranking-assembler';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { retry } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RankingStore {
-  private readonly rankingsSignal = signal<Ranking[]>([]);
-  private readonly leaderboardsSignal = signal<Leaderboard[]>([]);
-  private readonly userScoresSignal = signal<UserScore[]>([]);
+  private readonly rankingApi = inject(RankingApi);
+  private readonly rankingAssembler = new RankingAssembler();
 
-  readonly rankings = this.rankingsSignal.asReadonly();
-  readonly leaderboards = this.leaderboardsSignal.asReadonly();
-  readonly userScores = this.userScoresSignal.asReadonly();
+  // State signals
+  private readonly globalRankingSignal = signal<Ranking[]>([]);
+  private readonly levelRankingSignal = signal<Ranking[]>([]);
+  private readonly countryRankingSignal = signal<Ranking[]>([]);
+  private readonly userRankingSignal = signal<Ranking | null>(null);
 
   private readonly loadingSignal = signal<boolean>(false);
-  readonly loading = this.loadingSignal.asReadonly();
-
   private readonly errorSignal = signal<string | null>(null);
+
+  // Public readonly signals
+  readonly globalRanking = this.globalRankingSignal.asReadonly();
+  readonly levelRanking = this.levelRankingSignal.asReadonly();
+  readonly countryRanking = this.countryRankingSignal.asReadonly();
+  readonly userRanking = this.userRankingSignal.asReadonly();
+  readonly loading = this.loadingSignal.asReadonly();
   readonly error = this.errorSignal.asReadonly();
 
-  readonly rankingCount = computed(() => this.rankings().length);
-  readonly leaderboardCount = computed(() => this.leaderboards().length);
-  readonly userScoreCount = computed(() => this.userScores().length);
+  // Computed signals for ranking positions
+  readonly globalRankingPositions = computed(() =>
+    this.rankingAssembler.toRankingPositionsFromEntities(this.globalRanking())
+  );
 
-  constructor(private rankingApi: RankingApi) {
-    this.loadRankings();
-    this.loadLeaderboards();
-    this.loadUserScores();
-  }
+  readonly levelRankingPositions = computed(() =>
+    this.rankingAssembler.toRankingPositionsFromEntities(this.levelRanking())
+  );
 
-  // Ranking methods
-  getRankingById(id: number | null | undefined): Signal<Ranking | undefined> {
-    return computed(() => id ? this.rankings().find(r => r.id === id) : undefined);
-  }
+  readonly countryRankingPositions = computed(() =>
+    this.rankingAssembler.toRankingPositionsFromEntities(this.countryRanking())
+  );
 
-  addRanking(ranking: Ranking): void {
+  readonly userPosition = computed(() => {
+    const userRanking = this.userRanking();
+    if (!userRanking) return null;
+
+    const positions = this.globalRankingPositions();
+    return positions.find(pos => pos.userId === userRanking.userId) || null;
+  });
+
+  /**
+   * Loads global ranking
+   */
+  loadGlobalRanking(page: number = 1, limit: number = 50): void {
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
-    this.rankingApi.createRanking(ranking).pipe(retry(2)).subscribe({
-      next: createdRanking => {
-        this.rankingsSignal.update(rankings => [...rankings, createdRanking]);
-        this.loadingSignal.set(false);
-      },
-      error: err => {
-        this.errorSignal.set(this.formatError(err, 'Failed to create ranking'));
-        this.loadingSignal.set(false);
-      }
-    });
+
+    this.rankingApi.getGlobalRanking(page, limit)
+      .pipe(takeUntilDestroyed(), retry(2))
+      .subscribe({
+        next: rankings => {
+          this.globalRankingSignal.set(rankings);
+          this.loadingSignal.set(false);
+        },
+        error: err => {
+          this.errorSignal.set(this.formatError(err, 'Failed to load global ranking'));
+          this.loadingSignal.set(false);
+        }
+      });
   }
 
-  updateRanking(updatedRanking: Ranking): void {
+  /**
+   * Loads ranking by level
+   */
+  loadRankingByLevel(level: string, page: number = 1, limit: number = 50): void {
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
-    this.rankingApi.updateRanking(updatedRanking).pipe(retry(2)).subscribe({
-      next: ranking => {
-        this.rankingsSignal.update(rankings =>
-          rankings.map(r => r.id === ranking.id ? ranking : r)
-        );
-        this.loadingSignal.set(false);
-      },
-      error: err => {
-        this.errorSignal.set(this.formatError(err, 'Failed to update ranking'));
-        this.loadingSignal.set(false);
-      }
-    });
+
+    this.rankingApi.getRankingByLevel(level, page, limit)
+      .pipe(takeUntilDestroyed(), retry(2))
+      .subscribe({
+        next: rankings => {
+          this.levelRankingSignal.set(rankings);
+          this.loadingSignal.set(false);
+        },
+        error: err => {
+          this.errorSignal.set(this.formatError(err, 'Failed to load level ranking'));
+          this.loadingSignal.set(false);
+        }
+      });
   }
 
-  deleteRanking(id: number): void {
+  /**
+   * Loads ranking by country
+   */
+  loadRankingByCountry(country: string, page: number = 1, limit: number = 50): void {
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
-    this.rankingApi.deleteRanking(id).pipe(retry(2)).subscribe({
-      next: () => {
-        this.rankingsSignal.update(rankings => rankings.filter(r => r.id !== id));
-        this.loadingSignal.set(false);
-      },
-      error: err => {
-        this.errorSignal.set(this.formatError(err, 'Failed to delete ranking'));
-        this.loadingSignal.set(false);
-      }
-    });
+
+    this.rankingApi.getRankingByCountry(country, page, limit)
+      .pipe(takeUntilDestroyed(), retry(2))
+      .subscribe({
+        next: rankings => {
+          this.countryRankingSignal.set(rankings);
+          this.loadingSignal.set(false);
+        },
+        error: err => {
+          this.errorSignal.set(this.formatError(err, 'Failed to load country ranking'));
+          this.loadingSignal.set(false);
+        }
+      });
   }
 
-  // Leaderboard methods
-  getLeaderboardById(id: number | null | undefined): Signal<Leaderboard | undefined> {
-    return computed(() => id ? this.leaderboards().find(l => l.id === id) : undefined);
-  }
-
-  addLeaderboard(leaderboard: Leaderboard): void {
+  /**
+   * Loads user's ranking
+   */
+  loadUserRanking(userId: number): void {
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
-    this.rankingApi.createLeaderboard(leaderboard).pipe(retry(2)).subscribe({
-      next: createdLeaderboard => {
-        this.leaderboardsSignal.update(leaderboards => [...leaderboards, createdLeaderboard]);
-        this.loadingSignal.set(false);
-      },
-      error: err => {
-        this.errorSignal.set(this.formatError(err, 'Failed to create leaderboard'));
-        this.loadingSignal.set(false);
-      }
-    });
+
+    this.rankingApi.getUserRanking(userId)
+      .pipe(takeUntilDestroyed(), retry(2))
+      .subscribe({
+        next: ranking => {
+          this.userRankingSignal.set(ranking);
+          this.loadingSignal.set(false);
+        },
+        error: err => {
+          this.errorSignal.set(this.formatError(err, 'Failed to load user ranking'));
+          this.loadingSignal.set(false);
+        }
+      });
   }
 
-  updateLeaderboard(updatedLeaderboard: Leaderboard): void {
+  /**
+   * Updates user ranking after quiz completion
+   */
+  updateUserRanking(userId: number, score: number): void {
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
-    this.rankingApi.updateLeaderboard(updatedLeaderboard).pipe(retry(2)).subscribe({
-      next: leaderboard => {
-        this.leaderboardsSignal.update(leaderboards =>
-          leaderboards.map(l => l.id === leaderboard.id ? leaderboard : l)
-        );
-        this.loadingSignal.set(false);
-      },
-      error: err => {
-        this.errorSignal.set(this.formatError(err, 'Failed to update leaderboard'));
-        this.loadingSignal.set(false);
-      }
-    });
+
+    this.rankingApi.updateUserRanking(userId, score)
+      .pipe(retry(2))
+      .subscribe({
+        next: ranking => {
+          this.userRankingSignal.set(ranking);
+          // Refresh global ranking to reflect changes
+          this.loadGlobalRanking();
+          this.loadingSignal.set(false);
+        },
+        error: err => {
+          this.errorSignal.set(this.formatError(err, 'Failed to update ranking'));
+          this.loadingSignal.set(false);
+        }
+      });
   }
 
-  deleteLeaderboard(id: number): void {
-    this.loadingSignal.set(true);
-    this.errorSignal.set(null);
-    this.rankingApi.deleteLeaderboard(id).pipe(retry(2)).subscribe({
-      next: () => {
-        this.leaderboardsSignal.update(leaderboards => leaderboards.filter(l => l.id !== id));
-        this.loadingSignal.set(false);
-      },
-      error: err => {
-        this.errorSignal.set(this.formatError(err, 'Failed to delete leaderboard'));
-        this.loadingSignal.set(false);
-      }
-    });
-  }
-
-  // UserScore methods
-  getUserScoreById(id: number | null | undefined): Signal<UserScore | undefined> {
-    return computed(() => id ? this.userScores().find(us => us.id === id) : undefined);
-  }
-
-  addUserScore(userScore: UserScore): void {
-    this.loadingSignal.set(true);
-    this.errorSignal.set(null);
-    this.rankingApi.createUserScore(userScore).pipe(retry(2)).subscribe({
-      next: createdUserScore => {
-        this.userScoresSignal.update(userScores => [...userScores, createdUserScore]);
-        this.loadingSignal.set(false);
-      },
-      error: err => {
-        this.errorSignal.set(this.formatError(err, 'Failed to create user score'));
-        this.loadingSignal.set(false);
-      }
-    });
-  }
-
-  updateUserScore(updatedUserScore: UserScore): void {
-    this.loadingSignal.set(true);
-    this.errorSignal.set(null);
-    this.rankingApi.updateUserScore(updatedUserScore).pipe(retry(2)).subscribe({
-      next: userScore => {
-        this.userScoresSignal.update(userScores =>
-          userScores.map(us => us.id === userScore.id ? userScore : us)
-        );
-        this.loadingSignal.set(false);
-      },
-      error: err => {
-        this.errorSignal.set(this.formatError(err, 'Failed to update user score'));
-        this.loadingSignal.set(false);
-      }
-    });
-  }
-
-  deleteUserScore(id: number): void {
-    this.loadingSignal.set(true);
-    this.errorSignal.set(null);
-    this.rankingApi.deleteUserScore(id).pipe(retry(2)).subscribe({
-      next: () => {
-        this.userScoresSignal.update(userScores => userScores.filter(us => us.id !== id));
-        this.loadingSignal.set(false);
-      },
-      error: err => {
-        this.errorSignal.set(this.formatError(err, 'Failed to delete user score'));
-        this.loadingSignal.set(false);
-      }
-    });
-  }
-
-  // Private load methods
-  private loadRankings(): void {
-    this.loadingSignal.set(true);
-    this.errorSignal.set(null);
-    this.rankingApi.getRankings().pipe(takeUntilDestroyed()).subscribe({
-      next: rankings => {
-        this.rankingsSignal.set(rankings);
-        this.loadingSignal.set(false);
-      },
-      error: err => {
-        this.errorSignal.set(this.formatError(err, 'Failed to load rankings'));
-        this.loadingSignal.set(false);
-      }
-    });
-  }
-
-  private loadLeaderboards(): void {
-    this.loadingSignal.set(true);
-    this.errorSignal.set(null);
-    this.rankingApi.getLeaderboards().pipe(takeUntilDestroyed()).subscribe({
-      next: leaderboards => {
-        this.leaderboardsSignal.set(leaderboards);
-        this.loadingSignal.set(false);
-      },
-      error: err => {
-        this.errorSignal.set(this.formatError(err, 'Failed to load leaderboards'));
-        this.loadingSignal.set(false);
-      }
-    });
-  }
-
-  private loadUserScores(): void {
-    this.loadingSignal.set(true);
-    this.errorSignal.set(null);
-    this.rankingApi.getUserScores().pipe(takeUntilDestroyed()).subscribe({
-      next: userScores => {
-        this.userScoresSignal.set(userScores);
-        this.loadingSignal.set(false);
-      },
-      error: err => {
-        this.errorSignal.set(this.formatError(err, 'Failed to load user scores'));
-        this.loadingSignal.set(false);
-      }
-    });
-  }
-
+  /**
+   * Formats error messages
+   */
   private formatError(error: any, fallback: string): string {
     if (error instanceof Error) {
       return error.message.includes('Resource not found') ? `${fallback}: Not found` : error.message;
