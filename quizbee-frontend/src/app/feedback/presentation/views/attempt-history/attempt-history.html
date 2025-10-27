@@ -1,0 +1,159 @@
+<div class="attempt-history-container">
+  <!-- Header -->
+  <div class="header">
+    <h1>Quiz Attempt History</h1>
+    <p>Track your learning progress and performance over time</p>
+  </div>
+
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading your attempt history...</p>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error() && !loading()) {
+    <div class="error-state">
+      <div class="error-icon">⚠️</div>
+      <h3>Unable to Load History</h3>
+      <p>{{ error() }}</p>
+      <button class="retry-btn" (click)="retryLoad()">Try Again</button>
+    </div>
+  }
+
+  <!-- Content -->
+  @if (!loading() && !error()) {
+    <div class="content">
+      <!-- Statistics Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">{{ totalAttempts() }}</div>
+          <div class="stat-label">Total Attempts</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">{{ averageScore().toFixed(1) }}</div>
+          <div class="stat-label">Average Score</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">{{ successRate().toFixed(1) }}%</div>
+          <div class="stat-label">Success Rate</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">{{ filteredStats().statusCounts.completed }}</div>
+          <div class="stat-label">Completed</div>
+        </div>
+      </div>
+
+      <!-- Filters and Search -->
+      <div class="controls">
+        <div class="filter-group">
+          <label>Filter by Status:</label>
+          <select [value]="filterStatus()" (change)="onFilterStatusChange($any($event.target).value)">
+            <option value="all">All Attempts</option>
+            <option value="completed">Completed</option>
+            <option value="abandoned">Abandoned</option>
+            <option value="timed_out">Timed Out</option>
+          </select>
+        </div>
+
+        <div class="search-group">
+          <input
+            type="text"
+            placeholder="Search by difficulty or status..."
+            [value]="searchTerm()"
+            (input)="onSearchTermChange($any($event.target).value)"
+            class="search-input"
+          >
+        </div>
+
+        <div class="sort-group">
+          <label>Sort by:</label>
+          <button
+            class="sort-btn"
+            [class.active]="sortBy() === 'date'"
+            (click)="onSortChange('date')"
+          >
+            Date {{ sortBy() === 'date' ? (sortOrder() === 'asc' ? '↑' : '↓') : '' }}
+          </button>
+          <button
+            class="sort-btn"
+            [class.active]="sortBy() === 'score'"
+            (click)="onSortChange('score')"
+          >
+            Score {{ sortBy() === 'score' ? (sortOrder() === 'asc' ? '↑' : '↓') : '' }}
+          </button>
+          <button
+            class="sort-btn"
+            [class.active]="sortBy() === 'time'"
+            (click)="onSortChange('time')"
+          >
+            Time {{ sortBy() === 'time' ? (sortOrder() === 'asc' ? '↑' : '↓') : '' }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Attempts List -->
+      <div class="attempts-list">
+        @if (filteredAttempts().length === 0) {
+          <div class="empty-state">
+            <div class="empty-icon">📊</div>
+            <h3>No Attempts Found</h3>
+            <p>No quiz attempts match your current filters.</p>
+          </div>
+        } @else {
+          @for (attempt of filteredAttempts(); track attempt.id) {
+            <div class="attempt-card">
+              <div class="attempt-header">
+                <h3>Quiz #{{ attempt.quizId }}</h3>
+                <div class="attempt-meta">
+                  <span class="date">{{ formatDate(attempt.completedAt) }}</span>
+                  <span [class]="'status-badge ' + getStatusBadgeClass(attempt.status)">
+                    {{ attempt.status.replace('_', ' ') }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="attempt-details">
+                <div class="detail">
+                  <span class="label">Score:</span>
+                  <span class="value">{{ attempt.score }} / {{ attempt.totalQuestions }}</span>
+                  <span class="percentage">({{ attempt.calculateSuccessRate().toFixed(1) }}%)</span>
+                </div>
+
+                <div class="detail">
+                  <span class="label">Correct Answers:</span>
+                  <span class="value">{{ attempt.correctAnswers }} / {{ attempt.totalQuestions }}</span>
+                </div>
+
+                <div class="detail">
+                  <span class="label">Time Spent:</span>
+                  <span class="value">{{ formatTime(attempt.timeSpent) }}</span>
+                </div>
+
+                <div class="detail">
+                  <span class="label">Difficulty:</span>
+                  <span [class]="'difficulty-badge ' + getDifficultyBadgeClass(attempt.difficultyLevel)">
+                    {{ attempt.difficultyLevel }}
+                  </span>
+                </div>
+
+                <div class="detail">
+                  <span class="label">Efficiency:</span>
+                  <span class="value">{{ attempt.calculateTimeEfficiency().toFixed(1) }} answers/min</span>
+                </div>
+              </div>
+
+              <div class="attempt-actions">
+                <button class="view-details-btn" [routerLink]="['/feedback/results', attempt.id]">
+                  View Details
+                </button>
+              </div>
+            </div>
+          }
+        }
+      </div>
+    </div>
+  }
+</div>

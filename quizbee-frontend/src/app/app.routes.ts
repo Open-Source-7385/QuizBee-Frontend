@@ -9,4 +9,6 @@ export const routes: Routes = [
   { path: 'about', loadComponent: about, title: `${baseTitle} - About`  },
   { path: '', redirectTo: '/home', pathMatch: 'full'  },
   { path: '**', loadComponent:  pageNotFound, title: `${baseTitle} - Page Not Found`  },
+  { path: 'feedback', loadChildren: () => import('./feedback/presentation/views/feedback.routes').then(m => m.feedbackRoutes)
+  }
   ];

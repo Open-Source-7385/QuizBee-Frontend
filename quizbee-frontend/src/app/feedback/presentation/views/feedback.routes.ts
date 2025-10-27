@@ -1,15 +1,11 @@
-// src/app/feedback/presentation/views/feedback.routes.ts
-import {Routes} from '@angular/router';
+import { Routes } from '@angular/router';
 
-const feedbackList = () => import('./feedback-list/feedback-list').then(m => m.FeedbackList);
-const feedbackForm = () => import('./feedback-form/feedback-form').then(m => m.FeedbackForm);
-const feedbackResponseList = () => import('./feedback-response-list/feedback-response-list').then(m => m.FeedbackResponseList);
-const feedbackResponseForm = () => import('./feedback-response-form/feedback-response-form').then(m => m.FeedbackResponseForm);
+const attemptHistory = () => import('./attempt-history/attempt-history').then(m => m.AttemptHistoryComponent);
+const performanceStats = () => import('./performance-stats/performance-stats').then(m => m.PerformanceStatsComponent);
+const quizResults = () => import('./quiz-results/quiz-results').then(m => m.QuizResultsComponent);
 
 export const feedbackRoutes: Routes = [
-  { path: '', loadComponent: feedbackList },
-  { path: 'new', loadComponent: feedbackForm },
-  { path: 'edit/:id', loadComponent: feedbackForm },
-  { path: ':id/responses', loadComponent: feedbackResponseList },
-  { path: ':id/responses/new', loadComponent: feedbackResponseForm }
+  { path: 'attempts', loadComponent: attemptHistory },
+  { path: 'stats', loadComponent: performanceStats },
+  { path: 'results/:attemptId', loadComponent: quizResults }
 ];

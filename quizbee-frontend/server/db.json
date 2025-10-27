@@ -1,0 +1,28 @@
+{
+  "attempts": [
+    {
+      "id": 1,
+      "userId": 1,
+      "quizId": 1,
+      "score": 8,
+      "totalQuestions": 10,
+      "correctAnswers": 8,
+      "timeSpent": 300,
+      "completedAt": "2024-01-15T10:30:00Z",
+      "difficultyLevel": "intermediate",
+      "status": "completed"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "quizId": 2,
+      "score": 6,
+      "totalQuestions": 10,
+      "correctAnswers": 6,
+      "timeSpent": 420,
+      "completedAt": "2024-01-16T14:20:00Z",
+      "difficultyLevel": "advanced",
+      "status": "completed"
+    }
+  ]
+}
