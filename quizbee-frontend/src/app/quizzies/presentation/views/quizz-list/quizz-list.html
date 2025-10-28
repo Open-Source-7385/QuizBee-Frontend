@@ -1,0 +1,103 @@
+<div class="quiz-list-container">
+  <!-- Header -->
+  <div class="header">
+    <h1 class="title">{{ 'QUIZZIES.POPULAR_TITLE' | translate }}</h1>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-section">
+    <div class="search-input-wrapper">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        class="search-input"
+        [placeholder]="'QUIZZIES.SEARCH_PLACEHOLDER' | translate"
+        [value]="searchText()"
+        (input)="onSearchChange($event)"
+      />
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-section">
+    <span class="filters-label">{{ 'QUIZZIES.FILTERS' | translate }}</span>
+
+    <select
+      class="filter-select"
+      [value]="selectedCategory()"
+      (change)="onCategoryChange($event)">
+      <option value="all">{{ 'QUIZZIES.ALL_CATEGORIES' | translate }}</option>
+      @for (category of categories(); track category) {
+        <option [value]="category">{{ category }}</option>
+      }
+    </select>
+
+    <select
+      class="filter-select"
+      [value]="selectedLevel()"
+      (change)="onLevelChange($event)">
+      <option value="0">{{ 'QUIZZIES.ALL_LEVELS' | translate }}</option>
+      <option value="1">⭐ {{ 'QUIZZIES.LEVEL' | translate:{num:1} }}</option>
+      <option value="2">⭐⭐ {{ 'QUIZZIES.LEVEL' | translate:{num:2} }}</option>
+      <option value="3">⭐⭐⭐ {{ 'QUIZZIES.LEVEL' | translate:{num:3} }}</option>
+      <option value="4">⭐⭐⭐⭐ {{ 'QUIZZIES.LEVEL' | translate:{num:4} }}</option>
+      <option value="5">⭐⭐⭐⭐⭐ {{ 'QUIZZIES.LEVEL' | translate:{num:5} }}</option>
+      <option value="6">⭐⭐⭐⭐⭐⭐ {{ 'QUIZZIES.LEVEL' | translate:{num:6} }}</option>
+    </select>
+
+    <select
+      class="filter-select"
+      [value]="selectedType()"
+      (change)="onTypeChange($event)">
+      <option value="all">{{ 'QUIZZIES.ALL_TYPES' | translate }}</option>
+      <option value="questions">{{ 'QUIZZIES.TYPE_QUESTIONS' | translate }}</option>
+      <option value="voices">{{ 'QUIZZIES.TYPE_VOICES' | translate }}</option>
+      <option value="sounds">{{ 'QUIZZIES.TYPE_SOUNDS' | translate }}</option>
+    </select>
+
+    <button class="clear-button" (click)="clearFilters()">
+      {{ 'QUIZZIES.CLEAR_FILTERS' | translate }}
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>{{ 'QUIZZIES.LOADING' | translate }}</p>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error()) {
+    <div class="error">
+      <p>❌ {{ error() }}</p>
+      <button class="retry-button" (click)="loadQuizzes()">{{ 'QUIZZIES.RETRY' | translate }}</button>
+    </div>
+  }
+
+  <!-- Quiz Grid -->
+  @if (!loading() && !error()) {
+    @if (filteredQuizzes().length > 0) {
+      <div class="quiz-grid">
+        @for (quiz of filteredQuizzes(); track quiz.id) {
+          <app-quiz-card
+            [quiz]="quiz"
+            (quizSelected)="onQuizSelected($event)">
+          </app-quiz-card>
+        }
+      </div>
+    }
+   @else {
+      <div class="empty-state">
+        <p class="empty-icon">📭</p>
+        <h3>{{ 'QUIZZIES.NOT_FOUND' | translate }}</h3>
+        <p>{{ 'QUIZZIES.TRY_OTHER_FILTERS' | translate }}</p>
+        <button class="create-button" (click)="goToCreateQuiz()">
+          {{ 'QUIZZIES.CREATE_QUIZ' | translate }}
+        </button>
+      </div>
+    }
+
+  }
+</div>

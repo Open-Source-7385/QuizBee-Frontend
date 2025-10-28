@@ -1,0 +1,194 @@
+<!-- Profile Component Template based on the mockup -->
+<div class="profile-container">
+  
+  <!-- Left Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="logo">
+      <mat-icon class="logo-icon">quiz</mat-icon>
+    </div>
+    
+    <nav class="nav-menu">
+      <a href="#" class="nav-item active">
+        <mat-icon>person</mat-icon>
+        <span>Perfil</span>
+      </a>
+      <a href="#" class="nav-item">
+        <mat-icon>add_circle</mat-icon>
+        <span>Crear</span>
+      </a>
+      <a href="#" class="nav-item">
+        <mat-icon>folder</mat-icon>
+        <span>Mis creaciones</span>
+      </a>
+      <a href="#" class="nav-item">
+        <mat-icon>rocket_launch</mat-icon>
+        <span>Jugar</span>
+      </a>
+      <a href="#" class="nav-item">
+        <mat-icon>leaderboard</mat-icon>
+        <span>Ranking</span>
+      </a>
+      <a href="#" class="nav-item">
+        <mat-icon>history</mat-icon>
+        <span>Historial</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    
+    <!-- Header with menu toggle -->
+    <header class="header">
+      <button mat-icon-button class="menu-toggle">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </header>
+
+    <!-- Profile Card -->
+    <div class="profile-card-container">
+      <mat-card class="profile-card">
+        
+        <!-- Profile Avatar -->
+        <div class="profile-avatar">
+          <div class="avatar-circle">
+            <mat-icon class="avatar-icon">person</mat-icon>
+          </div>
+        </div>
+
+        <!-- Loading State -->
+        <div *ngIf="isLoading()" class="loading-container">
+          <mat-icon class="spinning">refresh</mat-icon>
+          <p>Loading profile...</p>
+        </div>
+
+        <!-- Profile Form -->
+        <div *ngIf="!isLoading()" class="profile-form">
+          
+          <!-- Validation Errors -->
+          <div *ngIf="validationErrors().length > 0" class="error-messages">
+            <mat-icon color="warn">error</mat-icon>
+            <ul>
+              <li *ngFor="let error of validationErrors()">{{ error }}</li>
+            </ul>
+          </div>
+
+          <!-- Name Field -->
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Nombre:</mat-label>
+            <input 
+              matInput 
+              [(ngModel)]="formData.name"
+              [readonly]="!isEditing()"
+              placeholder="Enter your name">
+            <mat-icon matSuffix *ngIf="isEditing()">edit</mat-icon>
+          </mat-form-field>
+
+          <!-- Email Field -->
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>E-mail:</mat-label>
+            <input 
+              matInput 
+              type="email"
+              [(ngModel)]="formData.email"
+              [readonly]="!isEditing()"
+              placeholder="Enter your email">
+            <mat-icon matSuffix *ngIf="isEditing()">edit</mat-icon>
+          </mat-form-field>
+
+          <!-- Password Field -->
+          <mat-form-field appearance="outline" class="form-field" *ngIf="isEditing()">
+            <mat-label>Contraseña:</mat-label>
+            <input 
+              matInput 
+              type="password"
+              [(ngModel)]="formData.password"
+              placeholder="Enter new password (leave empty to keep current)">
+            <mat-icon matSuffix>edit</mat-icon>
+          </mat-form-field>
+
+          <!-- Language and Level Row -->
+          <div class="form-row">
+            <!-- Language Select -->
+            <mat-form-field appearance="outline" class="form-field-half">
+              <mat-label>Idioma:</mat-label>
+              <mat-select 
+                [(ngModel)]="formData.language"
+                [disabled]="!isEditing()">
+                <mat-option *ngFor="let lang of languages" [value]="lang">
+                  {{ lang }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <!-- Level Select -->
+            <mat-form-field appearance="outline" class="form-field-half">
+              <mat-label>Nivel:</mat-label>
+              <mat-select 
+                [(ngModel)]="formData.level"
+                [disabled]="!isEditing()">
+                <mat-option *ngFor="let level of levels" [value]="level">
+                  {{ level }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-buttons">
+            
+            <!-- Edit/Save/Cancel Buttons -->
+            <div class="edit-buttons">
+              <button 
+                *ngIf="!isEditing()" 
+                mat-raised-button 
+                color="primary" 
+                (click)="toggleEdit()">
+                <mat-icon>edit</mat-icon>
+                Edit Profile
+              </button>
+              
+              <button 
+                *ngIf="isEditing()" 
+                mat-raised-button 
+                color="primary" 
+                (click)="saveProfile()"
+                [disabled]="isLoading()">
+                <mat-icon>save</mat-icon>
+                Save Changes
+              </button>
+              
+              <button 
+                *ngIf="isEditing()" 
+                mat-stroked-button 
+                (click)="toggleEdit()"
+                [disabled]="isLoading()">
+                <mat-icon>cancel</mat-icon>
+                Cancel
+              </button>
+            </div>
+
+            <!-- Session and Account Buttons -->
+            <div class="session-buttons">
+              <button 
+                mat-raised-button 
+                color="accent" 
+                (click)="closeSession()"
+                class="session-btn">
+                Cerrar sesión
+              </button>
+              
+              <button 
+                mat-raised-button 
+                color="warn" 
+                (click)="deleteAccount()"
+                class="delete-btn">
+                Eliminar cuenta
+              </button>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,235 @@
+<div class="quiz-container">
+  <!-- MODO PREGUNTA -->
+  @if (!showResults() && !showReview() && quiz()) {
+    <div class="quiz-header">
+      <button class="btn-back" (click)="exitQuiz()">
+        ← Volver a ver los Quizzies
+      </button>
+      <h1 class="quiz-title">{{ quiz()!.title }}</h1>
+    </div>
+
+    <!-- Área de la pregunta -->
+    @if (currentQuestion()) {
+      <div class="question-section">
+        <!-- Número de pregunta -->
+        <div class="question-number">
+          Pregunta N°{{ currentQuestionIndex() + 1 }}
+        </div>
+
+        <!-- Texto de la pregunta -->
+        <div class="question-text">
+          {{ currentQuestion()!.textquestion }}
+        </div>
+
+        <!-- Lista de alternativas -->
+        <div class="alternatives-list">
+          @for (alternative of currentQuestion()!.alternatives; track alternative.id) {
+            <button
+              class="alternative-btn"
+              [class.selected]="getAnswerForQuestion(currentQuestion()!.id)?.selectedAlternativeId === alternative.id"
+              [class]="getAlternativeClass(alternative.id)"
+              [disabled]="isAnswered(currentQuestion()!.id)"
+              (click)="selectAnswer(alternative.id)">
+              <span class="alternative-letter">{{ String.fromCharCode(65 + $index) }}</span>
+              <span class="alternative-text">{{ alternative.text }}</span>
+
+              @if (getAlternativeClass(alternative.id) === 'correct' || getAlternativeClass(alternative.id) === 'correct-highlight') {
+                <span class="checkmark">✓</span>
+              }
+              @if (getAlternativeClass(alternative.id) === 'incorrect') {
+                <span class="crossmark">✗</span>
+              }
+            </button>
+          }
+        </div>
+
+        <!-- Navegación -->
+        <div class="question-navigation">
+          <button
+            class="btn-nav"
+            [disabled]="currentQuestionIndex() === 0"
+            (click)="previousQuestion()">
+            ← Anterior
+          </button>
+
+          <span class="question-counter">
+            {{ currentQuestionIndex() + 1 }} / {{ totalQuestions() }}
+          </span>
+
+          <button
+            class="btn-nav"
+            [disabled]="!isAnswered(currentQuestion()!.id)"
+            (click)="nextQuestion()">
+            @if (currentQuestionIndex() + 1 < totalQuestions()) {
+              Siguiente →
+            } @else {
+              Ver Resultados
+            }
+          </button>
+        </div>
+      </div>
+    }
+  }
+
+  <!-- PANTALLA DE RESULTADOS -->
+  @if (showResults() && quiz()) {
+    <div class="results-screen">
+      <div class="results-header">
+        <button class="btn-back" (click)="exitQuiz()">
+          ← Volver a ver los Quizzies
+        </button>
+        <h1 class="quiz-title">{{ quiz()!.title }}</h1>
+      </div>
+
+      <div class="results-content">
+        <!-- Estado del quiz -->
+        <div class="quiz-status">
+          @if (incorrectCount() > 0) {
+            <div class="status-icon failed">
+              <svg width="80" height="80" viewBox="0 0 80 80">
+                <circle cx="40" cy="40" r="35" fill="#ff4757" opacity="0.1"/>
+                <text x="40" y="50" text-anchor="middle" font-size="40" fill="#ff4757">👎</text>
+              </svg>
+            </div>
+            <h2 class="status-title">HAS REPROBADO EL QUIZZ</h2>
+          } @else {
+            <div class="status-icon passed">
+              <svg width="80" height="80" viewBox="0 0 80 80">
+                <circle cx="40" cy="40" r="35" fill="#2ed573" opacity="0.1"/>
+                <text x="40" y="50" text-anchor="middle" font-size="40" fill="#2ed573">👍</text>
+              </svg>
+            </div>
+            <h2 class="status-title">¡FELICITACIONES! APROBASTE</h2>
+          }
+
+          <div class="main-score">
+            {{ correctCount() }}/{{ totalQuestions() }} respuestas correctas
+          </div>
+
+          <a href="#" class="retry-link" (click)="restartQuiz(); $event.preventDefault()">
+            Haz clic aquí para intentarlo de nuevo
+          </a>
+        </div>
+
+        <!-- Métricas principales -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-icon">✓</div>
+            <div class="metric-value">{{ correctCount() }}/{{ totalQuestions() }}</div>
+            <div class="metric-label">% Correctas</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon">✗</div>
+            <div class="metric-value">{{ incorrectCount() }}/{{ totalQuestions() }}</div>
+            <div class="metric-label">% Incorrectas</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon">⏱</div>
+            <div class="metric-value">{{ accuracy() }}%</div>
+            <div class="metric-label">Precisión</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon">🕐</div>
+            <div class="metric-value">{{ formatTime(totalTime()) }}</div>
+            <div class="metric-label">Tiempo</div>
+          </div>
+        </div>
+
+        <!-- Visión general -->
+        <div class="overview-section">
+          <h3>Visión general</h3>
+
+          <div class="stats-summary">
+            <div class="stat-item correct">
+              <span class="stat-icon">👍</span>
+              <span class="stat-text">{{ correctCount() }}/{{ totalQuestions() }}</span>
+              <span class="stat-label">% correctas</span>
+            </div>
+
+            <div class="stat-item incorrect">
+              <span class="stat-icon">👎</span>
+              <span class="stat-text">{{ incorrectCount() }}/{{ totalQuestions() }}</span>
+              <span class="stat-label">% Incorrectas</span>
+            </div>
+
+            <div class="stat-item unanswered">
+              <span class="stat-icon">⭕</span>
+              <span class="stat-text">{{ unansweredCount() }}/{{ totalQuestions() }}</span>
+              <span class="stat-label">Sin responder</span>
+            </div>
+          </div>
+
+          <!-- Mapa de preguntas -->
+          <div class="questions-map">
+            @for (question of quiz()!.questions; track question.id) {
+              <button
+                class="question-dot"
+                [class]="getQuestionStatusClass($index)"
+                (click)="goToQuestion($index); showCorrections()">
+                {{ $index + 1 }}
+              </button>
+            }
+          </div>
+
+          <button class="btn-review" (click)="showCorrections()">
+            VER CORRECCIONES
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- MODO REVISIÓN -->
+  @if (showReview() && quiz()) {
+    <div class="review-mode">
+      <div class="review-header">
+        <button class="btn-back" (click)="closeReview()">
+          ← Volver a resultados
+        </button>
+        <h1 class="quiz-title">Revisión - {{ quiz()!.title }}</h1>
+      </div>
+
+      @if (currentQuestion()) {
+        <div class="question-section review">
+          <div class="question-number">
+            Pregunta N°{{ currentQuestionIndex() + 1 }}
+            @if (isCorrectAnswer(currentQuestion()!.id)) {
+              <span class="badge correct">✓ Correcta</span>
+            } @else if (isAnswered(currentQuestion()!.id)) {
+              <span class="badge incorrect">✗ Incorrecta</span>
+            } @else {
+              <span class="badge unanswered">Sin responder</span>
+            }
+          </div>
+
+          <div class="question-text">
+            {{ currentQuestion()!.textquestion }}
+          </div>
+
+          <div class="question-navigation">
+            <button
+              class="btn-nav"
+              [disabled]="currentQuestionIndex() === 0"
+              (click)="previousQuestion()">
+              ← Anterior
+            </button>
+
+            <span class="question-counter">
+              {{ currentQuestionIndex() + 1 }} / {{ totalQuestions() }}
+            </span>
+
+            <button
+              class="btn-nav"
+              [disabled]="currentQuestionIndex() + 1 >= totalQuestions()"
+              (click)="nextQuestion()">
+              Siguiente →
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

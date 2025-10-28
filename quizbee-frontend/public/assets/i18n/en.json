@@ -1,0 +1,53 @@
+{
+  "PROFILE": {
+    "TITLE": "Profile",
+    "LOADING": "Loading...",
+    "NAME": "Name:",
+    "EMAIL": "E-mail:",
+    "PASSWORD": "Password:",
+    "EDIT": "Edit",
+    "LANGUAGE": "Language :",
+    "LEVEL": "Level :",
+    "NOVICE": "Novice",
+    "INTERMEDIATE": "Intermediate",
+    "ADVANCED": "Advanced",
+    "LOGOUT": "Log out",
+    "DELETE": "Delete account",
+    "ERROR": "Could not load profile.",
+    "RETRY": "Retry",
+    "CLEAR_SESSION": "Clear session"
+  }
+  ,
+  
+  "QUIZZIES": {
+    "POPULAR_TITLE": "Most popular quizzes and questions",
+    "SEARCH_PLACEHOLDER": "Search quizzes...",
+    "FILTERS": "Filters:",
+    "ALL_CATEGORIES": "All categories",
+    "ALL_LEVELS": "All levels",
+    "LEVEL": "Level {{num}}",
+    "ALL_TYPES": "All types",
+    "TYPE_QUESTIONS": "Questions",
+    "TYPE_VOICES": "Voices",
+    "TYPE_SOUNDS": "Sounds",
+    "CLEAR_FILTERS": "Clear filters",
+    "LOADING": "Loading quizzes...",
+    "RETRY": "Retry",
+    "NOT_FOUND": "No quizzes found",
+    "TRY_OTHER_FILTERS": "Try other filters or create a new one",
+    "CREATE_QUIZ": "Create Quiz"
+  },
+  "SIDEBAR": {
+    "PROFILE": "Profile",
+    "HOME": "Home",
+    "CREATE": "Create",
+    "MY_CREATIONS": "My Creations",
+    "QUIZZ": "Quizz",
+    "RANKING": "Ranking",
+    "HISTORY": "History",
+    "SPEAKING_ROOM": "Speaking Room",
+    "FREE_PLAN": "Free Plan",
+    "MANAGE_PLAN": "Manage plan",
+    "LOGOUT": "Log out"
+  }
+}

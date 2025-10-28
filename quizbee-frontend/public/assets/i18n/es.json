@@ -1,0 +1,53 @@
+{
+  "PROFILE": {
+    "TITLE": "Perfil",
+    "LOADING": "Cargando...",
+    "NAME": "Nombre:",
+    "EMAIL": "E-mail:",
+    "PASSWORD": "Contraseña:",
+    "EDIT": "Editar",
+    "LANGUAGE": "Idioma :",
+    "LEVEL": "Nivel :",
+    "NOVICE": "Novato",
+    "INTERMEDIATE": "Intermedio",
+    "ADVANCED": "Avanzado",
+    "LOGOUT": "Cerrar sesión",
+    "DELETE": "Eliminar cuenta",
+    "ERROR": "No se pudo cargar el perfil.",
+    "RETRY": "Reintentar",
+    "CLEAR_SESSION": "Limpiar sesión"
+  }
+  ,
+  
+  "QUIZZIES": {
+    "POPULAR_TITLE": "Quizzes y preguntas más populares",
+    "SEARCH_PLACEHOLDER": "Buscar quizzes...",
+    "FILTERS": "Filtros:",
+    "ALL_CATEGORIES": "Todas las categorías",
+    "ALL_LEVELS": "Todos los niveles",
+    "LEVEL": "Nivel {{num}}",
+    "ALL_TYPES": "Todos los tipos",
+    "TYPE_QUESTIONS": "Preguntas",
+    "TYPE_VOICES": "Voces",
+    "TYPE_SOUNDS": "Sonidos",
+    "CLEAR_FILTERS": "Limpiar filtros",
+    "LOADING": "Cargando quizzes...",
+    "RETRY": "Reintentar",
+    "NOT_FOUND": "No se encontraron quizzes",
+    "TRY_OTHER_FILTERS": "Intenta con otros filtros o crea uno nuevo",
+    "CREATE_QUIZ": "Crear Quiz"
+  },
+  "SIDEBAR": {
+    "PROFILE": "Perfil",
+    "HOME": "Inicio",
+    "CREATE": "Crear",
+    "MY_CREATIONS": "Creaciones",
+    "QUIZZ": "Quizz",
+    "RANKING": "Ranking",
+    "HISTORY": "Historial",
+    "SPEAKING_ROOM": "Speaking Room",
+    "FREE_PLAN": "Plan Gratuito",
+    "MANAGE_PLAN": "Gestionar plan",
+    "LOGOUT": "Cerrar sesión"
+  }
+}
