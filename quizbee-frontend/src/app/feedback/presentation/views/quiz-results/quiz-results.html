@@ -1,0 +1,160 @@
+<div class="quiz-results-container">
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading your quiz results...</p>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error() && !loading()) {
+    <div class="error-state">
+      <div class="error-icon">⚠️</div>
+      <h3>Results Not Available</h3>
+      <p>{{ error() }}</p>
+      <div class="action-buttons">
+        <button class="btn secondary" (click)="viewHistory()">View History</button>
+        <button class="btn primary" (click)="retakeQuiz()">Retake Quiz</button>
+      </div>
+    </div>
+  }
+
+  <!-- Results Content -->
+  @if (attempt() && !loading() && !error()) {
+    <div class="results-content">
+
+      <!-- Header -->
+      <div class="results-header">
+        <h1>Quiz Results</h1>
+        <p class="completion-date">Completed on {{ formatDate(attempt()!.completedAt) }}</p>
+      </div>
+
+      <!-- Main Score Card -->
+      <div class="score-card {{ getPerformanceColor(quizScore()!.percentage) }}">
+        <div class="score-circle">
+          <div class="score-value">{{ quizScore()!.percentage.toFixed(1) }}%</div>
+          <div class="score-label">Final Score</div>
+        </div>
+        <div class="score-details">
+          <h3>{{ getPerformanceMessage(quizScore()!.percentage) }}</h3>
+          <div class="score-breakdown">
+            <div class="breakdown-item">
+              <span class="label">Correct Answers:</span>
+              <span class="value">{{ attempt()!.correctAnswers }} / {{ attempt()!.totalQuestions }}</span>
+            </div>
+            <div class="breakdown-item">
+              <span class="label">Raw Score:</span>
+              <span class="value">{{ attempt()!.score }} / {{ attempt()!.totalQuestions }}</span>
+            </div>
+            <div class="breakdown-item">
+              <span class="label">Status:</span>
+              <span class="value status-{{ attempt()!.status }}">{{ attempt()!.status.replace('_', ' ') }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Metrics -->
+      <div class="metrics-grid">
+
+        <!-- Time Metrics -->
+        <div class="metric-card">
+          <div class="metric-icon">⏱️</div>
+          <h3>Time Performance</h3>
+          <div class="metric-details">
+            <div class="metric-item">
+              <span class="label">Total Time:</span>
+              <span class="value">{{ formatTime(attempt()!.timeSpent) }}</span>
+            </div>
+            <div class="metric-item">
+              <span class="label">Avg Time per Question:</span>
+              <span class="value">{{ timeMetrics()!.averageTimePerQuestion.toFixed(1) }}s</span>
+            </div>
+            <div class="metric-item">
+              <span class="label">Efficiency Score:</span>
+              <span class="value">{{ timeMetrics()!.efficiencyScore.toFixed(1) }} answers/min</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Difficulty & Context -->
+        <div class="metric-card">
+          <div class="metric-icon">{{ getDifficultyIcon(attempt()!.difficultyLevel) }}</div>
+          <h3>Quiz Context</h3>
+          <div class="metric-details">
+            <div class="metric-item">
+              <span class="label">Difficulty:</span>
+              <span class="value difficulty-{{ attempt()!.difficultyLevel.toLowerCase() }}">
+                {{ attempt()!.difficultyLevel }}
+              </span>
+            </div>
+            <div class="metric-item">
+              <span class="label">Quiz ID:</span>
+              <span class="value">#{{ attempt()!.quizId }}</span>
+            </div>
+            <div class="metric-item">
+              <span class="label">User ID:</span>
+              <span class="value">#{{ attempt()!.userId }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Performance Insights -->
+        <div class="metric-card">
+          <div class="metric-icon">📈</div>
+          <h3>Performance Insights</h3>
+          <div class="metric-details">
+            <div class="metric-item">
+              <span class="label">Success Rate:</span>
+              <span class="value">{{ attempt()!.calculateSuccessRate().toFixed(1) }}%</span>
+            </div>
+            <div class="metric-item">
+              <span class="label">Passing Status:</span>
+              <span class="value {{ quizScore()!.isPassing() ? 'pass' : 'fail' }}">
+                {{ quizScore()!.isPassing() ? 'Passed' : 'Needs Improvement' }}
+              </span>
+            </div>
+            <div class="metric-item">
+              <span class="label">Performance Tier:</span>
+              <span class="value {{ getPerformanceColor(quizScore()!.percentage) }}">
+                {{ getPerformanceTier(quizScore()!.percentage) }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="metric-card">
+          <div class="metric-icon">💡</div>
+          <h3>Recommendations</h3>
+          <div class="recommendations">
+            @if (quizScore()!.percentage >= 80) {
+              <p>Excellent performance! Consider trying more advanced quizzes to continue challenging yourself.</p>
+            } @else if (quizScore()!.percentage >= 60) {
+              <p>Good work! Review the questions you missed and consider retaking this quiz to improve your score.</p>
+            } @else {
+              <p>Spend some time reviewing the material. Focus on understanding the concepts before retaking the quiz.</p>
+            }
+
+            @if (timeMetrics()!.efficiencyScore < 10) {
+              <p>Try to improve your pacing. Practice with timed quizzes to build speed.</p>
+            }
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-section">
+        <button class="btn secondary" (click)="viewHistory()">
+          📊 View All Attempts
+        </button>
+        <button class="btn primary" (click)="retakeQuiz()">
+          🔄 Retake This Quiz
+        </button>
+      </div>
+
+    </div>
+  }
+</div>

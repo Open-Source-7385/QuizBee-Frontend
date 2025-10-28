@@ -3,3 +3,5 @@ export const environment = {
   platformProviderApiBaseUrl: 'http://localhost:3000/api/v1',
   platformProviderRankingEndpointPath: '/ranking',
   };
+  platformProviderAttemptsEndpointPath: '/attempts',
+};
