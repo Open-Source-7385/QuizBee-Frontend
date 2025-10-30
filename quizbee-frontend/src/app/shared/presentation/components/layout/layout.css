@@ -1,0 +1,21 @@
+/* Layout principal para que el contenido no quede detrás del sidebar */
+.layout-container {
+	display: flex;
+	min-height: 100vh;
+}
+
+.main-content {
+	flex: 1;
+	margin-left: 250px; /* igual al ancho del sidebar */
+	padding: 2rem 2rem 2rem 2rem;
+	background: #f8f9fb;
+	min-height: 100vh;
+	box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+	.main-content {
+		margin-left: 60px;
+		padding: 1rem 0.5rem;
+	}
+}

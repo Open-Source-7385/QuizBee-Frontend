@@ -1,0 +1,91 @@
+<!-- src/app/quizzies/presentation/views/my-creations/my-creations.html -->
+<div class="my-creations-root">
+  <header class="mc-header">
+    <div class="mc-title">
+      <h2>{{ 'MY_CREATIONS.TITLE' | translate }}</h2>
+      <p class="mc-sub">
+        {{ totalQuizzes() }} {{ 'MY_CREATIONS.QUIZZES' | translate }} •
+        {{ totalPlays() }} {{ 'MY_CREATIONS.PLAYS' | translate }}
+      </p>
+    </div>
+
+    <div class="mc-actions">
+      <button class="btn primary" (click)="createNewQuiz()">
+        ➕ {{ 'MY_CREATIONS.CREATE' | translate }}
+      </button>
+    </div>
+  </header>
+
+  <section class="mc-filters">
+    <div class="search">
+      <input
+        type="search"
+        placeholder="{{ 'MY_CREATIONS.SEARCH_PLACEHOLDER' | translate }}"
+        [value]="searchTerm()"
+        (input)="onSearchChange($event)" />
+    </div>
+
+    <div class="category">
+      <select [value]="selectedCategory()" (change)="onCategoryChange($event)">
+        <option value="all">{{ 'MY_CREATIONS.ALL_CATEGORIES' | translate }}</option>
+        <option *ngFor="let c of categories()" [value]="c">{{ c | titlecase }}</option>
+      </select>
+
+      <button class="btn ghost" (click)="clearFilters()">
+        ✖ {{ 'MY_CREATIONS.CLEAR' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="mc-body">
+    <div *ngIf="loading()" class="mc-loading">
+      <div class="spinner"></div>
+      <p>{{ 'MY_CREATIONS.LOADING' | translate }}</p>
+    </div>
+
+    <div *ngIf="error()" class="mc-error">
+      <p>{{ error() }}</p>
+    </div>
+
+    <div *ngIf="!loading() && !error()">
+      <div *ngIf="filteredQuizzes().length === 0" class="mc-empty">
+        <p>{{ 'MY_CREATIONS.NO_RESULTS' | translate }}</p>
+      </div>
+
+      <ul class="quiz-list">
+        <li *ngFor="let quiz of filteredQuizzes()" class="quiz-card">
+          <div class="qc-left">
+            <div class="qc-title">
+              <h3>{{ quiz.title }}</h3>
+              <span class="qc-badge" [ngClass]="getStatusBadge(quiz)">
+                {{ getStatusLabel(getStatusBadge(quiz)) }}
+              </span>
+            </div>
+            <p class="qc-desc">{{ quiz.description }}</p>
+
+            <div class="qc-meta">
+              <span class="meta-item">🎯 {{ quiz.category }}</span>
+              <span class="meta-item">▶ {{ quiz.plays }} {{ 'MY_CREATIONS.PLAYS' | translate }}</span>
+            </div>
+          </div>
+
+          <div class="qc-right">
+            <div class="qc-stats">
+              <div class="stat">
+                <div class="stat-label">{{ 'MY_CREATIONS.POINTS' | translate }}</div>
+                <div class="stat-value">{{ quiz.points || 0 }}</div>
+              </div>
+            </div>
+
+            <div class="qc-actions">
+              <button class="btn small" (click)="viewQuiz(quiz)">{{ 'MY_CREATIONS.VIEW' | translate }}</button>
+              <button class="btn small" (click)="editQuiz(quiz)">{{ 'MY_CREATIONS.EDIT' | translate }}</button>
+              <button class="btn small warn" (click)="deleteQuiz(quiz)">{{ 'MY_CREATIONS.DELETE' | translate }}</button>
+              <button class="btn small" (click)="duplicateQuiz(quiz)">{{ 'MY_CREATIONS.DUP' | translate }}</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+</div>

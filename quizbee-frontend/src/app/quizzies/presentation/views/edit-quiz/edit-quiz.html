@@ -1,0 +1,69 @@
+<!-- src/app/quizzies/presentation/views/edit-quiz/edit-quiz.component.html -->
+<div class="edit-quiz-root">
+  <header class="eq-header">
+    <h2>{{ 'QUIZZIES.CREATE_QUIZ' | translate }} / {{ 'QUIZZIES.EDIT' | translate }}</h2>
+  </header>
+
+  <main class="eq-body">
+    <div *ngIf="loading()" class="eq-loading">
+      <div class="spinner"></div>
+      <p>{{ 'QUIZZIES.LOADING' | translate }}</p>
+    </div>
+
+    <div *ngIf="error()" class="eq-error">
+      <p>{{ error() }}</p>
+    </div>
+
+    <form *ngIf="!loading() && !error()" [formGroup]="form" (ngSubmit)="save()">
+      <div class="form-row">
+        <label for="title">{{ 'QUIZZIES.TITLE' }}</label>
+        <input id="title" formControlName="title" type="text" placeholder="Ej: Capital cities" />
+        <small class="error" *ngIf="title?.invalid && title?.touched">Campo requerido (max 120)</small>
+      </div>
+
+      <div class="form-row">
+        <label for="description">{{ 'QUIZZIES.DESCRIPTION'  }}</label>
+        <textarea id="description" formControlName="description" rows="4" placeholder="Escribe una breve descripción"></textarea>
+      </div>
+
+      <div class="form-row grid-3">
+        <div>
+          <label for="category">{{ 'QUIZZIES.ALL_CATEGORIES' }}</label>
+          <select id="category" formControlName="category">
+            <option *ngFor="let c of categories" [value]="c">{{ c | titlecase }}</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="difficulty">Difficulty</label>
+          <select id="difficulty" formControlName="difficulty">
+            <option [value]="1">1 - Muy Fácil</option>
+            <option [value]="2">2 - Fácil</option>
+            <option [value]="3">3 - Intermedio</option>
+            <option [value]="4">4 - Difícil</option>
+            <option [value]="5">5 - Muy Difícil</option>
+            <option [value]="6">6 - Extremo</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="points">Points</label>
+          <input id="points" type="number" formControlName="points" min="0" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label>Audio (opcional)</label>
+        <input type="file" accept="audio/*" (change)="onAudioFileSelected($event)" />
+        <small class="hint">Sube un audio para la pregunta (disponible en futuras versiones).</small>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn ghost" type="button" (click)="cancel()">Cancelar</button>
+        <button class="btn primary" type="submit" [disabled]="saving()">{{ saving() ? 'Guardando...' : 'Guardar' }}</button>
+      </div>
+
+      <div *ngIf="success()" class="success-msg">{{ success() }}</div>
+    </form>
+  </main>
+</div>

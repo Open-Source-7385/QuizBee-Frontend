@@ -1,1 +1,10 @@
-<p>layout works!</p>
+<header class="app-header">
+  <app-user-stats-header></app-user-stats-header>
+  <!-- resto del header -->
+</header>
+<div class="layout-container">
+	<app-sidebar-content></app-sidebar-content>
+	<main class="main-content">
+		<router-outlet></router-outlet>
+	</main>
+</div>

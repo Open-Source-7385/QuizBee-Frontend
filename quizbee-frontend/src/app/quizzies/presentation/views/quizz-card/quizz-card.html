@@ -1,0 +1,23 @@
+<div class="quiz-card" (click)="onCardClick()">
+  <div class="quiz-header">
+    <h3 class="quiz-title">{{ quiz.title }}</h3>
+    <span class="quiz-creator">creado por {{ quiz.creator.name }}</span>
+  </div>
+
+  <div class="quiz-info">
+    <div class="info-row">
+      <span class="label">Categoría:</span>
+      <span class="value">{{ quiz.category }}</span>
+    </div>
+
+    <div class="info-row">
+      <span class="label">Dificultad:</span>
+      <span class="value">{{ quiz.getDifficultyStars() }}</span>
+    </div>
+
+    <div class="info-row">
+      <span class="label">Points:</span>
+      <span class="value">{{ quiz.points }}</span>
+    </div>
+  </div>
+</div>

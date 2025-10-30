@@ -1,0 +1,79 @@
+<div class="user-stats-header" *ngIf="currentUser()">
+  <!-- Avatar y nombre -->
+  <div class="user-info">
+    <div class="avatar">
+      {{ currentUser()!.avatar || '👤' }}
+    </div>
+
+    <div class="user-details">
+      <div class="display-name">{{ currentUser()!.name }}</div>
+      <div class="current-language">
+        🌍 {{ currentLanguage() }}
+      </div>
+    </div>
+  </div>
+
+  <div class="separator"></div>
+
+  <!-- Vidas -->
+  <div
+    class="stat-item lives"
+    [class.low-lives]="livesDisplay() !== '∞' && parseInt(livesDisplay()) <= 2"
+    [class.clickable]="!hasSubscription()"
+    (click)="onLivesClick()"
+    [title]="hasSubscription() ? 'Vidas ilimitadas' : 'Vidas restantes'">
+    <div class="stat-icon">❤️</div>
+    <div class="stat-value" [class.infinite]="livesDisplay() === '∞'">
+      {{ livesDisplay() }}
+    </div>
+  </div>
+
+  <!-- Puntos -->
+  <div class="stat-item points" title="Puntos totales">
+    <div class="stat-icon">⭐</div>
+    <div class="stat-value points-value">
+      {{ points().toLocaleString() }}
+    </div>
+  </div>
+
+  <!-- Estado de suscripción -->
+  <div class="subscription-badge" *ngIf="hasSubscription()">
+    👑 Premium
+  </div>
+
+  <button
+    *ngIf="!hasSubscription()"
+    class="upgrade-button"
+    (click)="goToPremium()">
+    ⚡ Upgrade
+  </button>
+</div>
+
+<!-- Modal sin vidas -->
+<div class="modal-overlay" *ngIf="showNoLivesModal()" (click)="closeNoLivesModal()">
+  <div class="no-lives-modal" (click)="$event.stopPropagation()">
+    <div class="modal-icon">💔</div>
+    <h2 class="modal-title">¡Te has quedado sin vidas!</h2>
+    <p class="modal-text">
+      Has agotado tus 5 vidas diarias. Puedes:
+    </p>
+
+    <div class="options-grid">
+      <div class="option-card">
+        <div class="option-icon">⏰</div>
+        <div class="option-title">Esperar</div>
+        <div class="option-text">Las vidas se regeneran cada 24 horas</div>
+      </div>
+
+      <div class="option-card upgrade-option" (click)="goToPremium()">
+        <div class="option-icon">👑</div>
+        <div class="option-title">Upgrade a Premium</div>
+        <div class="option-text">Vidas ilimitadas + beneficios exclusivos</div>
+      </div>
+    </div>
+
+    <button class="close-button" (click)="closeNoLivesModal()">
+      Cerrar
+    </button>
+  </div>
+</div>

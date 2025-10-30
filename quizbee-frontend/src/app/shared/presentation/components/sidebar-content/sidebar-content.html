@@ -1,0 +1,30 @@
+<aside class="sidebar">
+  <div class="logo">
+    <img src="assets/logo.png" alt="Quizbee Logo">
+    <span>Quizbee</span>
+  </div>
+
+  <nav>
+    <ul>
+      <li *ngFor="let item of menuItems">
+        <a [routerLink]="item.route" routerLinkActive="active">
+          <span class="icon">{{ item.icon }}</span>
+          <span class="label">{{ item.label | translate }}</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="subscription-box">
+  <p>{{ 'SIDEBAR.FREE_PLAN' | translate }}</p>
+    <button class="btn-manage" [routerLink]="['/plans']">{{ 'SIDEBAR.MANAGE_PLAN' | translate }}</button>
+  </div>
+
+  <div class="user-box" *ngIf="currentUser$ | async as user">
+    <div class="user-info">
+      <span class="avatar">{{ user.avatar }}</span>
+      <span class="name">{{ user.name }}</span>
+    </div>
+  <button class="btn-logout" (click)="logout()">{{ 'SIDEBAR.LOGOUT' | translate }}</button>
+  </div>
+</aside>

@@ -1,0 +1,32 @@
+<section class="login-full">
+  <div class="login-form-side center-content">
+    <div class="login-logo-title">
+      <img src="/assets/logo.png" alt="QuizzBee logo" class="logo-large" />
+      <h1 class="main-title">Registro</h1>
+    </div>
+    <form (ngSubmit)="submit()" autocomplete="off" class="form-fields">
+      <input type="text" [(ngModel)]="name" name="name" placeholder="Nombre completo" required />
+      <input type="email" [(ngModel)]="email" name="email" placeholder="Correo electrónico" required />
+      <input type="password" [(ngModel)]="password" name="password" placeholder="Contraseña (mín. 6)" required />
+      <div class="roles roles-row">
+        <label>
+          <input type="radio" name="rol" [(ngModel)]="rol" value="creador" required />
+          Creador
+        </label>
+        <label>
+          <input type="radio" name="rol" [(ngModel)]="rol" value="aprendiz" required />
+          Aprendiz
+        </label>
+      </div>
+      <button type="submit" class="btn-main">Registrarse</button>
+      <div *ngIf="error" class="error">{{ error }}</div>
+      <div class="register-link" style="text-align:center; margin-top:18px; font-size:1rem;">
+        ¿Ya tienes cuenta? <a routerLink="/login" style="color:#19797a; text-decoration:underline; cursor:pointer; font-weight:600;">Inicia sesión</a>
+      </div>
+    </form>
+  </div>
+  <div class="login-brand-side">
+    <img src="/assets/logo.png" alt="QuizzBee logo" class="logo-bg-large" />
+    <div class="brand-main">QuizzBee</div>
+  </div>
+</section>

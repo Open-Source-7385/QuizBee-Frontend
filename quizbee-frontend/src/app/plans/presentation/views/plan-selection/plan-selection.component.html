@@ -1,0 +1,52 @@
+<div class="plan-selection-container">
+  <header class="header">
+    <div class="user-info">
+      <div class="user-avatar"></div>
+      <div class="user-details">
+      </div>
+    </div>
+    <div class="header-icons">
+      <button class="icon-btn">🔔</button>
+      <button class="icon-btn">💬</button>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <h1 class="title">Elige el plan perfecto para ti</h1>
+    <p class="subtitle">Desbloquea todo tu potencial de aprendizaje con nuestros planes premium</p>
+
+
+
+    <div class="plans-grid" *ngIf="!loading">
+      <div
+        *ngFor="let plan of plans"
+        class="plan-card"
+        [class.popular]="plan.popular">
+
+        <div class="plan-header">
+          <h2 class="plan-name">{{ plan.name }}</h2>
+          <p class="plan-subtitle">{{ plan.subtitle }}</p>
+        </div>
+
+        <div class="plan-price">
+          <span class="currency">{{ plan.currency }}</span>
+          <span class="amount">{{ plan.price }}</span>
+          <span class="period">por {{ plan.period }}</span>
+        </div>
+
+        <ul class="plan-features">
+          <li *ngFor="let feature of plan.features" class="feature-item">
+            <span class="check-icon">✓</span>
+            <span>{{ feature }}</span>
+          </li>
+        </ul>
+
+        <button
+          class="subscribe-btn"
+          (click)="onSubscribe(plan)">
+          Subscribirme
+        </button>
+      </div>
+    </div>
+  </main>
+</div>

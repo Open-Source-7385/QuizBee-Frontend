@@ -1,0 +1,58 @@
+/* quizbee-frontend/src/app/plans/presentation/views/manage-subscription/manage-subscription.component.css */
+/* ✅ AGREGAR ESTOS ESTILOS AL FINAL DEL ARCHIVO EXISTENTE */
+
+/* No subscription state */
+.no-subscription {
+  text-align: center;
+  padding: 80px 40px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.empty-icon {
+  font-size: 80px;
+  margin-bottom: 24px;
+}
+
+.no-subscription h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 12px;
+}
+
+.no-subscription p {
+  color: #6b7280;
+  font-size: 16px;
+  margin-bottom: 32px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.upgrade-btn {
+  padding: 16px 48px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.upgrade-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* User avatar display */
+.user-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}

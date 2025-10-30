@@ -1,0 +1,63 @@
+<section class="profile-view">
+  <div *ngIf="loading">{{ 'PROFILE.LOADING' | translate }}</div>
+  <div *ngIf="!loading && user">
+    <div class="profile-avatar-section">
+      <div class="profile-avatar">
+        <img *ngIf="user.avatar && user.avatar.startsWith('http')" [src]="user.avatar" alt="avatar" />
+        <span *ngIf="!user.avatar || !user.avatar.startsWith('http')" class="profile-avatar-placeholder">&#128100;</span>
+      </div>
+    </div>
+    <form class="profile-form">
+      <div class="profile-field editable">
+        <label>{{ 'PROFILE.NAME' | translate }}</label>
+        <span>{{ user.name }}</span>
+        <button type="button" class="edit-btn" [title]="'PROFILE.EDIT' | translate">
+          <span class="material-icons">edit</span>
+        </button>
+      </div>
+      <div class="profile-field">
+        <label>Rol:</label>
+        <span>{{ user.rol === 'creador' ? 'Creador' : (user.rol === 'aprendiz' ? 'Aprendiz' : '-') }}</span>
+      </div>
+      <div class="profile-field editable">
+        <label>{{ 'PROFILE.EMAIL' | translate }}</label>
+        <span>{{ user.email }}</span>
+        <button type="button" class="edit-btn" [title]="'PROFILE.EDIT' | translate">
+          <span class="material-icons">edit</span>
+        </button>
+      </div>
+      <div class="profile-field editable">
+        <label>{{ 'PROFILE.PASSWORD' | translate }}</label>
+        <span>********</span>
+        <button type="button" class="edit-btn" [title]="'PROFILE.EDIT' | translate">
+          <span class="material-icons">edit</span>
+        </button>
+      </div>
+      <div class="profile-row">
+        <div class="profile-select">
+          <label for="lang">{{ 'PROFILE.LANGUAGE' | translate }}</label>
+          <select id="lang" [(ngModel)]="language" name="language" (ngModelChange)="onLanguageChange($event)">
+            <option value="es">Español</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+        <div class="profile-select">
+          <label for="level">{{ 'PROFILE.LEVEL' | translate }}</label>
+          <select id="level" [(ngModel)]="level" name="level">
+            <option value="novato">{{ 'PROFILE.NOVICE' | translate }}</option>
+            <option value="intermedio">{{ 'PROFILE.INTERMEDIATE' | translate }}</option>
+            <option value="avanzado">{{ 'PROFILE.ADVANCED' | translate }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="profile-row">
+        <button type="button" class="btn logout" (click)="logout()">{{ 'PROFILE.LOGOUT' | translate }}</button>
+        <button type="button" class="btn delete" (click)="deleteAccount()">{{ 'PROFILE.DELETE' | translate }}</button>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="!loading && !user" class="profile-error">
+    {{ 'PROFILE.ERROR' | translate }} <button (click)="reloadProfile()">{{ 'PROFILE.RETRY' | translate }}</button>
+    <button (click)="clearSession()">{{ 'PROFILE.CLEAR_SESSION' | translate }}</button>
+  </div>
+</section>
