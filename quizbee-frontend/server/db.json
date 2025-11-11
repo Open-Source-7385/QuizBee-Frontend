@@ -18,11 +18,11 @@
       "avatarUrl": "👩‍🏫",
       "stats": {
         "lives": 5,
-        "points": 1030,
-        "quizzesPlayed": 13,
-        "quizzesWon": 11,
-        "quizzesLost": 2,
-        "currentStreak": 4
+        "points": 0,
+        "quizzesPlayed": 0,
+        "quizzesWon": 0,
+        "quizzesLost": 0,
+        "currentStreak": 0
       },
       "subscriptionStatus": "free",
       "createdAt": "2024-01-15T10:30:00.000Z",
