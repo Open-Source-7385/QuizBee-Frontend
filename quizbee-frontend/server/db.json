@@ -166,6 +166,28 @@
       },
       "subscriptionStatus": "active",
       "subscriptionExpiry": "2025-11-29T19:19:36.879Z"
+    },
+    {
+      "id": "",
+      "name": "aaa",
+      "email": "aa@gasas.com",
+      "avatar": "👤",
+      "password": "123456",
+      "rol": "creador",
+      "displayName": "",
+      "bio": "",
+      "country": "Peru",
+      "languages": [],
+      "currentLanguage": "Español",
+      "subscriptionStatus": "free",
+      "stats": {
+        "lives": 5,
+        "points": 0,
+        "quizzesPlayed": 0,
+        "quizzesWon": 0,
+        "quizzesLost": 0,
+        "currentStreak": 0
+      }
     }
   ],
   "quizzes": [

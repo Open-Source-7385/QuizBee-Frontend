@@ -16,8 +16,10 @@ export class User {
   avatar?: string;
   password?: string;
   rol?: 'creador' | 'aprendiz';
-
-  // ✅ CAMPOS NUEVOS
+  displayName?: string;
+  bio?: string;
+  country?: string;
+  languages?: string[];
   stats?: UserStats;
   subscriptionStatus?: 'active' | 'free' | 'cancelled';
   currentLanguage?: string;
@@ -30,8 +32,10 @@ export class User {
     this.avatar = data.avatar || '👤';
     this.password = data.password || '';
     this.rol = data.rol as 'creador' | 'aprendiz' || undefined;
-
-    // ✅ Inicializar campos nuevos
+    this.displayName = data.displayName || '';
+    this.bio = data.bio || '';
+    this.country = data.country || '';
+    this.languages = data.languages || [];
     this.stats = data.stats || {
       lives: 5,
       points: 0,

@@ -50,7 +50,14 @@ export class ProfileApiService {
       email: resource.email,
       avatar: resource.avatar,
       password: resource.password,
-      rol: resource.rol
+      rol: resource.rol,
+      displayName: resource.displayName,
+      bio: resource.bio,
+      country: resource.country,
+      languages: resource.languages,
+      currentLanguage: resource.currentLanguage,
+      subscriptionStatus: resource.subscriptionStatus,
+      stats: resource.stats
     });
   }
 
@@ -61,7 +68,14 @@ export class ProfileApiService {
       email: user.email,
       avatar: user.avatar,
       password: user.password,
-      rol: user.rol
+      rol: user.rol,
+      displayName: user.displayName,
+      bio: user.bio,
+      country: user.country,
+      languages: user.languages,
+      currentLanguage: user.currentLanguage,
+      subscriptionStatus: user.subscriptionStatus,
+      stats: user.stats
     };
   }
 

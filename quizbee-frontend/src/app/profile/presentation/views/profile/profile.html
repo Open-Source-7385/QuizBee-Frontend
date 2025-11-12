@@ -1,27 +1,43 @@
 <section class="profile-view">
   <div *ngIf="loading">{{ 'PROFILE.LOADING' | translate }}</div>
-  <div *ngIf="!loading && user">
+  <div *ngIf="!loading && sessionUser">
     <div class="profile-avatar-section">
       <div class="profile-avatar">
-        <img *ngIf="user.avatar && user.avatar.startsWith('http')" [src]="user.avatar" alt="avatar" />
-        <span *ngIf="!user.avatar || !user.avatar.startsWith('http')" class="profile-avatar-placeholder">&#128100;</span>
+        <img *ngIf="sessionUser.avatar && sessionUser.avatar.startsWith('http')" [src]="sessionUser.avatar" alt="avatar" />
+        <span *ngIf="!sessionUser.avatar || !sessionUser.avatar.startsWith('http')" class="profile-avatar-placeholder">{{ sessionUser.avatar || '👤' }}</span>
       </div>
     </div>
     <form class="profile-form">
       <div class="profile-field editable">
         <label>{{ 'PROFILE.NAME' | translate }}</label>
-        <span>{{ user.name }}</span>
+        <span>{{ sessionUser.name || sessionUser.displayName || sessionUser.id }}</span>
         <button type="button" class="edit-btn" [title]="'PROFILE.EDIT' | translate">
           <span class="material-icons">edit</span>
         </button>
       </div>
       <div class="profile-field">
         <label>Rol:</label>
-        <span>{{ user.rol === 'creador' ? 'Creador' : (user.rol === 'aprendiz' ? 'Aprendiz' : '-') }}</span>
+        <span>{{ sessionUser.rol === 'creador' ? 'Creador' : (sessionUser.rol === 'aprendiz' ? 'Aprendiz' : '-') }}</span>
+      </div>
+      <div class="profile-field">
+        <label>País:</label>
+        <span>{{ sessionUser.country || '-' }}</span>
+      </div>
+      <div class="profile-field">
+        <label>Idioma actual:</label>
+        <span>{{ sessionUser.currentLanguage || language }}</span>
+      </div>
+      <div class="profile-field">
+        <label>Suscripción:</label>
+        <span>{{ sessionUser.subscriptionStatus || 'free' }}</span>
+      </div>
+      <div class="profile-field">
+        <label>Estadísticas:</label>
+        <span>Vidas: {{ sessionUser.stats?.lives || 0 }}, Puntos: {{ sessionUser.stats?.points || 0 }}, Quizzes jugados: {{ sessionUser.stats?.quizzesPlayed || 0 }}, Ganados: {{ sessionUser.stats?.quizzesWon || 0 }}, Perdidos: {{ sessionUser.stats?.quizzesLost || 0 }}, Racha: {{ sessionUser.stats?.currentStreak || 0 }}</span>
       </div>
       <div class="profile-field editable">
         <label>{{ 'PROFILE.EMAIL' | translate }}</label>
-        <span>{{ user.email }}</span>
+        <span>{{ sessionUser.email }}</span>
         <button type="button" class="edit-btn" [title]="'PROFILE.EDIT' | translate">
           <span class="material-icons">edit</span>
         </button>
@@ -56,7 +72,7 @@
       </div>
     </form>
   </div>
-  <div *ngIf="!loading && !user" class="profile-error">
+  <div *ngIf="!loading && !sessionUser" class="profile-error">
     {{ 'PROFILE.ERROR' | translate }} <button (click)="reloadProfile()">{{ 'PROFILE.RETRY' | translate }}</button>
     <button (click)="clearSession()">{{ 'PROFILE.CLEAR_SESSION' | translate }}</button>
   </div>

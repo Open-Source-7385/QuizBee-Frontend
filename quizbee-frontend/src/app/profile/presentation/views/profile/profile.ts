@@ -1,5 +1,5 @@
 // ...existing code...
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -14,12 +14,13 @@ import { User } from '../../../domain/model/user.entity';
   templateUrl: './profile.html',
   styleUrl: './profile.css'
 })
-export class ProfileView {
+export class ProfileView implements OnInit {
   clearSession() {
     localStorage.removeItem('currentUser');
     window.location.reload();
   }
   protected user: User | null = null;
+  protected sessionUser: any = null;
   protected loading = true;
   language: string = 'es';
   level: string = 'novato';
@@ -27,6 +28,9 @@ export class ProfileView {
   constructor(private api: ProfileApiService, private router: Router, private cdr: ChangeDetectorRef, private translate: TranslateService) {
     this.language = this.translate.currentLang || this.translate.getBrowserLang() || 'es';
     this.translate.use(this.language);
+  }
+
+  ngOnInit() {
     this.loadProfile();
   }
 
@@ -38,39 +42,20 @@ export class ProfileView {
   loadProfile() {
     this.loading = true;
     const raw = localStorage.getItem('currentUser');
-    let userId = 'creador-1';
-    console.log('[Profile] loadProfile: raw localStorage', raw);
     if (raw) {
       try {
-        const u = JSON.parse(raw);
-        console.log('[Profile] Usuario parseado de localStorage:', u);
-        if (u && u.id) {
-          userId = u.id;
-        }
+        this.sessionUser = JSON.parse(raw);
+        console.log('[Profile] Usuario de sesión:', this.sessionUser);
       } catch (e) {
         console.error('[Profile] Error al leer currentUser:', e);
+        this.sessionUser = null;
       }
+    } else {
+      this.sessionUser = null;
     }
-    console.log('[Profile] Buscando usuario con id:', userId);
-    this.api.getById(userId).subscribe({
-      next: found => {
-        console.log('[Profile] Respuesta de getById:', found);
-        if (found && found.id) {
-          this.user = found;
-        } else {
-          this.user = null;
-          console.error('[Profile] Usuario no encontrado en backend:', userId);
-        }
-        this.loading = false;
-        this.cdr.detectChanges();
-      },
-      error: (err) => {
-        this.user = null;
-        this.loading = false;
-        console.error('[Profile] No se pudo cargar el usuario:', err);
-        this.cdr.detectChanges();
-      }
-    });
+    // Si quieres seguir mostrando datos del backend, puedes mantener la lógica anterior aquí
+    // Pero para mostrar solo los datos de sesión, no es necesario llamar al backend
+  this.loading = false;
   }
 
   reloadProfile() {

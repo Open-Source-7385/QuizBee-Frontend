@@ -1,3 +1,26 @@
+/* Unificar estilos para todos los campos del formulario */
+.form-label {
+	width: 100%;
+	text-align: left;
+	font-weight: 500;
+	margin-bottom: 4px;
+	margin-top: 8px;
+	font-size: 1rem;
+}
+.form-input {
+	width: 100%;
+	min-width: 260px;
+	max-width: 400px;
+	padding: 14px 16px;
+	border: 1px solid #d1d5db;
+	border-radius: 8px;
+	font-size: 1.08rem;
+	outline: none;
+	transition: border 0.2s;
+	background: #fff;
+	box-sizing: border-box;
+	margin-bottom: 8px;
+}
 
 /* Use login page styles for register page for perfect match */
 .center-content {
@@ -28,6 +51,7 @@
 	top: 0;
 	left: 0;
 	z-index: 100;
+	/* quitar overflow-y para que el scroll solo esté en el formulario */
 }
 
 .login-form-side {
@@ -35,7 +59,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
+	justify-content: flex-start;
 	min-height: 100vh;
 	padding: 0;
 }
@@ -48,6 +72,11 @@
 	gap: 28px;
 	margin-top: 18px;
 	align-items: center;
+	overflow-y: auto;
+	max-height: 70vh;
+	padding-bottom: 24px;
+	overflow-x: hidden;
+	padding-right: 18px;
 }
 
 .main-title {

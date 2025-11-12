@@ -18,6 +18,25 @@
           Aprendiz
         </label>
       </div>
+        <label for="country" class="form-label">País:</label>
+        <select [(ngModel)]="country" name="country" id="country" required class="form-input">
+          <option value="">Selecciona país</option>
+          <option value="Peru">Perú</option>
+          <option value="México">México</option>
+          <option value="Argentina">Argentina</option>
+          <option value="España">España</option>
+          <option value="Chile">Chile</option>
+          <option value="Colombia">Colombia</option>
+          <option value="Otro">Otro</option>
+        </select>
+        <label for="currentLanguage" class="form-label">Idioma actual:</label>
+        <select [(ngModel)]="currentLanguage" name="currentLanguage" id="currentLanguage" required class="form-input">
+          <option value="English">English</option>
+          <option value="Español">Español</option>
+        </select>
+        <label for="avatar" class="form-label">Avatar:</label>
+        <input type="file" (change)="onAvatarChange($event)" accept="image/*" id="avatar" class="form-input" />
+        <img *ngIf="avatarUrl" [src]="avatarUrl" alt="Avatar" style="width:48px;height:48px;border-radius:50%;margin-top:8px;" />
       <button type="submit" class="btn-main">Registrarse</button>
       <div *ngIf="error" class="error">{{ error }}</div>
       <div class="register-link" style="text-align:center; margin-top:18px; font-size:1rem;">
