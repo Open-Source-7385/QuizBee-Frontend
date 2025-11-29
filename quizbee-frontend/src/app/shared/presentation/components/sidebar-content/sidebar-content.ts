@@ -37,7 +37,7 @@ export class SidebarContentComponent {
   constructor() {
     this.currentUser$ = this.auth.currentUser$;
     this.currentUser$.subscribe(user => {
-      if (user && user.rol === 'aprendiz') {
+      if (user && user.role === 'aprendiz') {
         this.menuItems = this.allMenuItems.filter(item => !('onlyFor' in item));
       } else {
         this.menuItems = this.allMenuItems;

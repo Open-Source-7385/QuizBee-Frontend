@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ProfileApiService } from '../../profile/infrastructure/profile.api';
-import { User } from '../../profile/domain/model/user.entity';
+import { ProfileApiService } from '../../profile/infrastructure/endpoints/profile-api.service';
+import { Profile } from '../../profile/domain/entities/profile.entity';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  private currentUserSubject = new BehaviorSubject<Profile | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private api: ProfileApiService) {
@@ -24,7 +24,7 @@ export class AuthService {
   /**
    * Attempts login and updates current user on success.
    */
-  login(email: string, password: string, rol?: 'creador' | 'aprendiz'): Observable<User | null> {
+  login(email: string, password: string, rol?: 'creador' | 'aprendiz'): Observable<Profile | null> {
     return this.api.login(email, password, rol).pipe(
       tap(user => {
         if (user) {
@@ -41,7 +41,7 @@ export class AuthService {
     this.currentUserSubject.next(null);
   }
 
-  getCurrentUser(): User | null {
+  getCurrentUser(): Profile | null {
     return this.currentUserSubject.value;
   }
 

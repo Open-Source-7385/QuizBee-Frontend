@@ -229,7 +229,7 @@ export class QuizzCreate implements OnInit {
     }
 
     // ✅ VERIFICAR SI ES CREADOR
-    if (currentUser.rol !== 'creador') {
+    if (currentUser.role !== 'creador') {
       this.errorMessage.set('Solo los usuarios Creadores pueden crear quizzes');
       this.saving.set(false);
       return;

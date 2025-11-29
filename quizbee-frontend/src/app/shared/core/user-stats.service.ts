@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap, map, catchError, switchMap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
-import { User } from '../../profile/domain/model/user.entity';
+import { Profile } from '../../profile/domain/entities/profile.entity';
 import { environment } from '../../../environments/environment';
 
 export interface UserStats {
@@ -19,7 +19,7 @@ export interface UserStats {
 }
 
 // @ts-ignore
-export interface EnhancedUserData extends Omit<User, 'isValidForRegistration'> {
+export interface EnhancedUserData extends Omit<Profile, 'isValidForRegistration'> {
   stats: UserStats;
   subscriptionStatus: 'active' | 'inactive' | 'free';
   currentLanguage: string;

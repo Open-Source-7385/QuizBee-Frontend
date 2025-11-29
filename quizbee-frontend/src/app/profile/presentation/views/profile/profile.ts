@@ -5,8 +5,8 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ProfileApiService } from '../../../infrastructure/profile.api';
-import { User } from '../../../domain/model/user.entity';
+import { ProfileApiService } from '../../../infrastructure/endpoints/profile-api.service';
+import { Profile } from '../../../domain/entities/profile.entity';
 
 @Component({
   selector: 'app-profile',
@@ -19,7 +19,7 @@ export class ProfileView implements OnInit {
     localStorage.removeItem('currentUser');
     window.location.reload();
   }
-  protected user: User | null = null;
+  protected user: Profile | null = null;
   protected sessionUser: any = null;
   protected loading = true;
   language: string = 'es';

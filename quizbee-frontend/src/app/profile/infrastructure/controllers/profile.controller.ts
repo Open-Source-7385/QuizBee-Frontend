@@ -6,9 +6,23 @@ import { CreateProfileCommand, UpdateProfileCommand, DeleteProfileCommand } from
 import { GetProfileByIdQuery, GetProfileByEmailQuery, GetAllProfilesQuery } from '../../application/queries/profile.queries';
 
 /**
- * Profile Controller - REST Controller for viewing and updating profiles
- * Based on the ProfileController from the DDD diagram
- * This acts as the coordinating layer between the UI and the application services
+ * Profile Controller - Application Facade
+ * 
+ * This controller acts as a facade that coordinates between the presentation layer
+ * and the application services. It follows the Controller pattern from DDD and provides
+ * a simplified interface for UI components.
+ * 
+ * Responsibilities:
+ * - Coordinate calls to Command and Query services
+ * - Transform UI requests into Command/Query objects
+ * - Provide validation utilities for the UI
+ * - Handle cross-cutting concerns like email availability checking
+ * 
+ * Note: This is NOT a REST controller - it's an Angular service that acts as
+ * an application controller/facade for the frontend.
+ * 
+ * @see ProfileCommandService for write operations
+ * @see ProfileQueryService for read operations
  */
 @Injectable({
   providedIn: 'root'

@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { ProfileApiService } from '../../../infrastructure/profile.api';
-import { User } from '../../../domain/model/user.entity';
+import { ProfileApiService } from '../../../infrastructure/endpoints/profile-api.service';
+import { Profile, createProfile } from '../../../domain/entities/profile.entity';
 
 @Component({
   selector: 'app-register',
@@ -37,13 +37,13 @@ export class Register {
 
   submit() {
     this.error = null;
-    const user = new User({
+    const user = createProfile({
       name: this.name,
       email: this.email,
       password: this.password,
-      rol: this.rol === 'creador' || this.rol === 'aprendiz' ? this.rol : undefined,
+      role: this.rol === 'creador' || this.rol === 'aprendiz' ? this.rol : undefined,
       country: this.country,
-      currentLanguage: this.currentLanguage,
+      language: this.currentLanguage,
       avatar: this.avatarUrl || undefined,
       subscriptionStatus: this.subscriptionStatus,
       stats: {
@@ -55,15 +55,12 @@ export class Register {
         currentStreak: 0
       }
     });
-    if (!user.isValidForRegistration()) {
-      this.error = 'Completa todos los campos correctamente.';
-      return;
-    }
+    
+    // Validation will be done by the API service
     this.api.create(user).subscribe({
-      next: created => {
+      next: (created: any) => {
         if (created && created.id) {
           localStorage.setItem('currentUser', JSON.stringify(created));
-          // Navegar al perfil y forzar recarga para mostrar el usuario correcto
           this.router.navigate(['/profile']).then(() => {
             window.location.reload();
           });
@@ -71,7 +68,7 @@ export class Register {
           this.error = 'No se pudo registrar el usuario.';
         }
       },
-      error: err => {
+      error: (err: any) => {
         this.error = err.message || 'Error en el registro';
       }
     });

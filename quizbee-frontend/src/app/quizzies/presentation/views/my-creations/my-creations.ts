@@ -71,7 +71,7 @@ export class MyCreationsComponent implements OnInit {
     }
 
     // Verificar que sea creador
-    if (this.currentUser.rol !== 'creador') {
+    if (this.currentUser.role !== 'creador') {
       alert('Solo los creadores pueden acceder a esta sección');
       this.router.navigate(['/quizz']);
       return;
